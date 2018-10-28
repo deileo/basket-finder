@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Grid from '@material-ui/core/Grid';
+import Map from './components/map/Map';
+import Navbar from './components/Navbar';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <Grid item xs={12}>
+          <Navbar/>
+        </Grid>
+        <Grid container>
+          <Grid item xs={4}>
+            HAHAHHAHAH
+          </Grid>
+          <Grid item xs={8}>
+            <Map/>
+          </Grid>
+        </Grid>
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        />
       </div>
     );
   }
