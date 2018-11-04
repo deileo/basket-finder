@@ -22,3 +22,11 @@ yarn-error.log*
 
 .idea
 Release.key
+
+#API
+/api/.env
+/api/public/bundles/
+/api/var/
+/api/vendor/
+/api/.web-server-pid
+
