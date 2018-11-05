@@ -7,7 +7,7 @@ class Map extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {'courts': []};
+    this.state = {'courts': [], 'activeMarker': null};
   }
 
   componentDidMount() {
@@ -19,6 +19,10 @@ class Map extends Component {
       });
   }
 
+  handleMarkerClick = (courtId) => {
+    this.setState({'activeMarker': courtId});
+  };
+
   render() {
     return (
       <AppMap
@@ -29,6 +33,8 @@ class Map extends Component {
         containerElement={<div style={{height: `93vh`}}/>}
         mapElement={<div style={{height: `100%`}}/>}
         courts={this.state.courts}
+        handleMarkerClick={this.handleMarkerClick}
+        activeMarker={this.state.activeMarker}
       />
     );
   }

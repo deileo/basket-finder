@@ -21,19 +21,8 @@ const styles = {
 
 class CourtMarker extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {'isOpen': false};
-  }
-
-  handleOnMarkerClick = () => {
-    this.setState(prev => ({
-      'isOpen': !prev.isOpen
-    }));
-  };
-
-  renderInfoWindow = (court, classes) => {
-    if (this.state.isOpen) {
+  renderInfoWindow = (court, classes, activeMarker) => {
+    if (activeMarker === court.id) {
       return (
         <InfoWindow>
           <Card className={classes.container}>
@@ -61,16 +50,16 @@ class CourtMarker extends Component {
   };
 
   render() {
-    const {court, classes} = this.props;
+    const {court, classes, handleMarkerClick, activeMarker} = this.props;
 
     return (
       <Marker
         key={court.id}
         position={{lat: court.lat, lng: court.long}}
         title={court.address}
-        onClick={this.handleOnMarkerClick}
+        onClick={() => handleMarkerClick(court.id)}
       >
-        {this.renderInfoWindow(court, classes)}
+        {this.renderInfoWindow(court, classes, activeMarker)}
       </Marker>
     );
   }

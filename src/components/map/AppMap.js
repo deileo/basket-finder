@@ -9,7 +9,12 @@ const AppMap = withScriptjs(withGoogleMap((props) =>
     defaultCenter={props.center}
   >
     {props.courts.map(court => {
-      return <CourtMarker key={court.id} court={court}/>
+      return <CourtMarker
+        key={court.id}
+        court={court}
+        handleMarkerClick={props.handleMarkerClick}
+        activeMarker={props.activeMarker}
+      />
     })}
   </GoogleMap>
 ));
