@@ -5,9 +5,11 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Modal from '@material-ui/core/Modal';
 import { withStyles } from '@material-ui/core/styles';
+import CreateEventForm from "../form/CreateEventForm";
 
-const styles = {
+const styles = theme => ({
   container: {
     maxWidth: 280,
   },
@@ -16,10 +18,39 @@ const styles = {
   },
   content: {
     paddingRight: 0,
-  }
-};
+  },
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+  },
+});
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 class CourtMarker extends Component {
+  state = {
+    open: false,
+  };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   renderInfoWindow = (court, classes, activeMarker) => {
     if (activeMarker === court.id) {
@@ -39,10 +70,18 @@ class CourtMarker extends Component {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small"  variant="contained" color="primary">
+              <Button size="small"  variant="contained" color="primary" onClick={this.handleOpen}>
                 Skelbti varzybas
               </Button>
             </CardActions>
+            <Modal
+              open={this.state.open}
+              onClose={this.handleClose}
+            >
+              <div style={getModalStyle()} className={classes.paper}>
+                <CreateEventForm court={court}/>
+              </div>
+            </Modal>
           </Card>
         </InfoWindow>
       )
