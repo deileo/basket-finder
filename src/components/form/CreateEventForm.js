@@ -1,32 +1,49 @@
 import React, {Component} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/lab/Slider';
+import Grid from '@material-ui/core/Grid'
 import moment from 'moment';
 import Typography from "@material-ui/core/Typography/Typography";
 import {DateTimePicker} from 'material-ui-pickers';
 
 class CreateEventForm extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: null,
-      comment: null,
-      needed_players: 0,
-      min_participants: 0,
-      start_at: moment().format('YYYY-MM-DD H:00'),
-      end_at: moment().format('YYYY-MM-DD H:00'),
-      selectedDate: new Date(),
-    };
-  }
+  state = {
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    name: '',
+    comment: '',
+    needed_players: 0,
+    min_participants: 0,
+    start_at: moment().format('YYYY-MM-DD H:00'),
+    end_at: moment().format('YYYY-MM-DD H:00'),
+    selectedDate: new Date(),
+  };
 
   handleNeededPlayersChange = (event, needed_players) => {
     this.setState({needed_players});
+  };
+
+  handleFirstNameChange = (event) => {
+    this.setState({firstName: event.target.value});
+  };
+
+  handleLastNameChange = (event) => {
+    this.setState({lastName: event.target.value});
+  };
+
+  handleEmailChange = (event) => {
+    this.setState({email: event.target.value});
+  };
+
+  handlePhoneNumberChange = (event) => {
+    this.setState({phoneNumber: event.target.value});
   };
 
   handleCommentChange = (event) => {
@@ -62,51 +79,102 @@ class CreateEventForm extends Component {
           {court.address}
         </Typography>
         <form className={classes.form} noValidate>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="name">Varžybų pavadinimas</InputLabel>
-            <Input id="name"
-                   name="name"
-                   autoFocus
-                   onChange={this.handleNameChange}
-            />
-          </FormControl>
+          <Grid container spacing={24}>
 
-          <FormControl margin="normal" required fullWidth>
-            <DateTimePicker autoOk
-                            ampm={false}
-                            label="Pradzios laikas"
-                            value={start_at}
-                            format="YYYY-MM-DD H:mm"
-                            onChange={this.handleStartTimeChange}
-            />
-          </FormControl>
+            <Grid item sm={6} xs={12}>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  id="first-name"
+                  label="Vardas"
+                  value={this.state.firstName}
+                  onChange={this.handleFirstNameChange}
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  id="last-name"
+                  label="Pavarde"
+                  value={this.state.lastName}
+                  onChange={this.handleLastNameChange}
+                />
+              </FormControl>
+              <FormControl margin="normal" fullWidth>
+                <TextField
+                  id="email"
+                  label="El. pastas"
+                  value={this.state.email}
+                  onChange={this.handleEmailChange}
+                />
+              </FormControl>
+              <FormControl margin="normal" fullWidth>
+                <TextField
+                  id="phone-number"
+                  label="Telefono nr."
+                  value={this.state.phoneNumber}
+                  onChange={this.handlePhoneNumberChange}
+                />
+              </FormControl>
+            </Grid>
 
-          <FormControl margin="normal" required fullWidth>
-            <DateTimePicker autoOk
-                            ampm={false}
-                            label="Pabaigos laikas"
-                            value={end_at}
-                            format="YYYY-MM-DD H:i"
-                            onChange={this.handleEndTimeChange}
-            />
-          </FormControl>
+            <Grid item sm={6} xs={12}>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  id="name"
+                  label="Varžybų pavadinimas"
+                  value={this.state.name}
+                  onChange={this.handleNameChange}
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <DateTimePicker autoOk
+                                ampm={false}
+                                label="Pradzios laikas"
+                                value={start_at}
+                                format="YYYY-MM-DD HH:mm"
+                                onChange={this.handleStartTimeChange}
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <DateTimePicker autoOk
+                                ampm={false}
+                                label="Pabaigos laikas"
+                                value={end_at}
+                                format="YYYY-MM-DD HH:mm"
+                                onChange={this.handleEndTimeChange}
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel>Reikiamas žaidėjų skaičius: {needed_players}</InputLabel>
+                <Slider value={needed_players}
+                        min={1}
+                        max={10}
+                        step={1}
+                        onChange={this.handleNeededPlayersChange}
+                />
+              </FormControl>
+            </Grid>
 
-          <FormControl margin="normal" required fullWidth style={{'marginBottom': 30}}>
-            <InputLabel>Reikiamas žaidėjų skaičius: {needed_players}</InputLabel>
-            <Slider value={needed_players}
-                    min={0} max={10}
-                    step={1}
-                    onChange={this.handleNeededPlayersChange}
-            />
-          </FormControl>
+            <Grid item xs={12}>
+              <FormControl margin="normal" fullWidth>
+                <TextField
+                  id="comment"
+                  label="Komentaras"
+                  value={this.state.comment}
+                  onChange={this.handleCommentChange}
+                  multiline={true}
+                  rows="3"
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
 
-          <FormControl margin="normal" fullWidth>
-            <InputLabel htmlFor="comment">Komentaras</InputLabel>
-            <Input name="comment" id="comment" multiline={true} rows="3" onChange={this.handleCommentChange}/>
-          </FormControl>
-
-          <Button type="button" fullWidth variant="contained" color="primary" className={classes.submit}
-                  onClick={this.handleSubmit}>
+          <Button type="button"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={this.handleSubmit}
+          >
             Sukurti
           </Button>
         </form>

@@ -1,22 +1,16 @@
 import React, {Component} from 'react';
 import {MAP_CENTER, MAP_URL, MAP_ZOOM} from '../../config';
-import axios from 'axios';
 import AppMap from "./AppMap";
+import Loader from "../Loader";
 
 class Map extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {'courts': [], 'activeMarker': null};
-  }
+  state = {
+    'activeMarker': null
+  };
 
   componentDidMount() {
-    axios.get('http://localhost:8000/api/courts/all')
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({'courts': response.data});
-        }
-      });
+    this.props.fetchCourtsAction();
   }
 
   handleMarkerClick = (courtId) => {
@@ -25,17 +19,23 @@ class Map extends Component {
 
   render() {
     return (
-      <AppMap
-        zoom={MAP_ZOOM}
-        center={MAP_CENTER}
-        googleMapURL={MAP_URL}
-        loadingElement={<div style={{height: `100%`}}/>}
-        containerElement={<div style={{height: `93vh`}}/>}
-        mapElement={<div style={{height: `100%`}}/>}
-        courts={this.state.courts}
-        handleMarkerClick={this.handleMarkerClick}
-        activeMarker={this.state.activeMarker}
-      />
+      <div>
+        {this.props.loaderReducer.isLoading && (
+          <Loader/>
+        )}
+        <AppMap
+          zoom={MAP_ZOOM}
+          center={MAP_CENTER}
+          googleMapURL={MAP_URL}
+          loadingElement={<div style={{height: `100%`}}/>}
+          containerElement={<div style={{height: `93vh`}}/>}
+          mapElement={<div style={{height: `100%`}}/>}
+          courts={this.props.courtsReducer}
+          handleMarkerClick={this.handleMarkerClick}
+          activeMarker={this.state.activeMarker}
+          isLoading={this.props.loaderReducer.isLoading}
+        />
+      </div>
     );
   }
 }

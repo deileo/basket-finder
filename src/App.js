@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Map from './components/map/Map';
+import MapContainer from './containers/MapContainer';
 import Navbar from './components/Navbar';
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
@@ -49,7 +49,7 @@ class App extends Component {
             HAHAHHAHAH
           </Grid>
           <Grid item xs={8}>
-            <Map/>
+            <MapContainer />
           </Grid>
         </Grid>
 

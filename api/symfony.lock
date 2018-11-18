@@ -188,6 +188,9 @@
             "ref": "e921bdbfe20cdefa3b82f379d1cd36df1bc8d115"
         }
     },
+    "symfony/form": {
+        "version": "v4.1.7"
+    },
     "symfony/framework-bundle": {
         "version": "3.3",
         "recipe": {
@@ -206,8 +209,17 @@
     "symfony/inflector": {
         "version": "v4.1.7"
     },
+    "symfony/intl": {
+        "version": "v4.1.7"
+    },
+    "symfony/options-resolver": {
+        "version": "v4.1.7"
+    },
     "symfony/orm-pack": {
         "version": "v1.0.5"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.10.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
@@ -232,6 +244,24 @@
     },
     "symfony/serializer": {
         "version": "v4.1.7"
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "1fb02a6e1c8f3d4232cce485c9afa868d63b115a"
+        }
+    },
+    "symfony/validator": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "0cdc982334f45d554957a6167e030482795bf9d7"
+        }
     },
     "symfony/var-dumper": {
         "version": "v4.1.7"
