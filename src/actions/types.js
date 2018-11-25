@@ -4,4 +4,5 @@ export const LOADING_STARTED = 'loading_strated';
 export const LOADING_ENDED = 'loading_ended';
 export const FETCH_COURTS = 'fetch_courts';
 export const CREATE_EVENT = 'event_create';
+export const CREATE_EVENT_ERROR = 'event_create_error';
 export const JOIN_EVENT = 'event_join';

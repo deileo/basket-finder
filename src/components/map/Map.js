@@ -33,7 +33,6 @@ class Map extends Component {
           courts={this.props.courtsReducer}
           handleMarkerClick={this.handleMarkerClick}
           activeMarker={this.state.activeMarker}
-          isLoading={this.props.loaderReducer.isLoading}
         />
       </div>
     );

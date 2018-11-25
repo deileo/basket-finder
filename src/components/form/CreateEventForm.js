@@ -9,41 +9,42 @@ import Grid from '@material-ui/core/Grid'
 import moment from 'moment';
 import Typography from "@material-ui/core/Typography/Typography";
 import {DateTimePicker} from 'material-ui-pickers';
+import { connect } from 'react-redux';
+import * as actions from "../../actions";
 
 class CreateEventForm extends Component {
 
   state = {
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
+    creatorFirstName: '',
+    creatorLastName: '',
+    creatorPhoneNumber: '',
+    creatorEmail: '',
     name: '',
     comment: '',
-    needed_players: 0,
-    min_participants: 0,
-    start_at: moment().format('YYYY-MM-DD H:00'),
-    end_at: moment().format('YYYY-MM-DD H:00'),
-    selectedDate: new Date(),
+    neededPlayers: 1,
+    startTime: moment().format('YYYY-MM-DD H:00'),
+    endTime: moment().format('YYYY-MM-DD H:00'),
+    court: this.props.court.id,
   };
 
-  handleNeededPlayersChange = (event, needed_players) => {
-    this.setState({needed_players});
+  handleNeededPlayersChange = (event, neededPlayers) => {
+    this.setState({neededPlayers});
   };
 
   handleFirstNameChange = (event) => {
-    this.setState({firstName: event.target.value});
+    this.setState({creatorFirstName: event.target.value});
   };
 
   handleLastNameChange = (event) => {
-    this.setState({lastName: event.target.value});
+    this.setState({creatorLastName: event.target.value});
   };
 
   handleEmailChange = (event) => {
-    this.setState({email: event.target.value});
+    this.setState({creatorEmail: event.target.value});
   };
 
   handlePhoneNumberChange = (event) => {
-    this.setState({phoneNumber: event.target.value});
+    this.setState({creatorPhoneNumber: event.target.value});
   };
 
   handleCommentChange = (event) => {
@@ -55,23 +56,43 @@ class CreateEventForm extends Component {
   };
 
   handleEndTimeChange = date => {
-    this.setState({end_at: date});
+    this.setState({endTime: date});
   };
 
   handleStartTimeChange = date => {
-    this.setState({start_at: date});
+    this.setState({startTime: date});
   };
 
-  handleSubmit = (event) => {
-    // this.props.createEventAction(Object.assign({}, this.state, {
-    //   start_at: moment(this.state.start_at).format('YYYY-MM-DD H:mm'),
-    //   end_at: moment(this.state.end_at).format('YYYY-MM-DD H:mm'),
-    // }));
+
+  hasError(fieldName) {
+    return this.props.errors && fieldName in this.props.errors;
+  }
+
+  getErrorMessage(fieldName) {
+    if (!this.hasError(fieldName)) {
+      return null;
+    }
+
+    return (
+      <ul>
+        {this.props.errors[fieldName].map((error) => {
+          return (<li style={{color: '#f44336'}} key={error}>{error}</li>)
+        })}
+      </ul>
+    );
+  }
+
+  handleSubmit = () => {
+    this.props.createEventAction(this.state);
   };
 
   render() {
-    const {classes, court} = this.props;
-    const {needed_players, start_at, end_at} = this.state;
+    const {classes, court, created} = this.props;
+    const {neededPlayers, startTime, endTime, creatorFirstName, creatorLastName, creatorEmail, creatorPhoneNumber, name, comment} = this.state;
+
+    if (created) {
+      this.props.handleClose();
+    }
 
     return (
       <div>
@@ -86,33 +107,46 @@ class CreateEventForm extends Component {
                 <TextField
                   id="first-name"
                   label="Vardas"
-                  value={this.state.firstName}
+                  value={creatorFirstName}
+                  required={true}
+                  error={this.hasError('creatorFirstName')}
                   onChange={this.handleFirstNameChange}
                 />
+                {this.getErrorMessage('creatorFirstName')}
               </FormControl>
+
               <FormControl margin="normal" required fullWidth>
                 <TextField
                   id="last-name"
                   label="Pavarde"
-                  value={this.state.lastName}
+                  value={creatorLastName}
+                  required={true}
+                  error={this.hasError('creatorLastName')}
                   onChange={this.handleLastNameChange}
                 />
+                {this.getErrorMessage('creatorLastName')}
               </FormControl>
+
               <FormControl margin="normal" fullWidth>
                 <TextField
                   id="email"
                   label="El. pastas"
-                  value={this.state.email}
+                  value={creatorEmail}
+                  error={this.hasError('creatorEmail')}
                   onChange={this.handleEmailChange}
                 />
+                {this.getErrorMessage('creatorEmail')}
               </FormControl>
+
               <FormControl margin="normal" fullWidth>
                 <TextField
                   id="phone-number"
                   label="Telefono nr."
-                  value={this.state.phoneNumber}
+                  value={creatorPhoneNumber}
+                  error={this.hasError('creatorPhoneNumber')}
                   onChange={this.handlePhoneNumberChange}
                 />
+                {this.getErrorMessage('creatorPhoneNumber')}
               </FormControl>
             </Grid>
 
@@ -121,36 +155,49 @@ class CreateEventForm extends Component {
                 <TextField
                   id="name"
                   label="Varžybų pavadinimas"
-                  value={this.state.name}
+                  value={name}
+                  required={true}
+                  error={this.hasError('name')}
                   onChange={this.handleNameChange}
                 />
+                {this.getErrorMessage('name')}
               </FormControl>
+
               <FormControl margin="normal" required fullWidth>
                 <DateTimePicker autoOk
                                 ampm={false}
                                 label="Pradzios laikas"
-                                value={start_at}
+                                value={startTime}
+                                required={true}
                                 format="YYYY-MM-DD HH:mm"
                                 onChange={this.handleStartTimeChange}
                 />
+                {this.getErrorMessage('startTime')}
               </FormControl>
+
               <FormControl margin="normal" required fullWidth>
                 <DateTimePicker autoOk
                                 ampm={false}
                                 label="Pabaigos laikas"
-                                value={end_at}
+                                value={endTime}
+                                required={true}
                                 format="YYYY-MM-DD HH:mm"
                                 onChange={this.handleEndTimeChange}
                 />
+                {this.getErrorMessage('endTime')}
               </FormControl>
+
               <FormControl margin="normal" required fullWidth>
-                <InputLabel>Reikiamas žaidėjų skaičius: {needed_players}</InputLabel>
-                <Slider value={needed_players}
+                <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų skaičius: {neededPlayers}</InputLabel>
+                <Slider value={neededPlayers}
                         min={1}
                         max={10}
                         step={1}
                         onChange={this.handleNeededPlayersChange}
+                        style={{marginBottom: 30}}
+                        required={true}
                 />
+                {this.getErrorMessage('neededPlayers')}
               </FormControl>
             </Grid>
 
@@ -159,11 +206,13 @@ class CreateEventForm extends Component {
                 <TextField
                   id="comment"
                   label="Komentaras"
-                  value={this.state.comment}
+                  value={comment}
+                  error={this.hasError('comment')}
                   onChange={this.handleCommentChange}
                   multiline={true}
                   rows="3"
                 />
+                {this.getErrorMessage('comment')}
               </FormControl>
             </Grid>
           </Grid>
@@ -183,4 +232,17 @@ class CreateEventForm extends Component {
   }
 }
 
-export default withStyles({})(CreateEventForm);
+const mapStateToProps = state => {
+  if (state.eventReducer) {
+    return {
+      created: state.eventReducer.created,
+      errors: state.eventReducer.errors
+    };
+  }
+
+  return {}
+};
+
+const EventForm = connect(mapStateToProps, actions)(CreateEventForm);
+
+export default withStyles({})(EventForm);

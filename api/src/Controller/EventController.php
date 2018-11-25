@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\Event\EventType;
-use App\Service\JsonSerializeService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,18 +25,17 @@ class EventController extends Controller
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
-        $form->handleRequest($request);
+        $form->submit($request->request->all());
 
-        if (!$form->isValid()) {
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
 
-            return new JsonResponse($this->getErrorsArray($form), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse('success', Response::HTTP_CREATED);
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($event);
-        $em->flush();
-
-        return new JsonResponse('success', Response::HTTP_CREATED);
+        return new JsonResponse($this->getErrorsArray($form), Response::HTTP_OK);
     }
 
     /**

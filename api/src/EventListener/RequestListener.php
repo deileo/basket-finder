@@ -16,7 +16,10 @@ class RequestListener
         }
 
         $request = $event->getRequest();
-        $event->getRequest()->request->add(json_decode($request->getContent(), true));
+        $postData = json_decode($request->getContent(), true);
+        if ($postData) {
+            $event->getRequest()->request->add($postData);
+        }
     }
 
     /**

@@ -38,7 +38,7 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      * @Assert\Email
      */
     private $creatorEmail;
@@ -46,7 +46,7 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column()
+     * @ORM\Column(nullable=true)
      */
     private $creatorPhoneNumber;
 

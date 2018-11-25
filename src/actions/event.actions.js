@@ -1,8 +1,14 @@
-import { CREATE_EVENT, JOIN_EVENT } from './types';
+import {CREATE_EVENT, CREATE_EVENT_ERROR, JOIN_EVENT} from './types';
 
 export const createEventAction = () => {
   return {
     type: CREATE_EVENT
+  };
+};
+
+export const createEventError = () => {
+  return {
+    type: CREATE_EVENT_ERROR
   };
 };
 

@@ -79,7 +79,7 @@ class CourtMarker extends Component {
               onClose={this.handleClose}
             >
               <div style={getModalStyle()} className={classes.paper}>
-                <CreateEventForm court={court}/>
+                <CreateEventForm court={court} handleClose={this.handleClose}/>
               </div>
             </Modal>
           </Card>

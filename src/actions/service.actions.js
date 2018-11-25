@@ -6,6 +6,7 @@ import {
 import {
   FETCH_COURTS,
   CREATE_EVENT,
+  CREATE_EVENT_ERROR,
   JOIN_EVENT,
   LOADING_STARTED,
   LOADING_ENDED
@@ -35,8 +36,12 @@ export const createEventAction = createEventData => {
   return function(dispatch) {
     return createEvent(createEventData)
       .then(response => {
-        dispatch({ type: CREATE_EVENT, payload: response.data });
-        return dispatch(fetchCourtsAction());
+        if (response.status === 201) {
+          return dispatch({type: CREATE_EVENT, payload: response.data});
+        }
+        if (response.status === 200) {
+          return dispatch({ type: CREATE_EVENT_ERROR, payload: response.data });
+        }
       })
       .catch(error => {
         if (error) {
@@ -51,8 +56,7 @@ export const joinEventAction = joinEventData => {
   return function(dispatch) {
     return joinEvent(joinEventData)
       .then(response => {
-        dispatch({ type: JOIN_EVENT, payload: response.data });
-        return dispatch(fetchCourtsAction());
+        return dispatch({ type: JOIN_EVENT, payload: response.data });
       })
       .catch(error => {
         if (error) {
