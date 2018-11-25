@@ -5,7 +5,7 @@ import * as actions from '../actions';
 const mapStateToProps = state => {
   return {
     courtsReducer: state.courtsReducer,
-    loaderReducer: state.loaderReducer,
+    loaderReducer: state.loaderReducer
   };
 };
 

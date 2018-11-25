@@ -63,7 +63,6 @@ class CreateEventForm extends Component {
     this.setState({startTime: date});
   };
 
-
   hasError(fieldName) {
     return this.props.errors && fieldName in this.props.errors;
   }
@@ -87,12 +86,8 @@ class CreateEventForm extends Component {
   };
 
   render() {
-    const {classes, court, created} = this.props;
+    const {classes, court} = this.props;
     const {neededPlayers, startTime, endTime, creatorFirstName, creatorLastName, creatorEmail, creatorPhoneNumber, name, comment} = this.state;
-
-    if (created) {
-      this.props.handleClose();
-    }
 
     return (
       <div>

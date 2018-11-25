@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import { withStyles } from '@material-ui/core/styles';
 import CreateEventForm from "../form/CreateEventForm";
+import connect from "react-redux/es/connect/connect";
+import * as actions from "../../actions";
 
 const styles = theme => ({
   container: {
@@ -45,14 +47,14 @@ class CourtMarker extends Component {
   };
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.props.openModalAction();
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.props.closeModalAction();
   };
 
-  renderInfoWindow = (court, classes, activeMarker) => {
+  renderInfoWindow = (court, classes, activeMarker, modalReducer) => {
     if (activeMarker === court.id) {
       return (
         <InfoWindow>
@@ -75,7 +77,7 @@ class CourtMarker extends Component {
               </Button>
             </CardActions>
             <Modal
-              open={this.state.open}
+              open={modalReducer.isOpen}
               onClose={this.handleClose}
             >
               <div style={getModalStyle()} className={classes.paper}>
@@ -89,7 +91,7 @@ class CourtMarker extends Component {
   };
 
   render() {
-    const {court, classes, handleMarkerClick, activeMarker} = this.props;
+    const {court, classes, handleMarkerClick, activeMarker, modalReducer} = this.props;
 
     return (
       <Marker
@@ -98,10 +100,16 @@ class CourtMarker extends Component {
         title={court.address}
         onClick={() => handleMarkerClick(court.id)}
       >
-        {this.renderInfoWindow(court, classes, activeMarker)}
+        {this.renderInfoWindow(court, classes, activeMarker, modalReducer)}
       </Marker>
     );
   }
 }
 
-export default withStyles(styles)(CourtMarker);
+const mapStateToProps = state => {
+  return {
+    modalReducer: state.modalReducer
+  };
+};
+
+export default connect(mapStateToProps, actions)(withStyles(styles)(CourtMarker));
