@@ -9,7 +9,8 @@ import {
   CREATE_EVENT_ERROR,
   JOIN_EVENT,
   LOADING_STARTED,
-  LOADING_ENDED
+  LOADING_ENDED,
+  FLASH_MESSAGE
 } from './types';
 
 export const fetchCourtsAction = () => {
@@ -37,6 +38,7 @@ export const createEventAction = createEventData => {
     return createEvent(createEventData)
       .then(response => {
         if (response.status === 201) {
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'yee boi', variant: 'success'}});
           return dispatch({type: CREATE_EVENT, payload: response.data});
         }
         if (response.status === 200) {
