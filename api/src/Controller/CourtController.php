@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CourtController extends Controller
 {
     /**
-     * @Route("/all", name="api:courts:all")
+     * @Route("/all", name="php:courts:all")
      *
      * @param JsonSerializeService $serializer
      * @return JsonResponse

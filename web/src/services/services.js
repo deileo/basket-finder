@@ -9,14 +9,14 @@ const config = {
 
 export function fetchCourts() {
   return axios.get(
-    'http://localhost:8000/api/courts/all',
+    'http://localhost:8000/php/courts/all',
     config
   );
 }
 
 export function createEvent(eventData) {
   return axios.post(
-    'http://localhost:8000/api/events/new',
+    'http://localhost:8000/php/events/new',
     eventData,
     config
   );

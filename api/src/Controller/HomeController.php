@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends Controller
 {
     /**
-     * @Route(name="api:home")
+     * @Route(name="php:home")
      *
      * @return JsonResponse
      */
