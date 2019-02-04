@@ -17,10 +17,10 @@ class JsonSerializeService
     }
 
     /**
-     * @param array $data
+     * @param array|object $data
      * @return string
      */
-    public function serialize(array $data): string
+    public function serialize($data): string
     {
         return $this->serializer->serialize($data, 'json');
     }

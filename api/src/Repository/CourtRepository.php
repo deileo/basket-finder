@@ -15,5 +15,4 @@ class CourtRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Court::class);
     }
-
 }

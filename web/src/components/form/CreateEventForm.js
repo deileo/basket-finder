@@ -11,6 +11,8 @@ import Typography from "@material-ui/core/Typography/Typography";
 import {DateTimePicker} from 'material-ui-pickers';
 import { connect } from 'react-redux';
 import * as actions from "../../actions";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
 
 class CreateEventForm extends Component {
 
@@ -86,7 +88,7 @@ class CreateEventForm extends Component {
   };
 
   render() {
-    const {classes, court} = this.props;
+    const {classes, court, handleClose} = this.props;
     const {neededPlayers, startTime, endTime, creatorFirstName, creatorLastName, creatorEmail, creatorPhoneNumber, name, comment} = this.state;
 
     return (
@@ -94,6 +96,9 @@ class CreateEventForm extends Component {
         <Typography gutterBottom variant="h5" component="h4">
           {court.address}
         </Typography>
+        <IconButton aria-label="Close" style={{position: 'absolute', top: '1rem', right: '15px'}} onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
         <form className={classes.form} noValidate>
           <Grid container spacing={24}>
 

@@ -15,7 +15,7 @@ class JsonSerializeProvider
     {
         $normalizer = new ObjectNormalizer();
         $normalizer->setCircularReferenceHandler(function ($object) {
-            return $object->getAddress();
+            return $object->getId();
         });
 
         return new Serializer([$normalizer], [new JsonEncoder()]);

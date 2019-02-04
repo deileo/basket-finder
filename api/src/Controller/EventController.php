@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends Controller
 {
     /**
-     * @Route("/new", name="php:event:new", methods={"POST"})
+     * @Route("/new", name="api:event:new")
      * @param Request $request
      * @return Response
      */

@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
 import FlashMessage from "./components/flash/FlashMessage";
+import EventListContainer from "./containers/EventListContainer";
 
 const theme = createMuiTheme({
   palette: {
@@ -50,7 +51,7 @@ class App extends Component {
         </Grid>
         <Grid container>
           <Grid item xs={4}>
-            HAHAHHAHAH
+            <EventListContainer />
           </Grid>
           <Grid item xs={8}>
             <MapContainer />

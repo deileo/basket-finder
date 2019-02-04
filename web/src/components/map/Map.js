@@ -15,6 +15,7 @@ class Map extends Component {
 
   handleMarkerClick = (courtId) => {
     this.setState({'activeMarker': courtId});
+    this.props.fetchCourtById(courtId);
   };
 
   render() {

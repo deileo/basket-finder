@@ -1,7 +1,8 @@
 import {
   fetchCourts,
   createEvent,
-  joinEvent
+  joinEvent,
+  getCourt,
 } from '../services/services';
 import {
   FETCH_COURTS,
@@ -11,7 +12,7 @@ import {
   LOADING_STARTED,
   LOADING_ENDED,
   FLASH_MESSAGE,
-  MODAL_CLOSED
+  MODAL_CLOSED, FETCH_COURT
 } from './types';
 
 export const fetchCourtsAction = () => {
@@ -34,13 +35,28 @@ export const fetchCourtsAction = () => {
   };
 };
 
+export const fetchCourtById = (courtId) => {
+  return function(dispatch) {
+    return getCourt(courtId)
+      .then(response => {
+        return dispatch({ type: FETCH_COURT, payload: response.data });
+      })
+      .catch(error => {
+        if (error) {
+          console.error(error);
+        }
+        return Promise.reject({});
+      })
+  };
+};
+
 export const createEventAction = createEventData => {
   return function(dispatch) {
     return createEvent(createEventData)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: MODAL_CLOSED, payload: {isOpen: false}});
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'yee boi', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event created!', variant: 'success'}});
 
           return dispatch({type: CREATE_EVENT, payload: response.data});
         }
