@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\Event\EventType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/events")
  */
-class EventController extends Controller
+class EventController extends BaseController
 {
     /**
      * @Route("/new", name="api:event:new")
@@ -28,9 +27,8 @@ class EventController extends Controller
         $form->submit($request->request->all());
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
+            $this->persist($event);
+            $this->flush();
 
             return new JsonResponse('success', Response::HTTP_CREATED);
         }

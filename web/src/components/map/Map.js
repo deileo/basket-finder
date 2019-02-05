@@ -6,7 +6,7 @@ import Loader from "../Loader";
 class Map extends Component {
 
   state = {
-    'activeMarker': null
+    activeMarker: null
   };
 
   componentDidMount() {
@@ -14,7 +14,7 @@ class Map extends Component {
   }
 
   handleMarkerClick = (courtId) => {
-    this.setState({'activeMarker': courtId});
+    this.setState({activeMarker: courtId});
     this.props.fetchCourtById(courtId);
   };
 

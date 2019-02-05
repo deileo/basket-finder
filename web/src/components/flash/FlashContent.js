@@ -45,8 +45,8 @@ const styles = theme => ({
 });
 
 class FlashContent extends Component {
-  render() {
 
+  render() {
     const {classes, variant, message, className, onClose} = this.props;
     const Icon = variantIcon[variant];
 

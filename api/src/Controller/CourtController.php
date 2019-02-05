@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Court;
+use App\Service\CourtService;
 use App\Service\JsonSerializeService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,8 +12,18 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/courts")
  */
-class CourtController extends Controller
+class CourtController extends BaseController
 {
+    private $courtService;
+
+    /**
+     * @param CourtService $courtService
+     */
+    public function __construct(CourtService $courtService)
+    {
+        $this->courtService = $courtService;
+    }
+
     /**
      * @Route("/all", name="api:courts:all")
      * @param JsonSerializeService $serializer
@@ -21,9 +31,7 @@ class CourtController extends Controller
      */
     public function getCourtsAction(JsonSerializeService $serializer): Response
     {
-        $courts = $this->getDoctrine()->getRepository(Court::class)->findAll();
-
-        return new Response($serializer->serialize($courts));
+        return new Response($serializer->serialize($this->courtService->getAllCourts()));
     }
 
     /**
@@ -32,7 +40,7 @@ class CourtController extends Controller
      * @param JsonSerializeService $serializer
      * @return Response
      */
-    public function getCourt(Court $court, JsonSerializeService $serializer)
+    public function getCourt(Court $court, JsonSerializeService $serializer): Response
     {
         return new Response($serializer->serialize($court));
     }
