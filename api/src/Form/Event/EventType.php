@@ -6,7 +6,7 @@ use App\Entity\Court;
 use App\Entity\Event;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,11 +25,12 @@ class EventType extends AbstractType
             ->add('creatorEmail', TextType::class)
             ->add('creatorPhoneNumber', TextType::class)
             ->add('name', TextType::class)
-            ->add('startTime', DateTimeType::class, [
+            ->add('date', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('endTime', DateTimeType::class, [
-                'widget' => 'single_text',
+            ->add('startTime', TextType::class, [
+            ])
+            ->add('endTime', TextType::class, [
             ])
             ->add('neededPlayers', IntegerType::class)
             ->add('comment', TextType::class)

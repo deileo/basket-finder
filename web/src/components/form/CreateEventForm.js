@@ -8,7 +8,7 @@ import Slider from '@material-ui/lab/Slider';
 import Grid from '@material-ui/core/Grid'
 import moment from 'moment';
 import Typography from "@material-ui/core/Typography/Typography";
-import {DateTimePicker} from 'material-ui-pickers';
+import {TimePicker, DatePicker} from 'material-ui-pickers';
 import { connect } from 'react-redux';
 import * as actions from "../../actions";
 import IconButton from "@material-ui/core/IconButton/IconButton";
@@ -24,8 +24,9 @@ class CreateEventForm extends Component {
     name: '',
     comment: '',
     neededPlayers: 1,
-    startTime: moment().format('YYYY-MM-DD H:00'),
-    endTime: moment().format('YYYY-MM-DD H:00'),
+    date: moment().format('YYYY-MM-DD'),
+    startTime: null,
+    endTime: null,
     court: this.props.court.id,
   };
 
@@ -57,12 +58,17 @@ class CreateEventForm extends Component {
     this.setState({name: event.target.value});
   };
 
-  handleEndTimeChange = date => {
-    this.setState({endTime: date});
+  handleDateChange = date => {
+    this.setState({date});
   };
 
-  handleStartTimeChange = date => {
-    this.setState({startTime: date});
+  handleEndTimeChange = endTime => {
+    console.log(endTime);
+    this.setState({endTime: endTime});
+  };
+
+  handleStartTimeChange = startTime => {
+    this.setState({startTime: startTime});
   };
 
   hasError(fieldName) {
@@ -89,7 +95,7 @@ class CreateEventForm extends Component {
 
   render() {
     const {classes, court, handleClose} = this.props;
-    const {neededPlayers, startTime, endTime, creatorFirstName, creatorLastName, creatorEmail, creatorPhoneNumber, name, comment} = this.state;
+    const {neededPlayers, date, startTime, endTime, creatorFirstName, creatorLastName, creatorEmail, creatorPhoneNumber, name, comment} = this.state;
 
     return (
       <div>
@@ -164,24 +170,33 @@ class CreateEventForm extends Component {
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
-                <DateTimePicker autoOk
+                <DatePicker autoOk
+                            label="Data"
+                            value={date}
+                            required={true}
+                            format="YYYY-MM-DD"
+                            onChange={this.handleDateChange}
+                />
+                {this.getErrorMessage('date')}
+              </FormControl>
+
+              <FormControl margin="normal" required fullWidth>
+                <TimePicker autoOk
                                 ampm={false}
                                 label="Pradzios laikas"
                                 value={startTime}
                                 required={true}
-                                format="YYYY-MM-DD HH:mm"
                                 onChange={this.handleStartTimeChange}
                 />
                 {this.getErrorMessage('startTime')}
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
-                <DateTimePicker autoOk
+                <TimePicker autoOk
                                 ampm={false}
                                 label="Pabaigos laikas"
                                 value={endTime}
                                 required={true}
-                                format="YYYY-MM-DD HH:mm"
                                 onChange={this.handleEndTimeChange}
                 />
                 {this.getErrorMessage('endTime')}

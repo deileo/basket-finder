@@ -61,7 +61,15 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
+     * @Assert\NotBlank
+     */
+    private $date;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="time")
      * @Assert\NotBlank
      */
     private $startTime;
@@ -69,7 +77,7 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
      * @Assert\NotBlank
      */
     private $endTime;
@@ -187,9 +195,25 @@ class Event
     }
 
     /**
+     * @return \DateTimeInterface|null
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $date
+     */
+    public function setDate($date): void
+    {
+        $this->date = $date;
+    }
+
+    /**
      * @return \DateTime
      */
-    public function getStartTime(): ?\DateTime
+    public function getStartTime()
     {
         return $this->startTime;
     }
@@ -197,7 +221,7 @@ class Event
     /**
      * @param \DateTime $startTime
      */
-    public function setStartTime(?\DateTime $startTime): void
+    public function setStartTime($startTime): void
     {
         $this->startTime = $startTime;
     }
@@ -205,7 +229,7 @@ class Event
     /**
      * @return \DateTime
      */
-    public function getEndTime(): ?\DateTime
+    public function getEndTime()
     {
         return $this->endTime;
     }
@@ -213,7 +237,7 @@ class Event
     /**
      * @param \DateTime $endTime
      */
-    public function setEndTime(?\DateTime $endTime): void
+    public function setEndTime($endTime): void
     {
         $this->endTime = $endTime;
     }
