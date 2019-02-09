@@ -2,7 +2,6 @@ import {CREATE_EVENT, CREATE_EVENT_ERROR, FLASH_MESSAGE, JOIN_EVENT, MODAL_CLOSE
 import {createEvent, joinEvent} from '../services/eventService';
 
 export const createEventAction = createEventData => {
-  console.log(createEventData);
   return function(dispatch) {
     return createEvent(createEventData)
       .then(response => {

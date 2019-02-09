@@ -63,7 +63,6 @@ class CreateEventForm extends Component {
   };
 
   handleEndTimeChange = endTime => {
-    console.log(endTime);
     this.setState({endTime: endTime});
   };
 

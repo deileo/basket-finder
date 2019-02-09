@@ -6,6 +6,7 @@ use App\Entity\Court;
 use App\Entity\Event;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,15 +29,25 @@ class EventType extends AbstractType
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('startTime', TextType::class, [
-            ])
-            ->add('endTime', TextType::class, [
-            ])
+            ->add('startTime', TextType::class)
+            ->add('endTime', TextType::class)
             ->add('neededPlayers', IntegerType::class)
             ->add('comment', TextType::class)
             ->add('court', EntityType::class, [
                 'class' => Court::class,
             ]);
+
+        $dateTimeTransformer = new CallbackTransformer(
+            function (?string $timeAsString) {
+                return $timeAsString ? new \DateTime($timeAsString) : null;
+            },
+            function ($dateTimeAsString) {
+                return new \DateTime($dateTimeAsString);
+            }
+        );
+
+        $builder->get('startTime')->addModelTransformer($dateTimeTransformer);
+        $builder->get('endTime')->addModelTransformer($dateTimeTransformer);
     }
 
     /**

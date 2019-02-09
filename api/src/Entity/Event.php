@@ -197,7 +197,7 @@ class Event
     /**
      * @return \DateTimeInterface|null
      */
-    public function getDate()
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
@@ -205,7 +205,7 @@ class Event
     /**
      * @param \DateTimeInterface|null $date
      */
-    public function setDate($date): void
+    public function setDate(?\DateTimeInterface $date): void
     {
         $this->date = $date;
     }

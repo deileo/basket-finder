@@ -50,10 +50,10 @@ class App extends Component {
           <FlashMessage closeFlashMessage={this.props.closeFlashMessage} flashMessage={this.props.flashReducer}/>
         </Grid>
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <EventListContainer />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <MapContainer />
           </Grid>
         </Grid>
