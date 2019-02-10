@@ -99,6 +99,7 @@ class CourtMarker extends Component {
         position={{lat: court.lat, lng: court.long}}
         title={court.address}
         onClick={() => handleMarkerClick(court.id)}
+        options={{icon: 'https://img.icons8.com/metro/26/000000/basketball.png'}}
       >
         {this.renderInfoWindow(court, classes, activeMarker, modalReducer)}
       </Marker>
