@@ -1,5 +1,12 @@
-import {CREATE_EVENT, CREATE_EVENT_ERROR, FLASH_MESSAGE, JOIN_EVENT, MODAL_CLOSED} from './types';
-import {createEvent, joinEvent} from '../services/eventService';
+import {
+  CREATE_EVENT,
+  CREATE_EVENT_ERROR,
+  GET_EVENTS,
+  FLASH_MESSAGE,
+  JOIN_EVENT,
+  MODAL_CLOSED
+} from './types';
+import {createEvent, joinEvent, getEvents} from '../services/eventService';
 
 export const createEventAction = createEventData => {
   return function(dispatch) {
@@ -36,5 +43,20 @@ export const joinEventAction = joinEventData => {
         }
         return Promise.reject({});
       });
+  };
+};
+
+export const getEventsAction = () => {
+  return function(dispatch) {
+    return getEvents()
+      .then(response => {
+        return dispatch({ type: GET_EVENTS, payload: response.data });
+      })
+      .catch(error => {
+        if (error) {
+          console.error(error);
+        }
+        return Promise.reject({});
+      })
   };
 };

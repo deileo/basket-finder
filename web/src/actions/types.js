@@ -14,6 +14,7 @@ export const FETCH_COURT = 'fetch_court';
 export const CREATE_EVENT = 'event_create';
 export const CREATE_EVENT_ERROR = 'event_create_error';
 export const JOIN_EVENT = 'event_join';
+export const GET_EVENTS = 'get_events';
 
 //Flash
 export const FLASH_MESSAGE = 'flash_message';

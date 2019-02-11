@@ -38,3 +38,9 @@ export const fetchCourtById = (courtId) => {
       })
   };
 };
+
+export const setCourtToNull = () => {
+  return function(dispatch) {
+    dispatch({type: FETCH_COURT, payload: null});
+  };
+};

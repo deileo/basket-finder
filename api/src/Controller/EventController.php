@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\Event\EventType;
+use App\Service\EventService;
+use App\Service\JsonSerializeService;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +17,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EventController extends BaseController
 {
+    /**
+     * @var EventService
+     */
+    private $eventService;
+
+    /**
+     * @param EventService $eventService
+     */
+    public function __construct(EventService $eventService)
+    {
+        $this->eventService = $eventService;
+    }
+
     /**
      * @Route("/new", name="api:event:new")
      * @param Request $request
@@ -34,6 +49,16 @@ class EventController extends BaseController
         }
 
         return new JsonResponse($this->getErrorsArray($form), Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/all", name="api:event:all")
+     * @param JsonSerializeService $serializer
+     * @return Response
+     */
+    public function getEvents(JsonSerializeService $serializer): Response
+    {
+        return new Response($serializer->serialize($this->eventService->getTodayEvents()));
     }
 
     /**

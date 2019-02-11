@@ -61,8 +61,8 @@ class Event extends Component {
   };
 
   getEventTime = event => {
-    let startTime = moment(event.startTime);
-    let endTime = moment(event.endTime);
+    let startTime = moment.unix(event.startTime.timestamp);
+    let endTime = moment.unix(event.endTime.timestamp);
     let date = moment(event.date);
 
     return date.format('YYYY-MM-DD') + ' ' + startTime.format('H:mm') + ' - ' + endTime.format('H:mm');
@@ -87,6 +87,12 @@ class Event extends Component {
                   <TableCell component="th" scope="row">Data</TableCell>
                   <TableCell align="left">{this.getEventTime(event)}</TableCell>
                 </TableRow>
+                {event.court.address ?
+                  <TableRow className={classes.tableRow}>
+                    <TableCell component="th" scope="row">Adresas</TableCell>
+                    <TableCell align="left">{event.court.address}</TableCell>
+                  </TableRow> : ''
+                }
                 <TableRow className={classes.tableRow}>
                   <TableCell component="th" scope="row">Dalyvių kiekis</TableCell>
                   <TableCell align="left">{event.neededPlayers}/{event.neededPlayers}</TableCell>

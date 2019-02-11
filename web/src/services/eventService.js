@@ -21,3 +21,10 @@ export function joinEvent(joinData) {
     config
   );
 }
+
+export function getEvents() {
+  return axios.get(
+    'http://localhost:8000/api/events/all',
+    config
+  );
+}

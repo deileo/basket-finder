@@ -14,8 +14,17 @@ class Map extends Component {
   }
 
   handleMarkerClick = (courtId) => {
+    if (courtId === this.state.activeMarker) {
+      courtId = null;
+    }
+
     this.setState({activeMarker: courtId});
-    this.props.fetchCourtById(courtId);
+    if (courtId) {
+      this.props.fetchCourtById(courtId);
+    } else {
+      this.props.setCourtToNull();
+      this.props.getEventsAction();
+    }
   };
 
   render() {

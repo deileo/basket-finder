@@ -71,7 +71,7 @@ class CreateEventForm extends Component {
   };
 
   hasError(fieldName) {
-    return this.props.errors && fieldName in this.props.errors;
+    return this.props.eventReducer.errors && fieldName in this.props.eventReducer.errors;
   }
 
   getErrorMessage(fieldName) {
@@ -81,7 +81,7 @@ class CreateEventForm extends Component {
 
     return (
       <ul>
-        {this.props.errors[fieldName].map((error) => {
+        {this.props.eventReducer.errors[fieldName].map((error) => {
           return (<li style={{color: '#f44336'}} key={error}>{error}</li>)
         })}
       </ul>
@@ -247,14 +247,10 @@ class CreateEventForm extends Component {
 }
 
 const mapStateToProps = state => {
-  if (state.eventReducer) {
-    return {
-      created: state.eventReducer.created,
-      errors: state.eventReducer.errors
-    };
-  }
-
-  return {}
+  return {
+    eventReducer: state.eventReducer,
+    courtsReducer: state.courtsReducer
+  };
 };
 
 const EventForm = connect(mapStateToProps, actions)(CreateEventForm);
