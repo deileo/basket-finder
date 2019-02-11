@@ -3,8 +3,10 @@ export const OPEN_MENU = 'open_menu';
 export const CLOSE_MENU = 'close_menu';
 
 //Loader
-export const LOADING_STARTED = 'loading_strated';
-export const LOADING_ENDED = 'loading_ended';
+export const LOADING_MAP_STARTED = 'loading_map_started';
+export const LOADING_MAP_ENDED = 'loading_map_ended';
+export const LOADING_EVENTS_STARTED = 'loading_events_strated';
+export const LOADING_EVENTS_ENDED = 'loading_events_ended';
 
 //Court
 export const FETCH_COURTS = 'fetch_courts';

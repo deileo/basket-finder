@@ -1,16 +1,23 @@
-import { LOADING_STARTED, LOADING_ENDED } from '../actions/types';
+import { LOADING_MAP_STARTED, LOADING_MAP_ENDED, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED } from '../actions/types';
 
 const loaderState = {
-  isLoading: false
+  isMapLoading: false,
+  isEventsLoading: false,
 };
 
 export default function(state = loaderState, action) {
   switch (action.type) {
-    case LOADING_STARTED: {
-      return { ...state, isLoading: true };
+    case LOADING_MAP_STARTED: {
+      return { ...state, isMapLoading: true };
     }
-    case LOADING_ENDED: {
-      return { ...state, isLoading: false };
+    case LOADING_MAP_ENDED: {
+      return { ...state, isMapLoading: false };
+    }
+    case LOADING_EVENTS_STARTED: {
+      return { ...state, isEventsLoading: true };
+    }
+    case LOADING_EVENTS_ENDED: {
+      return { ...state, isEventsLoading: false };
     }
     default:
       return state;

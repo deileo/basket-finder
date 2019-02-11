@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {MAP_CENTER, MAP_URL, MAP_ZOOM} from '../../config';
 import AppMap from "./AppMap";
-import Loader from "../Loader";
+import Loader from "../MapLoader";
 
 class Map extends Component {
 
@@ -30,7 +30,7 @@ class Map extends Component {
   render() {
     return (
       <div>
-        {this.props.loaderReducer.isLoading && (
+        {this.props.loaderReducer.isMapLoading && (
           <Loader/>
         )}
         <AppMap

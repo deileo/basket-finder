@@ -4,7 +4,7 @@ import {
   GET_EVENTS,
   FLASH_MESSAGE,
   JOIN_EVENT,
-  MODAL_CLOSED
+  MODAL_CLOSED, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED
 } from './types';
 import {createEvent, joinEvent, getEvents} from '../services/eventService';
 
@@ -48,6 +48,8 @@ export const joinEventAction = joinEventData => {
 
 export const getEventsAction = () => {
   return function(dispatch) {
+    dispatch({ type: LOADING_EVENTS_STARTED });
+
     return getEvents()
       .then(response => {
         return dispatch({ type: GET_EVENTS, payload: response.data });
@@ -58,5 +60,8 @@ export const getEventsAction = () => {
         }
         return Promise.reject({});
       })
+      .finally(() => {
+        dispatch({ type: LOADING_EVENTS_ENDED });
+      });
   };
 };

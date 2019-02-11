@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Loader from "../Loader";
+import EventLoader from "../EventLoader";
 import Paper from '@material-ui/core/Paper';
 import Event from "./Event";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -8,7 +8,8 @@ import {withStyles} from "@material-ui/core";
 const styles = {
   root: {
     height: '93vh',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    width: '100%'
   },
   paper: {
     margin: 5,
@@ -79,7 +80,11 @@ class EventList extends Component {
   };
 
   render() {
-    const {eventReducer, courtsReducer, classes} = this.props;
+    const {eventReducer, courtsReducer, loaderReducer, classes} = this.props;
+
+    if (loaderReducer.isEventsLoading) {
+      return (<div className={classes.root}><EventLoader/></div>)
+    }
 
     if (!eventReducer || !courtsReducer) {
       return null
@@ -94,10 +99,6 @@ class EventList extends Component {
 
     return (
       <div className={classes.root}>
-        {this.props.loaderReducer.isLoading && (
-          <Loader/>
-        )}
-
         {court ? this.renderCourtEvents(court, classes) : this.renderAllEvents(events, classes)}
       </div>
     );

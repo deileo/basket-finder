@@ -7,7 +7,7 @@ const styles = () => ({
     position: "fixed",
     height: '100%',
     width: '100%',
-    backgroundColor: "rgba(245, 245, 245, .7)",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
     zIndex: 2,
   },
   progress: {
@@ -19,10 +19,10 @@ const styles = () => ({
   },
 });
 
-const Loader = ({classes}) => (
+const MapLoader = ({classes}) => (
   <div className={classes.box}>
     <CircularProgress className={classes.progress} size={75} />
   </div>
 );
 
-export default withStyles(styles)(Loader);
+export default withStyles(styles)(MapLoader);
