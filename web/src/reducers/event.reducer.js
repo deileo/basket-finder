@@ -1,4 +1,4 @@
-import { CREATE_EVENT, CREATE_EVENT_ERROR, JOIN_EVENT, GET_EVENTS } from '../actions/types';
+import { CREATE_EVENT, CREATE_EVENT_ERROR, JOIN_EVENT, GET_EVENTS, RESET_EVENT_CREATION } from '../actions/types';
 
 export default function(state = null, action) {
   switch (action.type) {
@@ -13,6 +13,9 @@ export default function(state = null, action) {
     }
     case GET_EVENTS: {
       return { ...state, events: action.payload };
+    }
+    case RESET_EVENT_CREATION: {
+      return { ...state, created: false };
     }
     default:
       return state;

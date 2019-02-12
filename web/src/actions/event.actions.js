@@ -4,7 +4,7 @@ import {
   GET_EVENTS,
   FLASH_MESSAGE,
   JOIN_EVENT,
-  MODAL_CLOSED, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED
+  MODAL_CLOSED, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED, RESET_EVENT_CREATION
 } from './types';
 import {createEvent, joinEvent, getEvents} from '../services/eventService';
 
@@ -64,4 +64,10 @@ export const getEventsAction = () => {
         dispatch({ type: LOADING_EVENTS_ENDED });
       });
   };
+};
+
+export const resetEventCreationAction = () => {
+  return function(dispatch) {
+    dispatch({type: RESET_EVENT_CREATION});
+  }
 };

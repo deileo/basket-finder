@@ -107,6 +107,14 @@ class Event
     private $court;
 
     /**
+     * @var GymCourt
+     *
+     * @ORM\ManyToOne(targetEntity="GymCourt", inversedBy="events")
+     * @ORM\JoinColumn(name="gym_court_id", referencedColumnName="id")
+     */
+    private $gymCourt;
+
+    /**
      * @return int
      */
     public function getId(): ?int
@@ -288,5 +296,21 @@ class Event
     public function setCourt(?Court $court): void
     {
         $this->court = $court;
+    }
+
+    /**
+     * @return GymCourt|null
+     */
+    public function getGymCourt(): ?GymCourt
+    {
+        return $this->gymCourt;
+    }
+
+    /**
+     * @param GymCourt|null $gymCourt
+     */
+    public function setGymCourt(?GymCourt $gymCourt): void
+    {
+        $this->gymCourt = $gymCourt;
     }
 }

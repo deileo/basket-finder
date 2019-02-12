@@ -28,6 +28,17 @@ class EventList extends Component {
     this.props.getEventsAction();
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    let court = this.props.courtsReducer ? this.props.courtsReducer.court : null;
+    let prevCreated = prevProps.eventReducer ? prevProps.eventReducer.created : null;
+    let created = this.props.eventReducer ? this.props.eventReducer.created : null;
+
+    if (court && !prevCreated && created) {
+      this.props.fetchCourtById(this.props.courtsReducer.type, court.id);
+      this.props.resetEventCreationAction();
+    }
+  }
+
   renderEvents = (events) => {
     return (
       <div>
@@ -92,10 +103,6 @@ class EventList extends Component {
 
     let court = courtsReducer ? courtsReducer.court : null;
     let events = eventReducer ? eventReducer.events : [];
-
-    if (court && eventReducer.created) {
-      this.props.fetchCourtById(court.id);
-    }
 
     return (
       <div className={classes.root}>

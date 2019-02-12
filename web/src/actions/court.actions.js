@@ -1,4 +1,5 @@
 import {
+  CHANGE_COURT_TYPE,
   FETCH_COURT,
   FETCH_COURTS,
   LOADING_EVENTS_ENDED,
@@ -11,11 +12,11 @@ import {
   getCourt,
 } from '../services/courtService';
 
-export const fetchCourtsAction = () => {
+export const fetchCourtsAction = (type) => {
   return function(dispatch) {
     dispatch({ type: LOADING_MAP_STARTED });
 
-    return fetchCourts()
+    return fetchCourts(type)
       .then(response => {
         return dispatch({ type: FETCH_COURTS, payload: response.data });
       })
@@ -31,11 +32,11 @@ export const fetchCourtsAction = () => {
   };
 };
 
-export const fetchCourtById = (courtId) => {
+export const fetchCourtById = (type, courtId) => {
   return function(dispatch) {
     dispatch({ type: LOADING_EVENTS_STARTED });
 
-    return getCourt(courtId)
+    return getCourt(type, courtId)
       .then(response => {
         return dispatch({ type: FETCH_COURT, payload: response.data });
       })
@@ -55,4 +56,10 @@ export const setCourtToNull = () => {
   return function(dispatch) {
     dispatch({type: FETCH_COURT, payload: null});
   };
+};
+
+export const changeCourtType = (type) => {
+  return function (dispatch) {
+    dispatch({type: CHANGE_COURT_TYPE, payload: type})
+  }
 };

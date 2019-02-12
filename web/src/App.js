@@ -44,10 +44,15 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
         <Grid item xs={12}>
-          <Navbar/>
+          <Navbar fetchCourts={this.props.fetchCourtsAction}
+                  changeCourtType={this.props.changeCourtType}
+                  courtsReducer={this.props.courtsReducer}
+          />
         </Grid>
         <Grid>
-          <FlashMessage closeFlashMessage={this.props.closeFlashMessage} flashMessage={this.props.flashReducer}/>
+          <FlashMessage closeFlashMessage={this.props.closeFlashMessage}
+                        flashMessage={this.props.flashReducer}
+          />
         </Grid>
         <Grid container>
           <Grid item xs={3}>

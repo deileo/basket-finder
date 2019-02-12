@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer/SwipeableDrawer";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
+import {TYPE_COURT} from "../actions/types";
 
 const styles = ({
   root: {
@@ -40,15 +41,21 @@ const styles = ({
 class Navbar extends Component {
   state = {
     open: false,
-    value: 0,
+    type: TYPE_COURT,
   };
+
+  componentDidMount() {
+    this.props.changeCourtType(TYPE_COURT)
+  }
 
   toggleDrawer = (open) => () => {
     this.setState({open});
   };
 
-  handleChange = (event, value) => {
-    this.setState({ value });
+  handleChange = (event, type) => {
+    this.props.changeCourtType(type);
+    this.props.fetchCourts(type);
+    this.setState({ type });
   };
 
   render() {
@@ -64,7 +71,7 @@ class Navbar extends Component {
             <Typography variant="h6" color="inherit" className={classes.grow}>
               Basket Finder
             </Typography>
-            <Tabs value={this.state.value} onChange={this.handleChange}>
+            <Tabs value={this.state.type} onChange={this.handleChange}>
               <Tab label="Lauko aiksteles" />
               <Tab label="Vidaus aisteles" />
             </Tabs>
