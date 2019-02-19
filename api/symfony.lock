@@ -86,6 +86,21 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "knpuniversity/oauth2-client-bundle": {
+        "version": "1.20",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.20",
+            "ref": "80acc9223a205cbf5d9828fd616c82a374d281dd"
+        }
+    },
+    "league/oauth2-client": {
+        "version": "2.4.1"
+    },
+    "league/oauth2-google": {
+        "version": "3.0.1"
+    },
     "nelmio/cors-bundle": {
         "version": "1.5",
         "recipe": {
@@ -240,6 +255,18 @@
             "branch": "master",
             "version": "4.0",
             "ref": "5f514d9d3b8a8aac3d62ae6a86b18b90ed0c7826"
+        }
+    },
+    "symfony/security": {
+        "version": "v4.1.11"
+    },
+    "symfony/security-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "f8a63faa0d9521526499c0a8f403c9964ecb0527"
         }
     },
     "symfony/serializer": {

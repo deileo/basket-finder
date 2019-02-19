@@ -16,6 +16,8 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer/SwipeableDrawer";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import {TYPE_COURT} from "../actions/types";
+import { GoogleLogin } from 'react-google-login';
+import axios from 'axios';
 
 const styles = ({
   root: {
@@ -58,6 +60,23 @@ class Navbar extends Component {
     this.setState({ type });
   };
 
+  responseGoogle = (response) => {
+    console.log(response);
+  };
+
+  onGoogleSuccess = (response) => {
+    console.log(response.tokenObj, response);
+    axios.post('http://localhost:8000/api/connect/google/check', response.tokenObj, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+    });
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -78,7 +97,13 @@ class Navbar extends Component {
             <Button color="inherit" onClick={this.toggleDrawer(!this.state.open)}>
               Filtrai
             </Button>
-            <Button color="inherit">Login</Button>
+            <GoogleLogin
+              clientId="11221699996-gm5q4nrnjvoqn6li0bn59isuqs0028r4.apps.googleusercontent.com"
+              buttonText="google"
+              onSuccess={this.onGoogleSuccess}
+              onFailure={this.responseGoogle}
+            />,
+            <Button color="inherit" href={"http://localhost:8000/api/connect/google"}>Login</Button>
           </Toolbar>
         </AppBar>
         <SwipeableDrawer

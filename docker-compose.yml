@@ -16,6 +16,8 @@ services:
     build: deployment/docker/php
     networks:
       - app-tier
+    ports:
+      - 9001:9000
     depends_on:
       - mysql
     volumes:
