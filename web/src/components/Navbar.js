@@ -65,7 +65,6 @@ class Navbar extends Component {
   };
 
   onGoogleSuccess = (response) => {
-    console.log(response.tokenObj, response);
     axios.post('http://localhost:8000/api/connect/google/check', response.tokenObj, {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
@@ -103,7 +102,6 @@ class Navbar extends Component {
               onSuccess={this.onGoogleSuccess}
               onFailure={this.responseGoogle}
             />,
-            <Button color="inherit" href={"http://localhost:8000/api/connect/google"}>Login</Button>
           </Toolbar>
         </AppBar>
         <SwipeableDrawer

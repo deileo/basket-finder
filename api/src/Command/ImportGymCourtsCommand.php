@@ -72,9 +72,9 @@ class ImportGymCourtsCommand extends ContainerAwareCommand
      * @param array $row
      * @param GeoCoderService $geoCoder
      * @param SymfonyStyle $io
-     * @return Court|null
+     * @return GymCourt|null
      */
-    private function createCourt(array $row, GeoCoderService $geoCoder, SymfonyStyle $io): ?Court
+    private function createCourt(array $row, GeoCoderService $geoCoder, SymfonyStyle $io): ?GymCourt
     {
         $court = new GymCourt();
         $court->setName($row[self::KEY_GYM_NAME]);

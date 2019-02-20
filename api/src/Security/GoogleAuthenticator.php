@@ -53,7 +53,7 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function supports(Request $request): bool
     {
-        return $request->getPathInfo() == self::LOGIN_CHECK_URL;
+        return $request->getPathInfo() == self::LOGIN_CHECK_URL && $request->isMethod('POST');
     }
 
     /**
@@ -62,25 +62,30 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function getCredentials(Request $request): AccessToken
     {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->fetchAccessToken($this->getGoogleClient());
+        }
+
         return new AccessToken(json_decode($request->getContent(), true));
     }
 
     /**
-     * @param mixed $credentials
+     * @param AccessToken $credentials
      * @param UserProviderInterface $userProvider
      * @return UserInterface
      */
     public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
     {
-        $googleUser = $this->getGoogleClient()->fetchUserFromToken($credentials);
-        $user = $this->em->getRepository(User::class)->getUserByEmail($googleUser->getEmail());
+        $googleUser = $this->getGoogleClient()->fetchUserFromToken($credentials)->toArray();
+        $user = $this->em->getRepository(User::class)->getUserByEmail($googleUser['email']);
 
         if (!$user) {
             $user = new User();
-            $user->setEmail($googleUser->getEmail());
-            $user->setFirstName($googleUser->getName());
-            $user->setLastName($googleUser->getName());
-
+            $user->setEmail($googleUser['email']);
+            $user->setFirstName($googleUser['given_name']);
+            $user->setLastName($googleUser['family_name']);
+            $user->setGoogleImage($googleUser['picture']);
+            $user->setGoogleAccessToken($credentials->getToken());
             $user->setCreatedAt(new \DateTime());
 
             $this->em->persist($user);

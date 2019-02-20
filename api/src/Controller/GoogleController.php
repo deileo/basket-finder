@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\JsonSerializeService;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,9 +27,10 @@ class GoogleController extends AbstractController
 
     /**
      * @Route("/check", name="connect:google:check")
+     * @param JsonSerializeService $serializer
      * @return JsonResponse
      */
-    public function connectCheckAction(): Response
+    public function connectCheckAction(JsonSerializeService $serializer): Response
     {
         if (!$this->getUser()) {
             return new JsonResponse([
@@ -37,9 +39,6 @@ class GoogleController extends AbstractController
             ]);
         }
 
-        return new JsonResponse([
-            'status' => true,
-            'message' => $this->getUser()->getEmail(),
-        ]);
+        return new Response($serializer->serialize($this->getUser()));
     }
 }
