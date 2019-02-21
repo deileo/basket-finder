@@ -6,18 +6,19 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import List from "@material-ui/core/List/List";
-import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer/SwipeableDrawer";
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab/Tab";
 import {TYPE_COURT} from "../actions/types";
-import { GoogleLogin } from 'react-google-login';
-import axios from 'axios';
+import {GoogleLogin, GoogleLogout} from 'react-google-login';
+import {GOOGLE_CLIENT_ID} from "../config";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import MenuItem from "@material-ui/core/MenuItem/MenuItem";
+import Paper from "@material-ui/core/Paper/Paper";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener/ClickAwayListener";
+import MenuList from "@material-ui/core/MenuList/MenuList";
+import Grow from "@material-ui/core/Grow/Grow";
+import Popper from "@material-ui/core/Popper/Popper";
+
 
 const styles = ({
   root: {
@@ -43,6 +44,7 @@ const styles = ({
 class Navbar extends Component {
   state = {
     open: false,
+    anchorEl: null,
     type: TYPE_COURT,
   };
 
@@ -50,9 +52,58 @@ class Navbar extends Component {
     this.props.changeCourtType(TYPE_COURT)
   }
 
-  toggleDrawer = (open) => () => {
-    this.setState({open});
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
   };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  renderAuth(userReducer) {
+    if (!userReducer || !userReducer.isAuthenticated) {
+      return (
+        <GoogleLogin
+          style={{borderRadius: 100}}
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText="Prisijungti"
+          isSignedIn={true}
+          onSuccess={this.onGoogleSuccess}
+          onFailure={this.responseGoogle}
+        />
+      )
+    }
+
+    const user = this.props.userReducer.auth;
+    const { anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+
+    return (
+      <div>
+        <Button color="inherit" onClick={this.handleMenu}>
+          <Avatar alt="Profile Picture" src={user.googleImage} style={{marginRight: 10}}/>
+          {user.firstName + ' ' + user.lastName}
+        </Button>
+        <Popper open={open} anchorEl={anchorEl} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow {...TransitionProps} id="menu-list-grow"
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={this.handleClose}>
+                  <MenuList>
+                    <MenuItem onClick={this.handleClose}>Mano varzybos</MenuItem>
+                    <MenuItem onClick={this.handleClose}>Mano dalyvavimas</MenuItem>
+                    <MenuItem onClick={this.handleClose}>Atsijungti</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </div>
+    )
+  }
 
   handleChange = (event, type) => {
     this.props.changeCourtType(type);
@@ -61,23 +112,15 @@ class Navbar extends Component {
   };
 
   responseGoogle = (response) => {
-    console.log(response);
+    console.error(response);
   };
 
   onGoogleSuccess = (response) => {
-    axios.post('http://localhost:8000/api/connect/google/check', response.tokenObj, {
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(function (response) {
-      console.log(response);
-    });
+    this.props.checkUserAction(response.tokenObj);
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, userReducer } = this.props;
 
     return (
       <div className={classes.root}>
@@ -93,47 +136,9 @@ class Navbar extends Component {
               <Tab label="Lauko aiksteles" />
               <Tab label="Vidaus aisteles" />
             </Tabs>
-            <Button color="inherit" onClick={this.toggleDrawer(!this.state.open)}>
-              Filtrai
-            </Button>
-            <GoogleLogin
-              clientId="11221699996-gm5q4nrnjvoqn6li0bn59isuqs0028r4.apps.googleusercontent.com"
-              buttonText="google"
-              onSuccess={this.onGoogleSuccess}
-              onFailure={this.responseGoogle}
-            />,
+            {this.renderAuth(userReducer)}
           </Toolbar>
         </AppBar>
-        <SwipeableDrawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="top"
-          open={this.state.open}
-          onClose={this.toggleDrawer(false)}
-          onOpen={this.toggleDrawer(true)}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer('top', false)}
-            onKeyDown={this.toggleDrawer('top', false)}
-            style={{top: '4rem'}}
-          >
-          <div className={classes.fullList}>
-            <List>
-              {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </div>
-          </div>
-        </SwipeableDrawer>
       </div>
     );
   }

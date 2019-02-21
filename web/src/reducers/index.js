@@ -5,6 +5,7 @@ import courtsReducer from './courts.reducer';
 import eventReducer from './event.reducer';
 import flashReducer from './flash.reducer';
 import modalReducer from './modal.reducer';
+import userReducer from './user.reducer';
 
 const reducers = combineReducers({
   navReducer,
@@ -12,7 +13,8 @@ const reducers = combineReducers({
   courtsReducer,
   eventReducer,
   flashReducer,
-  modalReducer
+  modalReducer,
+  userReducer
 });
 
 export default reducers;

@@ -28,3 +28,6 @@ export const FLASH_MESSAGE = 'flash_message';
 //Modal
 export const MODAL_OPENED = 'modal_opened';
 export const MODAL_CLOSED = 'modal_closed';
+
+//user
+export const GET_USER = 'get_user';

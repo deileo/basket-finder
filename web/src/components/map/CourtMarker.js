@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {InfoWindow, Marker} from "react-google-maps";
-import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
@@ -58,7 +57,7 @@ class CourtMarker extends Component {
     if (activeMarker === court.id) {
       return (
         <InfoWindow>
-          <Card className={classes.container}>
+          <div className={classes.container}>
             <CardContent className={classes.content}>
               <Typography gutterBottom variant="h5" component="h4" className={classes.title}>
                 {court.address}
@@ -84,7 +83,7 @@ class CourtMarker extends Component {
                 <CreateEventForm court={court} handleClose={this.handleClose}/>
               </div>
             </Modal>
-          </Card>
+          </div>
         </InfoWindow>
       )
     }

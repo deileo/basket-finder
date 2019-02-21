@@ -47,6 +47,8 @@ class App extends Component {
           <Navbar fetchCourts={this.props.fetchCourtsAction}
                   changeCourtType={this.props.changeCourtType}
                   courtsReducer={this.props.courtsReducer}
+                  userReducer={this.props.userReducer}
+                  checkUserAction={this.props.checkUserAction}
           />
         </Grid>
         <Grid>

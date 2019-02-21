@@ -6,7 +6,8 @@ const mapStateToProps = state => {
   return {
     flashReducer: state.flashReducer,
     loaderReducer: state.loaderReducer,
-    courtsReducer: state.courtsReducer
+    courtsReducer: state.courtsReducer,
+    userReducer: state.userReducer,
   };
 };
 
