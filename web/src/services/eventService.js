@@ -22,9 +22,9 @@ export function joinEvent(joinData) {
   );
 }
 
-export function getEvents() {
+export function getEvents(courtId) {
   return axios.get(
-    'http://localhost:8000/api/events/all',
+    courtId ? 'http://localhost:8000/api/events/court/' + courtId : 'http://localhost:8000/api/events/all',
     config
   );
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Court;
 use App\Entity\Event;
 use App\Form\Event\EventType;
 use App\Service\EventService;
@@ -18,16 +19,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventController extends BaseController
 {
     /**
+     * @var JsonSerializeService
+     */
+    private $serializer;
+
+    /**
      * @var EventService
      */
     private $eventService;
 
     /**
      * @param EventService $eventService
+     * @param JsonSerializeService $serializer
      */
-    public function __construct(EventService $eventService)
+    public function __construct(EventService $eventService, JsonSerializeService $serializer)
     {
         $this->eventService = $eventService;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -53,12 +61,21 @@ class EventController extends BaseController
 
     /**
      * @Route("/all", name="api:event:all")
-     * @param JsonSerializeService $serializer
      * @return Response
      */
-    public function getEvents(JsonSerializeService $serializer): Response
+    public function getEvents(): Response
     {
-        return new Response($serializer->serialize($this->eventService->getTodayEvents()));
+        return new Response($this->serializer->serialize($this->eventService->getTodayEvents()));
+    }
+
+    /**
+     * @Route("/court/{id}", name="api:event:court")
+     * @param Court $court
+     * @return Response
+     */
+    public function getCourtEvents(Court $court): Response
+    {
+        return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court)));
     }
 
     /**

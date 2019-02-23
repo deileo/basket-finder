@@ -63,9 +63,8 @@ class Event extends Component {
   getEventTime = event => {
     let startTime = moment.unix(event.startTime.timestamp);
     let endTime = moment.unix(event.endTime.timestamp);
-    let date = moment(event.date);
 
-    return date.format('YYYY-MM-DD') + ' ' + startTime.format('H:mm') + ' - ' + endTime.format('H:mm');
+    return moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm') + ' - ' + endTime.format('H:mm');
   };
 
   render() {

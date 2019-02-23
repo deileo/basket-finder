@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/lab/Slider';
 import Grid from '@material-ui/core/Grid'
-import moment from 'moment';
 import Typography from "@material-ui/core/Typography/Typography";
 import {TimePicker, DatePicker} from 'material-ui-pickers';
 import { connect } from 'react-redux';
@@ -24,11 +23,23 @@ class CreateEventForm extends Component {
     name: '',
     comment: '',
     neededPlayers: 1,
-    date: moment().format('YYYY-MM-DD'),
+    date: null,
     startTime: null,
     endTime: null,
     court: this.props.court.id,
   };
+
+  componentDidMount() {
+    const {userReducer} = this.props;
+
+    if (userReducer && userReducer.isAuthenticated) {
+      this.setState({
+        creatorFirstName: userReducer.auth.firstName,
+        creatorLastName: userReducer.auth.lastName,
+        creatorEmail: userReducer.auth.email,
+      })
+    }
+  }
 
   handleNeededPlayersChange = (event, neededPlayers) => {
     this.setState({neededPlayers});
@@ -58,8 +69,8 @@ class CreateEventForm extends Component {
     this.setState({name: event.target.value});
   };
 
-  handleDateChange = date => {
-    this.setState({date});
+  handleDateChange = (date) => {
+    this.setState({date: date});
   };
 
   handleEndTimeChange = endTime => {
@@ -249,7 +260,8 @@ class CreateEventForm extends Component {
 const mapStateToProps = state => {
   return {
     eventReducer: state.eventReducer,
-    courtsReducer: state.courtsReducer
+    courtsReducer: state.courtsReducer,
+    userReducer: state.userReducer,
   };
 };
 

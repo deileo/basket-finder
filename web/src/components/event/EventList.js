@@ -35,6 +35,7 @@ class EventList extends Component {
 
     if (court && !prevCreated && created) {
       this.props.fetchCourtById(this.props.courtsReducer.type, court.id);
+      this.props.getEventsAction(court.id);
       this.props.resetEventCreationAction();
     }
   }
@@ -65,7 +66,7 @@ class EventList extends Component {
             Rajonas: {court.location}
           </Typography>
         </Paper>
-        {court.events.length ? this.renderEvents(court.events) :
+        {this.props.eventReducer.events.length ? this.renderEvents(this.props.eventReducer.events) :
           <Typography className={classes.textCenter} variant="h5" component="h2">Nera paskelbtu varzybu</Typography>
         }
       </div>

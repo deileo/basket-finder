@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Court;
 use App\Entity\Event;
 use App\Repository\EventRepository;
 
@@ -26,5 +27,14 @@ class EventService
     public function getTodayEvents(): array
     {
         return $this->eventRepository->getTodayEvents();
+    }
+
+    /**
+     * @param Court $court
+     * @return Event[]
+     */
+    public function getActiveCourtEvents(Court $court): array
+    {
+        return $this->eventRepository->getActiveCourtEvents($court);
     }
 }

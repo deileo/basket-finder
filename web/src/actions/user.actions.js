@@ -19,3 +19,9 @@ export const checkUserAction = userToken => {
       });
   };
 };
+
+export const logoutUser = () => {
+  return function(dispatch) {
+    return dispatch({type: GET_USER, payload: null});
+  }
+};

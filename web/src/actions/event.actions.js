@@ -23,10 +23,7 @@ export const createEventAction = createEventData => {
         }
       })
       .catch(error => {
-        if (error) {
-          console.error(error);
-        }
-        return Promise.reject({});
+        return showConsoleError(error);
       });
   };
 };
@@ -38,31 +35,25 @@ export const joinEventAction = joinEventData => {
         return dispatch({ type: JOIN_EVENT, payload: response.data });
       })
       .catch(error => {
-        if (error) {
-          console.log(error);
-        }
-        return Promise.reject({});
+        return showConsoleError(error);
       });
   };
 };
 
-export const getEventsAction = () => {
+export const getEventsAction = (courtId) => {
   return function(dispatch) {
     dispatch({ type: LOADING_EVENTS_STARTED });
 
-    return getEvents()
+    return getEvents(courtId)
       .then(response => {
         return dispatch({ type: GET_EVENTS, payload: response.data });
       })
       .catch(error => {
-        if (error) {
-          console.error(error);
-        }
-        return Promise.reject({});
+        return showConsoleError(error);
       })
       .finally(() => {
         dispatch({ type: LOADING_EVENTS_ENDED });
-      });
+      })
   };
 };
 
@@ -70,4 +61,12 @@ export const resetEventCreationAction = () => {
   return function(dispatch) {
     dispatch({type: RESET_EVENT_CREATION});
   }
+};
+
+const showConsoleError = (error) => {
+  if (error) {
+    console.error(error);
+  }
+
+  return Promise.reject({});
 };

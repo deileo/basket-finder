@@ -22,6 +22,7 @@ class Map extends Component {
     this.setState({activeMarker: courtId});
     if (courtId) {
       this.props.fetchCourtById(this.props.courtsReducer.type, courtId);
+      this.props.getEventsAction(courtId);
     } else {
       this.props.setCourtToNull();
       this.props.getEventsAction();
