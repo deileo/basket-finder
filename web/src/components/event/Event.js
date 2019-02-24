@@ -1,7 +1,3 @@
-import TableRow from "@material-ui/core/TableRow/TableRow";
-import TableCell from "@material-ui/core/TableCell/TableCell";
-import TableBody from "@material-ui/core/TableBody/TableBody";
-import Table from "@material-ui/core/Table/Table";
 import React, {Component} from "react";
 import moment from "moment";
 import CardContent from "@material-ui/core/CardContent/CardContent";
@@ -14,6 +10,10 @@ import InfoModal from "./InfoModal";
 import Modal from "@material-ui/core/Modal/Modal";
 
 const styles = theme => ({
+  eventContent: {
+    fontSize: '1rem',
+    color: 'rgba(0, 0, 0, 0.54)',
+  },
   card: {
     maxWidth: '100%',
     margin: 5,
@@ -72,42 +72,30 @@ class Event extends Component {
     return (
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h5" component="h4">
               {event.name}
             </Typography>
             <hr/>
-            <Table>
-              <TableBody>
-                <TableRow className={classes.tableRow}>
-                  <TableCell component="th" scope="row">Kurejas</TableCell>
-                  <TableCell align="left">{event.creatorFirstName} {event.creatorLastName}</TableCell>
-                </TableRow>
-                <TableRow className={classes.tableRow}>
-                  <TableCell component="th" scope="row">Data</TableCell>
-                  <TableCell align="left">{this.getEventTime(event)}</TableCell>
-                </TableRow>
-                {event.court.address ?
-                  <TableRow className={classes.tableRow}>
-                    <TableCell component="th" scope="row">Adresas</TableCell>
-                    <TableCell align="left">{event.court.address}</TableCell>
-                  </TableRow> : ''
-                }
-                <TableRow className={classes.tableRow}>
-                  <TableCell component="th" scope="row">Dalyvių kiekis</TableCell>
-                  <TableCell align="left">{event.neededPlayers}/{event.neededPlayers}</TableCell>
-                </TableRow>
-                <TableRow className={classes.tableRow}>
-                  <TableCell component="th" scope="row">Komentaras</TableCell>
-                  <TableCell align="left">{event.comment ? event.comment : '-'}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
+              Laikas: {this.getEventTime(event)}
+            </Typography>
+            <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
+              Adresas: {event.court.address}
+            </Typography>
+            <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
+              Zaidejai: 0/{event.neededPlayers}
+            </Typography>
+            {event.comment ?
+              <Typography component="p" gutterBottom style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+                Aprasymas: {event.comment.substring(0, 100)}{event.comment.length > 100 ? '...' : ''}
+              </Typography> : ''
+            }
             <CardActions>
               <Button size="small" variant="contained" color="primary">
                 Prisijungti
               </Button>
               <Button size="small" variant="outlined" color="primary" onClick={this.handleClickOpen}>
-                Kontaktine informacija
+                Informacija
               </Button>
 
               <Modal
@@ -116,10 +104,7 @@ class Event extends Component {
               >
                 <div style={getModalStyle()} className={classes.paper}>
                   <InfoModal
-                      firstName={event.creatorFirstName}
-                      lastName={event.creatorLastName}
-                      email={event.creatorEmail}
-                      phoneNumber={event.creatorPhoneNumber}
+                      event={event}
                       onClose={this.handleClose}
                       open={this.state.open}
                     />

@@ -42,6 +42,7 @@ class Navbar extends Component {
   }
 
   handleChange = (event, type) => {
+    this.props.setCourtToNull();
     this.props.changeCourtType(type);
     this.props.fetchCourtsAction(type);
     this.setState({ type });
@@ -49,7 +50,6 @@ class Navbar extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.props);
     return (
       <div className={classes.root}>
         <AppBar position="static">

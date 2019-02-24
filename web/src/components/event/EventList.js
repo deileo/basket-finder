@@ -53,6 +53,7 @@ class EventList extends Component {
   };
 
   renderCourtEvents = (court, classes) => {
+    let events = this.props.eventReducer.events;
     return (
       <div>
         <Paper className={classes.paper} elevation={1}>
@@ -60,13 +61,13 @@ class EventList extends Component {
             {court.address}
           </Typography>
           <Typography component="p">
-            Kiekis: {court.events.length}
+            Kiekis: {events.length}
           </Typography>
           <Typography component="p">
             Rajonas: {court.location}
           </Typography>
         </Paper>
-        {this.props.eventReducer.events.length ? this.renderEvents(this.props.eventReducer.events) :
+        {events.length ? this.renderEvents(events) :
           <Typography className={classes.textCenter} variant="h5" component="h2">Nera paskelbtu varzybu</Typography>
         }
       </div>
