@@ -14,6 +14,16 @@ class Map extends Component {
     this.props.fetchCourtsAction(this.props.courtsReducer.type ? this.props.courtsReducer.type : TYPE_COURT);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    let prevCourtType = prevProps.courtsReducer.type;
+    let courtType = this.props.courtsReducer.type;
+
+    if (prevCourtType !== courtType) {
+      this.setState({activeMarker: null});
+      this.props.setCourtToNull();
+    }
+  }
+
   handleMarkerClick = (courtId) => {
     if (courtId === this.state.activeMarker) {
       courtId = null;
