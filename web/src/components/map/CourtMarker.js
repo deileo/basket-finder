@@ -9,6 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 import CreateEventForm from "../form/CreateEventForm";
 import connect from "react-redux/es/connect/connect";
 import * as actions from "../../actions";
+import icon  from "../../icon-56.png";
+import {TYPE_COURT} from "../../actions/types";
 
 const styles = theme => ({
   container: {
@@ -53,28 +55,15 @@ class CourtMarker extends Component {
     this.props.closeModalAction();
   };
 
-  renderInfoWindow = (court, classes, activeMarker, modalReducer) => {
+  renderInfoWindow = (court, classes, activeMarker, modalReducer, courtReducer) => {
     if (activeMarker === court.id) {
       return (
         <InfoWindow>
           <div className={classes.container}>
-            <CardContent className={classes.content}>
-              <Typography gutterBottom variant="h5" component="h4" className={classes.title}>
-                {court.address}
-              </Typography>
-              <hr/>
-              <Typography component="p">
-                {court.location}
-              </Typography>
-              <Typography component="p">
-                {court.description}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small"  variant="contained" color="primary" onClick={this.handleOpen}>
-                Skelbti varzybas
-              </Button>
-            </CardActions>
+            {courtReducer.type === TYPE_COURT ?
+              this.renderCourtWindow(court, classes) :
+              this.renderGymCourtWindow(court, classes)
+            }
             <Modal
               open={modalReducer.isOpen}
               onClose={this.handleClose}
@@ -89,8 +78,56 @@ class CourtMarker extends Component {
     }
   };
 
+  renderCourtWindow(court, classes) {
+    return (
+      <div>
+        <CardContent className={classes.content}>
+          <Typography gutterBottom variant="h5" component="h4" className={classes.title}>
+            {court.address}
+          </Typography>
+          <hr/>
+          <Typography component="p">
+            Rajonas: {court.location}
+          </Typography>
+          <Typography component="p">
+            Informacija: {court.description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
+            Skelbti varzybas
+          </Button>
+        </CardActions>
+      </div>
+    )
+  }
+
+  renderGymCourtWindow(court, classes) {
+    return (
+      <div>
+        <CardContent className={classes.content}>
+          <Typography gutterBottom variant="h5" component="h4" className={classes.title}>
+            {court.name}
+          </Typography>
+          <hr/>
+          <Typography component="p">
+            Adresas: {court.address} ({court.location})
+          </Typography>
+          <Typography component="p">
+            Būklė: {court.condition}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
+            Skelbti varzybas
+          </Button>
+        </CardActions>
+      </div>
+    )
+  }
+
   render() {
-    const {court, classes, handleMarkerClick, activeMarker, modalReducer} = this.props;
+    const {court, classes, handleMarkerClick, activeMarker, modalReducer, courtsReducer} = this.props;
 
     return (
       <Marker
@@ -98,9 +135,9 @@ class CourtMarker extends Component {
         position={{lat: court.lat, lng: court.long}}
         title={court.address}
         onClick={() => handleMarkerClick(court.id)}
-        options={{icon: 'https://img.icons8.com/metro/26/000000/basketball.png'}}
+        options={{icon: icon}}
       >
-        {this.renderInfoWindow(court, classes, activeMarker, modalReducer)}
+        {this.renderInfoWindow(court, classes, activeMarker, modalReducer, courtsReducer)}
       </Marker>
     );
   }
@@ -108,7 +145,8 @@ class CourtMarker extends Component {
 
 const mapStateToProps = state => {
   return {
-    modalReducer: state.modalReducer
+    modalReducer: state.modalReducer,
+    courtsReducer: state.courtsReducer,
   };
 };
 
