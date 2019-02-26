@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -53,6 +55,18 @@ class User implements UserInterface
      * @ORM\Column(type="string", nullable=true)
      */
     private $googleImage;
+
+    /**
+     * @var GymEvent[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="GymEvent", mappedBy="createdBy")
+     */
+    private $createdEvents;
+
+    public function __construct()
+    {
+        $this->createdEvents = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -156,6 +170,35 @@ class User implements UserInterface
     public function setGoogleImage(?string $googleImage): void
     {
         $this->googleImage = $googleImage;
+    }
+
+    /**
+     * @return GymEvent[]|ArrayCollection
+     */
+    public function getCreatedEvents(): Collection
+    {
+        return $this->createdEvents;
+    }
+
+    /**
+     * @param GymEvent $gymEvent
+     */
+    public function addCreatedEvent(GymEvent $gymEvent): void
+    {
+        if (!$this->getCreatedEvents()->contains($gymEvent)) {
+            $this->createdEvents->add($gymEvent);
+            $gymEvent->setCreatedBy($this);
+        }
+    }
+
+    /**
+     * @param GymEvent $gymEvent
+     */
+    public function removeCreatedEvent(GymEvent $gymEvent): void
+    {
+        if ($this->getCreatedEvents()->contains($gymEvent)) {
+            $this->createdEvents->removeElement($gymEvent);
+        }
     }
 
     /**

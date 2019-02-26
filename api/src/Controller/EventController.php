@@ -7,7 +7,6 @@ use App\Entity\Event;
 use App\Form\Event\EventType;
 use App\Service\EventService;
 use App\Service\JsonSerializeService;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,7 +55,7 @@ class EventController extends BaseController
             return new JsonResponse('success', Response::HTTP_CREATED);
         }
 
-        return new JsonResponse($this->getErrorsArray($form), Response::HTTP_OK);
+        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
     }
 
     /**
@@ -76,19 +75,5 @@ class EventController extends BaseController
     public function getCourtEvents(Court $court): Response
     {
         return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court)));
-    }
-
-    /**
-     * @param FormInterface $form
-     * @return array
-     */
-    private function getErrorsArray(FormInterface $form): array
-    {
-        $errors = [];
-        foreach ($form->getErrors(true) as $error) {
-            $errors[$error->getOrigin()->getName()][] = $error->getMessage();
-        }
-
-        return $errors;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
 
 class BaseController extends Controller
 {
@@ -35,5 +36,19 @@ class BaseController extends Controller
     protected function getRepo(string $className): ObjectRepository
     {
         return $this->getDoctrine()->getRepository($className);
+    }
+
+    /**
+     * @param FormInterface $form
+     * @return array
+     */
+    protected function getFormErrors(FormInterface $form): array
+    {
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[$error->getOrigin()->getName()][] = $error->getMessage();
+        }
+
+        return $errors;
     }
 }
