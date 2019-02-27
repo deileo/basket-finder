@@ -12,6 +12,7 @@
         "php-http/message": "^1.7",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "*",
+        "symfony/expression-language": "*",
         "symfony/flex": "^1.1",
         "symfony/form": "*",
         "symfony/framework-bundle": "*",

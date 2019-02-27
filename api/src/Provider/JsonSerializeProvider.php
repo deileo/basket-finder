@@ -2,7 +2,10 @@
 
 namespace App\Provider;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -13,7 +16,9 @@ class JsonSerializeProvider
      */
     public function getSerializer(): Serializer
     {
-        $normalizer = new ObjectNormalizer();
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+        $normalizer = new ObjectNormalizer($classMetadataFactory);
+
         $normalizer->setCircularReferenceHandler(function ($object) {
             return $object->getId();
         });

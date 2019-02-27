@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\GymEvent;
 use App\Form\Event\GymEventType;
 use App\Service\JsonSerializeService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/events/gym")
+ * @Security("is_granted('ROLE_USER')")
  */
 class GymEventController extends BaseController
 {

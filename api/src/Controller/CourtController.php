@@ -31,7 +31,7 @@ class CourtController extends BaseController
      */
     public function getCourtsAction(JsonSerializeService $serializer): Response
     {
-        return new Response($serializer->serialize($this->courtService->getAllCourts()));
+        return new Response($serializer->serialize($this->courtService->getAllCourts(), ['default']));
     }
 
     /**
@@ -42,6 +42,6 @@ class CourtController extends BaseController
      */
     public function getCourt(Court $court, JsonSerializeService $serializer): Response
     {
-        return new Response($serializer->serialize($court));
+        return new Response($serializer->serialize($court, ['default']));
     }
 }

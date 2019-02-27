@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class BaseCourt
 {
@@ -12,6 +13,7 @@ abstract class BaseCourt
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"default"})
      */
     protected $id;
 
@@ -19,6 +21,7 @@ abstract class BaseCourt
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      */
     protected $address;
 
@@ -26,6 +29,7 @@ abstract class BaseCourt
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      */
     protected $location;
 
@@ -33,6 +37,7 @@ abstract class BaseCourt
      * @var string|null
      *
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"default"})
      */
     protected $description;
 
@@ -40,6 +45,7 @@ abstract class BaseCourt
      * @var float
      *
      * @ORM\Column(type="float")
+     * @Groups({"default"})
      */
     protected $lat;
 
@@ -47,6 +53,7 @@ abstract class BaseCourt
      * @var float
      *
      * @ORM\Column(name="lng", type="float")
+     * @Groups({"default"})
      */
     protected $long;
 

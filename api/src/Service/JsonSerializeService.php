@@ -6,6 +6,9 @@ use App\Provider\JsonSerializeProvider;
 
 class JsonSerializeService
 {
+    /**
+     * @var JsonSerializeProvider
+     */
     private $serializer;
 
     /**
@@ -18,10 +21,11 @@ class JsonSerializeService
 
     /**
      * @param array|object $data
+     * @param array $groups
      * @return string
      */
-    public function serialize($data): string
+    public function serialize($data, array $groups = []): string
     {
-        return $this->serializer->serialize($data, 'json');
+        return $this->serializer->serialize($data, 'json', empty($groups) ? [] : ['groups' => $groups]);
     }
 }

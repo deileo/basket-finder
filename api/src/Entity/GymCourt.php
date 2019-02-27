@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GymCourtRepository")
@@ -15,6 +16,7 @@ class GymCourt extends BaseCourt
      * @var string
      *
      * @ORM\Column(type="string", name="gym_name")
+     * @Groups({"default"})
      */
     private $name;
 
@@ -22,6 +24,7 @@ class GymCourt extends BaseCourt
      * @var int|null
      *
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"default"})
      */
     private $renovationYear;
 
@@ -29,6 +32,7 @@ class GymCourt extends BaseCourt
      * @var string
      *
      * @ORM\Column(type="string", name="gym_condition")
+     * @Groups({"default"})
      */
     private $condition;
 

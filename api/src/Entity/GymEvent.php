@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity()
@@ -18,7 +19,7 @@ class GymEvent extends BaseEvent
     private $price;
 
     /**
-     * @var User
+     * @var UserInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
      */
@@ -49,17 +50,17 @@ class GymEvent extends BaseEvent
     }
 
     /**
-     * @return User|null
+     * @return UserInterface|null
      */
-    public function getCreatedBy(): ?User
+    public function getCreatedBy(): ?UserInterface
     {
         return $this->createdBy;
     }
 
     /**
-     * @param User|null $createdBy
+     * @param UserInterface|null $createdBy
      */
-    public function setCreatedBy(?User $createdBy): void
+    public function setCreatedBy(?UserInterface $createdBy): void
     {
         $this->createdBy = $createdBy;
     }

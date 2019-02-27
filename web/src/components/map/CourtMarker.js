@@ -55,14 +55,14 @@ class CourtMarker extends Component {
     this.props.closeModalAction();
   };
 
-  renderInfoWindow = (court, classes, activeMarker, modalReducer, courtReducer) => {
+  renderInfoWindow = (court, classes, activeMarker, modalReducer, courtReducer, userReducer) => {
     if (activeMarker === court.id) {
       return (
         <InfoWindow>
           <div className={classes.container}>
             {courtReducer.type === TYPE_COURT ?
               this.renderCourtWindow(court, classes) :
-              this.renderGymCourtWindow(court, classes)
+              this.renderGymCourtWindow(court, userReducer, classes)
             }
             <Modal
               open={modalReducer.isOpen}
@@ -102,7 +102,7 @@ class CourtMarker extends Component {
     )
   }
 
-  renderGymCourtWindow(court, classes) {
+  renderGymCourtWindow(court, userReducer, classes) {
     return (
       <div>
         <CardContent className={classes.content}>
@@ -118,16 +118,18 @@ class CourtMarker extends Component {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
-            Skelbti varzybas
-          </Button>
+          {userReducer.isAuthenticated ?
+            <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
+              Skelbti varzybas
+            </Button> : ''
+          }
         </CardActions>
       </div>
     )
   }
 
   render() {
-    const {court, classes, handleMarkerClick, activeMarker, modalReducer, courtsReducer} = this.props;
+    const {court, classes, handleMarkerClick, activeMarker, modalReducer, courtsReducer, userReducer} = this.props;
 
     return (
       <Marker
@@ -137,7 +139,7 @@ class CourtMarker extends Component {
         onClick={() => handleMarkerClick(court.id)}
         options={{icon: icon}}
       >
-        {this.renderInfoWindow(court, classes, activeMarker, modalReducer, courtsReducer)}
+        {this.renderInfoWindow(court, classes, activeMarker, modalReducer, courtsReducer, userReducer)}
       </Marker>
     );
   }
@@ -147,6 +149,7 @@ const mapStateToProps = state => {
   return {
     modalReducer: state.modalReducer,
     courtsReducer: state.courtsReducer,
+    userReducer: state.userReducer,
   };
 };
 

@@ -39,6 +39,6 @@ class GoogleController extends AbstractController
             ]);
         }
 
-        return new Response($serializer->serialize($this->getUser()));
+        return new Response($serializer->serialize($this->getUser(), ['default']));
     }
 }

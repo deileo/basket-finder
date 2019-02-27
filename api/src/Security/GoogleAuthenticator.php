@@ -85,12 +85,13 @@ class GoogleAuthenticator extends SocialAuthenticator
             $user->setFirstName($googleUser['given_name']);
             $user->setLastName($googleUser['family_name']);
             $user->setGoogleImage($googleUser['picture']);
-            $user->setGoogleAccessToken($credentials->getToken());
             $user->setCreatedAt(new \DateTime());
 
             $this->em->persist($user);
-            $this->em->flush();
         }
+
+        $user->setGoogleAccessToken($credentials->getToken());
+        $this->em->flush();
 
         return $user;
     }

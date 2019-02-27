@@ -33,7 +33,7 @@ class GymCourtController extends BaseController
      */
     public function getAllGymCourts(JsonSerializeService $serializer): Response
     {
-        return new Response($serializer->serialize($this->gymCourtService->getAllGymCourts()));
+        return new Response($serializer->serialize($this->gymCourtService->getAllGymCourts(), ['default']));
     }
 
     /**
@@ -44,6 +44,6 @@ class GymCourtController extends BaseController
      */
     public function getGymCourt(GymCourt $gymCourt, JsonSerializeService $serializer): Response
     {
-        return new Response($serializer->serialize($gymCourt));
+        return new Response($serializer->serialize($gymCourt, ['default']));
     }
 }

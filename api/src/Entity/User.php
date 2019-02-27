@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Table(name="users")
@@ -17,42 +18,49 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"default"})
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      */
     private $email;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      */
     private $firstName;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups({"default"})
      */
     private $lastName;
 
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime")
+     * @Groups({"default"})
      */
     private $created_at;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"default"})
      */
     private $googleAccessToken;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
+     * @Groups({"default"})
      */
     private $googleImage;
 
