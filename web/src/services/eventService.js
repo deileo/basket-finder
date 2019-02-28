@@ -1,4 +1,5 @@
 import axios from "axios";
+import {TYPE_COURT, TYPE_GYM_COURT} from "../actions/types";
 
 const config = {
   headers: {
@@ -7,9 +8,13 @@ const config = {
   }
 };
 
-export function createEvent(eventData) {
+export function createEvent(eventData, type = TYPE_COURT, token = null) {
+  if (type === TYPE_GYM_COURT) {
+    config.headers['X-AUTH-TOKEN'] = token;
+  }
+
   return axios.post(
-    'http://localhost:8000/api/events/new',
+    type === TYPE_COURT ? 'http://localhost:8000/api/events/new' : 'http://localhost:8000/api/events/gym/new',
     eventData,
     config
   );

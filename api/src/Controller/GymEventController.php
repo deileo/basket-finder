@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/events/gym")
- * @Security("is_granted('ROLE_USER')")
+ * @Security("is_granted('API_ACCESS')")
  */
 class GymEventController extends BaseController
 {

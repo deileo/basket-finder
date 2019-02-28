@@ -192,28 +192,29 @@ class CreateEventForm extends Component {
 
               <FormControl margin="normal" required fullWidth>
                 <TimePicker autoOk
-                                ampm={false}
-                                label="Pradzios laikas"
-                                value={startTime}
-                                required={true}
-                                onChange={this.handleStartTimeChange}
+                            ampm={false}
+                            label="Pradzios laikas"
+                            value={startTime}
+                            required={true}
+                            onChange={this.handleStartTimeChange}
                 />
                 {this.getErrorMessage('startTime')}
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
                 <TimePicker autoOk
-                                ampm={false}
-                                label="Pabaigos laikas"
-                                value={endTime}
-                                required={true}
-                                onChange={this.handleEndTimeChange}
+                            ampm={false}
+                            label="Pabaigos laikas"
+                            value={endTime}
+                            required={true}
+                            onChange={this.handleEndTimeChange}
                 />
                 {this.getErrorMessage('endTime')}
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
-                <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų skaičius: {neededPlayers}</InputLabel>
+                <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų
+                  skaičius: {neededPlayers}</InputLabel>
                 <Slider value={neededPlayers}
                         min={1}
                         max={10}
@@ -235,6 +236,7 @@ class CreateEventForm extends Component {
                   error={this.hasError('comment')}
                   onChange={this.handleCommentChange}
                   multiline={true}
+                  style={{marginBottom: 30}}
                   rows="3"
                 />
                 {this.getErrorMessage('comment')}

@@ -21,6 +21,7 @@ export const CREATE_EVENT_ERROR = 'event_create_error';
 export const JOIN_EVENT = 'event_join';
 export const GET_EVENTS = 'get_events';
 export const RESET_EVENT_CREATION = 'reset_event_creation';
+export const REMOVE_EVENT_ERRORS = 'remove_event_errors';
 
 //Flash
 export const FLASH_MESSAGE = 'flash_message';

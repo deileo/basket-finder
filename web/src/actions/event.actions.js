@@ -4,13 +4,33 @@ import {
   GET_EVENTS,
   FLASH_MESSAGE,
   JOIN_EVENT,
-  MODAL_CLOSED, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED, RESET_EVENT_CREATION
+  MODAL_CLOSED, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED, RESET_EVENT_CREATION, TYPE_GYM_COURT, REMOVE_EVENT_ERRORS
 } from './types';
 import {createEvent, joinEvent, getEvents} from '../services/eventService';
 
 export const createEventAction = createEventData => {
   return function(dispatch) {
     return createEvent(createEventData)
+      .then(response => {
+        if (response.status === 201) {
+          dispatch({type: MODAL_CLOSED, payload: {isOpen: false}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event created!', variant: 'success'}});
+
+          return dispatch({type: CREATE_EVENT, payload: response.data});
+        }
+        if (response.status === 200) {
+          return dispatch({ type: CREATE_EVENT_ERROR, payload: response.data });
+        }
+      })
+      .catch(error => {
+        return showConsoleError(error);
+      });
+  };
+};
+
+export const createGymEventAction = (createEventData, token) => {
+  return function(dispatch) {
+    return createEvent(createEventData, TYPE_GYM_COURT, token)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: MODAL_CLOSED, payload: {isOpen: false}});
@@ -60,6 +80,12 @@ export const getEventsAction = (courtId) => {
 export const resetEventCreationAction = () => {
   return function(dispatch) {
     dispatch({type: RESET_EVENT_CREATION});
+  }
+};
+
+export const removeEventErrorsAction = () => {
+  return function(dispatch) {
+    dispatch({type: REMOVE_EVENT_ERRORS});
   }
 };
 

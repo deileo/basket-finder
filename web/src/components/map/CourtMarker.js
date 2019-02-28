@@ -11,6 +11,7 @@ import connect from "react-redux/es/connect/connect";
 import * as actions from "../../actions";
 import icon  from "../../icon-56.png";
 import {TYPE_COURT} from "../../actions/types";
+import CreateGymEventForm from "../form/CreateGymEventForm";
 
 const styles = theme => ({
   container: {
@@ -53,6 +54,7 @@ class CourtMarker extends Component {
 
   handleClose = () => {
     this.props.closeModalAction();
+    this.props.removeEventErrorsAction();
   };
 
   renderInfoWindow = (court, classes, activeMarker, modalReducer, courtReducer, userReducer) => {
@@ -69,7 +71,10 @@ class CourtMarker extends Component {
               onClose={this.handleClose}
             >
               <div style={getModalStyle()} className={classes.paper}>
-                <CreateEventForm court={court} handleClose={this.handleClose}/>
+                {courtReducer.type === TYPE_COURT ?
+                  <CreateEventForm court={court} handleClose={this.handleClose}/> :
+                  <CreateGymEventForm court={court} handleClose={this.handleClose}/>
+                }
               </div>
             </Modal>
           </div>
