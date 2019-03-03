@@ -8,6 +8,7 @@ import Card from "@material-ui/core/Card/Card";
 import { withStyles } from '@material-ui/core/styles';
 import InfoModal from "./InfoModal";
 import Modal from "@material-ui/core/Modal/Modal";
+import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
 
 const styles = theme => ({
   eventContent: {
@@ -67,8 +68,16 @@ class Event extends Component {
     return moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm') + ' - ' + endTime.format('H:mm');
   };
 
+  allowJoin = (type, isAuthenticated) => {
+    if (type === TYPE_COURT) {
+      return true;
+    }
+
+    return type === TYPE_GYM_COURT && isAuthenticated
+  };
+
   render() {
-    const {event, classes} = this.props;
+    const {isAuthenticated, type, event, classes} = this.props;
     return (
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
@@ -80,20 +89,27 @@ class Event extends Component {
               Laikas: {this.getEventTime(event)}
             </Typography>
             <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
-              Adresas: {event.court.address}
+              Adresas: {event.court ? event.court.address : event.gymCourt.address}
             </Typography>
             <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
               Zaidejai: 0/{event.neededPlayers}
             </Typography>
+            {type === TYPE_GYM_COURT && event.price > 0 ?
+              <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
+                Kaina: {event.price} €
+              </Typography> : ''
+            }
             {event.comment ?
               <Typography component="p" gutterBottom style={{color: 'rgba(0, 0, 0, 0.54)'}}>
                 Aprasymas: {event.comment.substring(0, 100)}{event.comment.length > 100 ? '...' : ''}
               </Typography> : ''
             }
             <CardActions>
-              <Button size="small" variant="contained" color="primary">
-                Prisijungti
-              </Button>
+              {this.allowJoin(type, isAuthenticated) ?
+                <Button size="small" variant="contained" color="primary">
+                  Prisijungti
+                </Button> : ''
+              }
               <Button size="small" variant="outlined" color="primary" onClick={this.handleClickOpen}>
                 Informacija
               </Button>
@@ -107,6 +123,7 @@ class Event extends Component {
                       event={event}
                       onClose={this.handleClose}
                       open={this.state.open}
+                      type={type}
                     />
                   </div>
               </Modal>

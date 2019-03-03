@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\GymCourt;
 use App\Entity\GymEvent;
 use App\Form\Event\GymEventType;
+use App\Service\EventService;
 use App\Service\JsonSerializeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/events/gym")
- * @Security("is_granted('API_ACCESS')")
  */
 class GymEventController extends BaseController
 {
@@ -23,15 +24,23 @@ class GymEventController extends BaseController
     private $serializer;
 
     /**
-     * @param JsonSerializeService $serializer
+     * @var EventService
      */
-    public function __construct(JsonSerializeService $serializer)
+    private $eventService;
+
+    /**
+     * @param JsonSerializeService $serializer
+     * @param EventService $eventService
+     */
+    public function __construct(JsonSerializeService $serializer, EventService $eventService)
     {
         $this->serializer = $serializer;
+        $this->eventService = $eventService;
     }
 
     /**
      * @Route("/new", name="api:gym-event:new")
+     * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @return Response
      */
@@ -49,5 +58,24 @@ class GymEventController extends BaseController
         }
 
         return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/all", name="api:gym-event:all")
+     * @return Response
+     */
+    public function getEvents(): Response
+    {
+        return new Response($this->serializer->serialize($this->eventService->getTodayEvents(true)));
+    }
+
+    /**
+     * @Route("/court/{id}", name="api:gym-event:court")
+     * @param GymCourt $court
+     * @return Response
+     */
+    public function getCourtEvents(GymCourt $court): Response
+    {
+        return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court)));
     }
 }

@@ -1,5 +1,6 @@
 import axios from "axios";
 import {TYPE_COURT, TYPE_GYM_COURT} from "../actions/types";
+import {API_URL} from "../config";
 
 const config = {
   headers: {
@@ -13,11 +14,11 @@ export function createEvent(eventData, type = TYPE_COURT, token = null) {
     config.headers['X-AUTH-TOKEN'] = token;
   }
 
-  return axios.post(
-    type === TYPE_COURT ? 'http://localhost:8000/api/events/new' : 'http://localhost:8000/api/events/gym/new',
-    eventData,
-    config
-  );
+  let url = type === TYPE_COURT ?
+    API_URL + '/events/new' :
+    API_URL + '/events/gym/new';
+
+    return axios.post(url, eventData, config);
 }
 
 export function joinEvent(joinData) {
@@ -27,9 +28,11 @@ export function joinEvent(joinData) {
   );
 }
 
-export function getEvents(courtId) {
-  return axios.get(
-    courtId ? 'http://localhost:8000/api/events/court/' + courtId : 'http://localhost:8000/api/events/all',
-    config
-  );
+export function getEvents(type, courtId = null) {
+  let gymType = type === TYPE_GYM_COURT ? 'gym/' : '';
+  let url = courtId ?
+    API_URL + '/events/' + gymType + 'court/' + courtId :
+    API_URL + '/events/' + gymType + 'all';
+
+  return axios.get(url, config);
 }

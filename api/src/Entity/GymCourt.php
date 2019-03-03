@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GymCourtRepository")
  */
-class GymCourt extends BaseCourt
+class GymCourt extends BaseCourt implements CourtInterface
 {
     /**
      * @var string
@@ -39,7 +39,7 @@ class GymCourt extends BaseCourt
     /**
      * @var Collection|Event[]
      *
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="gymCourt")
+     * @ORM\OneToMany(targetEntity="GymEvent", mappedBy="gymCourt")
      */
     protected $events;
 

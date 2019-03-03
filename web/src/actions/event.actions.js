@@ -60,11 +60,11 @@ export const joinEventAction = joinEventData => {
   };
 };
 
-export const getEventsAction = (courtId) => {
+export const getEventsAction = (type, courtId = null) => {
   return function(dispatch) {
     dispatch({ type: LOADING_EVENTS_STARTED });
 
-    return getEvents(courtId)
+    return getEvents(type, courtId)
       .then(response => {
         return dispatch({ type: GET_EVENTS, payload: response.data });
       })

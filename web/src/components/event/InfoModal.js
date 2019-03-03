@@ -6,14 +6,55 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText/DialogContentText";
+import {TYPE_COURT} from "../../actions/types";
 
 class InfoModal extends Component {
   handleClose = () => {
     this.props.onClose();
   };
 
+  renderEventInfo = (event) => {
+    return (
+      <DialogContent>
+        <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          Vardas: {event.creatorFirstName} {event.creatorLastName}
+        </Typography>
+        <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          El. pastas: {event.creatorEmail ? event.creatorEmail : '-'}
+        </Typography>
+        <Typography variant="h6" style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          Tel. nr: {event.creatorPhoneNumber ? event.creatorPhoneNumber : '-'}
+        </Typography>
+        <DialogContentText style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          {event.comment ? event.comment : ''}
+        </DialogContentText>
+      </DialogContent>
+    )
+  };
+
+  renderGymEventInfo = (event) => {
+    let createdBy = event.createdBy;
+
+    return (
+      <DialogContent>
+        <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          Vardas: {createdBy.firstName} {createdBy.lastName}
+        </Typography>
+        <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          El. pastas: {createdBy.email}
+        </Typography>
+        <Typography variant="h6" style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          Tel. nr: {event.creatorPhoneNumber ? event.creatorPhoneNumber : '-'}
+        </Typography>
+        <DialogContentText style={{color: 'rgba(0, 0, 0, 0.54)'}}>
+          {event.comment ? event.comment : ''}
+        </DialogContentText>
+      </DialogContent>
+    )
+  };
+
   render() {
-    const {event} = this.props;
+    const {type, event} = this.props;
 
     return (
       <div>
@@ -32,20 +73,7 @@ class InfoModal extends Component {
             </IconButton>
             <hr/>
           </DialogTitle>
-          <DialogContent>
-              <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
-                Vardas: {event.creatorFirstName} {event.creatorLastName}
-              </Typography>
-              <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
-                El. pastas: {event.creatorEmail ? event.creatorEmail : '-'}
-              </Typography>
-              <Typography variant="h6" style={{color: 'rgba(0, 0, 0, 0.54)'}}>
-                Tel. nr: {event.creatorPhoneNumber ? event.creatorPhoneNumber : '-'}
-              </Typography>
-            <DialogContentText style={{color: 'rgba(0, 0, 0, 0.54)'}}>
-              {event.comment ? event.comment : ''}
-            </DialogContentText>
-          </DialogContent>
+          {type === TYPE_COURT ? this.renderEventInfo(event) : this.renderGymEventInfo(event)}
         </Dialog>
       </div>
     );

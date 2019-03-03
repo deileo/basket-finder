@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CourtRepository")
  */
-class Court extends BaseCourt
+class Court extends BaseCourt implements CourtInterface
 {
     /**
      * @var Collection|Event[]

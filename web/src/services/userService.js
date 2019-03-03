@@ -1,4 +1,5 @@
 import axios from "axios";
+import {API_URL} from "../config";
 
 const config = {
   headers: {
@@ -8,7 +9,7 @@ const config = {
 };
 
 export function checkUser(userToken) {
-  return axios.post('http://localhost:8000/api/connect/google/check',
+  return axios.post(API_URL + '/connect/google/check',
     userToken,
     config
   );

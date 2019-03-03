@@ -25,7 +25,7 @@ const styles = {
 class EventList extends Component {
 
   componentDidMount() {
-    this.props.getEventsAction();
+    this.props.getEventsAction(this.props.courtsReducer.type);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -35,7 +35,7 @@ class EventList extends Component {
 
     if (court && !prevCreated && created) {
       this.props.fetchCourtById(this.props.courtsReducer.type, court.id);
-      this.props.getEventsAction(court.id);
+      this.props.getEventsAction(this.props.courtsReducer.type, court.id);
       this.props.resetEventCreationAction();
     }
   }
@@ -45,7 +45,12 @@ class EventList extends Component {
       <div>
         {events.map(event => {
           return (
-            <Event key={event.id} event={event} />
+            <Event
+              key={event.id}
+              event={event}
+              type={this.props.courtsReducer.type}
+              isAuthenticated={this.props.userReducer.isAuthenticated}
+            />
           )
         })}
       </div>

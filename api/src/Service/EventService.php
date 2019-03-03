@@ -2,9 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Court;
+use App\Entity\CourtInterface;
 use App\Entity\Event;
+use App\Entity\GymCourt;
 use App\Repository\EventRepository;
+use App\Repository\GymEventRepository;
 
 class EventService
 {
@@ -14,27 +16,43 @@ class EventService
     private $eventRepository;
 
     /**
-     * @param EventRepository $eventRepository
+     * @var GymEventRepository
      */
-    public function __construct(EventRepository $eventRepository)
+    private $gymEventRepository;
+
+    /**
+     * @param EventRepository $eventRepository
+     * @param GymEventRepository $gymEventRepository
+     */
+    public function __construct(EventRepository $eventRepository, GymEventRepository $gymEventRepository)
     {
         $this->eventRepository = $eventRepository;
+        $this->gymEventRepository = $gymEventRepository;
     }
 
     /**
+     * @param bool $isGym
      * @return Event[]
      */
-    public function getTodayEvents(): array
+    public function getTodayEvents(bool $isGym = false): array
     {
+        if ($isGym) {
+            return $this->gymEventRepository->getTodayEvents();
+        }
+
         return $this->eventRepository->getTodayEvents();
     }
 
     /**
-     * @param Court $court
+     * @param CourtInterface $court
      * @return Event[]
      */
-    public function getActiveCourtEvents(Court $court): array
+    public function getActiveCourtEvents(CourtInterface $court): array
     {
+        if ($court instanceof GymCourt) {
+            return $this->gymEventRepository->getActiveCourtEvents($court);
+        }
+
         return $this->eventRepository->getActiveCourtEvents($court);
     }
 }

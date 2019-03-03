@@ -15,6 +15,7 @@ import {
 export const fetchCourtsAction = (type) => {
   return function(dispatch) {
     dispatch({ type: LOADING_MAP_STARTED });
+    dispatch({ type: LOADING_EVENTS_STARTED });
 
     return fetchCourts(type)
       .then(response => {
@@ -28,6 +29,7 @@ export const fetchCourtsAction = (type) => {
       })
       .finally(() => {
         dispatch({ type: LOADING_MAP_ENDED });
+        dispatch({ type: LOADING_EVENTS_ENDED });
       });
   };
 };

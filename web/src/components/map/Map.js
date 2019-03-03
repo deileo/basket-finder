@@ -25,17 +25,18 @@ class Map extends Component {
   }
 
   handleMarkerClick = (courtId) => {
+    let type = this.props.courtsReducer.type;
     if (courtId === this.state.activeMarker) {
       courtId = null;
     }
 
     this.setState({activeMarker: courtId});
     if (courtId) {
-      this.props.fetchCourtById(this.props.courtsReducer.type, courtId);
-      this.props.getEventsAction(courtId);
+      this.props.fetchCourtById(type, courtId);
+      this.props.getEventsAction(type, courtId);
     } else {
       this.props.setCourtToNull();
-      this.props.getEventsAction();
+      this.props.getEventsAction(type);
     }
   };
 

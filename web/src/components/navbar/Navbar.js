@@ -45,6 +45,7 @@ class Navbar extends Component {
     this.props.setCourtToNull();
     this.props.changeCourtType(type);
     this.props.fetchCourtsAction(type);
+    this.props.getEventsAction(type);
     this.setState({ type });
   };
 
