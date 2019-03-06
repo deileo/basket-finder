@@ -49,11 +49,11 @@ class CourtMarker extends Component {
   };
 
   handleOpen = () => {
-    this.props.openModalAction();
+    this.props.openCreateEventModalAction();
   };
 
   handleClose = () => {
-    this.props.closeModalAction();
+    this.props.closeCreateEventModalAction();
     this.props.removeEventErrorsAction();
   };
 
@@ -67,7 +67,7 @@ class CourtMarker extends Component {
               this.renderGymCourtWindow(court, userReducer, classes)
             }
             <Modal
-              open={modalReducer.isOpen}
+              open={modalReducer.isCreateEventOpen}
               onClose={this.handleClose}
             >
               <div style={getModalStyle()} className={classes.paper}>

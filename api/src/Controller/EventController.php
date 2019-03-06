@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Court;
 use App\Entity\Event;
+use App\Entity\EventParticipant;
+use App\Form\Event\EventParticipantType;
 use App\Form\Event\EventType;
 use App\Service\EventService;
 use App\Service\JsonSerializeService;
@@ -75,5 +77,27 @@ class EventController extends BaseController
     public function getCourtEvents(Court $court): Response
     {
         return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court)));
+    }
+
+    /**
+     * @Route("/{id}/join", name="api:event:join")
+     * @param Request $request
+     * @param Event $event
+     * @return Response
+     */
+    public function joinEvent(Request $request, Event $event): Response
+    {
+        $participant = new EventParticipant($event);
+        $form = $this->createForm(EventParticipantType::class, $participant);
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            $this->persist($participant);
+            $this->flush();
+
+            return new JsonResponse('success', Response::HTTP_CREATED);
+        }
+
+        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
     }
 }

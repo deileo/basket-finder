@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +43,18 @@ class Event extends BaseEvent
      * @ORM\JoinColumn(name="court_id", referencedColumnName="id")
      */
     private $court;
+
+    /**
+     * @var Collection|EventParticipant[]
+     *
+     * @ORM\OneToMany(targetEntity="EventParticipant", mappedBy="event")
+     */
+    private $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -104,5 +118,34 @@ class Event extends BaseEvent
     public function setCourt(?Court $court): void
     {
         $this->court = $court;
+    }
+
+    /**
+     * @return EventParticipant[]|Collection
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    /**
+     * @param EventParticipant $participant
+     */
+    public function addParticipant(EventParticipant $participant): void
+    {
+        if (!$this->getParticipants()->contains($participant)) {
+            $this->getParticipants()->add($participant);
+            $participant->setEvent($this);
+        }
+    }
+
+    /**
+     * @param EventParticipant $participant
+     */
+    public function removeParticipant(EventParticipant $participant)
+    {
+        if ($this->getParticipants()->contains($participant)) {
+            $this->getParticipants()->removeElement($participant);
+        }
     }
 }

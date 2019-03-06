@@ -1,13 +1,31 @@
-import { MODAL_OPENED, MODAL_CLOSED } from './types';
+import {
+  CREATE_EVENT_MODAL_OPENED,
+  CREATE_EVENT_MODAL_CLOSED,
+  JOIN_EVENT_MODAL_OPENED,
+  JOIN_EVENT_MODAL_CLOSED
+} from './types';
 
-export const closeModalAction = () => {
+export const closeCreateEventModalAction = () => {
   return {
-    type: MODAL_CLOSED
+    type: CREATE_EVENT_MODAL_CLOSED
   };
 };
 
-export const openModalAction = () => {
+export const openCreateEventModalAction = () => {
   return {
-    type: MODAL_OPENED
+    type: CREATE_EVENT_MODAL_OPENED
+  };
+};
+
+
+export const closeJoinEventModalAction = () => {
+  return {
+    type: JOIN_EVENT_MODAL_CLOSED
+  };
+};
+
+export const openJoinEventModalAction = () => {
+  return {
+    type: JOIN_EVENT_MODAL_OPENED
   };
 };

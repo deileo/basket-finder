@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import InfoModal from "./InfoModal";
 import Modal from "@material-ui/core/Modal/Modal";
 import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
+import JoinEventForm from "../form/JoinEventForm";
 
 const styles = theme => ({
   eventContent: {
@@ -33,6 +34,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4,
+    width: theme.spacing.unit * 75,
   },
 });
 
@@ -50,15 +52,23 @@ function getModalStyle() {
 class Event extends Component {
 
   state = {
-    open: false,
+    infoModalOpen: false,
   };
 
-  handleClickOpen = () => {
-    this.setState({open: true});
+  handleOpenInfoModalClick = () => {
+    this.setState({infoModalOpen: true});
   };
 
-  handleClose = () => {
-    this.setState({open: false});
+  handleCloseInfoModalClick = () => {
+    this.setState({infoModalOpen: false});
+  };
+
+  handleOpenJoinModalClick = () => {
+    this.props.openJoinEventModal();
+  };
+
+  handleCloseJoinModalClick = () => {
+    this.props.closeJoinEventModal();
   };
 
   getEventTime = event => {
@@ -77,7 +87,8 @@ class Event extends Component {
   };
 
   render() {
-    const {isAuthenticated, type, event, classes} = this.props;
+    const {isAuthenticated, type, event, classes, modalReducer} = this.props;
+
     return (
         <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
@@ -106,26 +117,37 @@ class Event extends Component {
             }
             <CardActions>
               {this.allowJoin(type, isAuthenticated) ?
-                <Button size="small" variant="contained" color="primary">
+                <Button size="small" variant="contained" color="primary" onClick={this.handleOpenJoinModalClick}>
                   Prisijungti
                 </Button> : ''
               }
-              <Button size="small" variant="outlined" color="primary" onClick={this.handleClickOpen}>
+              <Button size="small" variant="outlined" color="primary" onClick={this.handleOpenInfoModalClick}>
                 Informacija
               </Button>
 
               <Modal
-                open={this.state.open}
+                open={this.state.infoModalOpen}
                 onClose={this.handleClose}
               >
                 <div style={getModalStyle()} className={classes.paper}>
                   <InfoModal
                       event={event}
-                      onClose={this.handleClose}
-                      open={this.state.open}
+                      onClose={this.handleCloseInfoModalClick}
+                      open={this.state.infoModalOpen}
                       type={type}
                     />
                   </div>
+              </Modal>
+              <Modal
+                open={modalReducer.isJoinEventOpen}
+                onClose={this.handleCloseJoinModalClick}
+              >
+                <div style={getModalStyle()} className={classes.paper}>
+                  <JoinEventForm
+                    event={event}
+                    handleClose={this.handleCloseJoinModalClick}
+                  />
+                </div>
               </Modal>
             </CardActions>
           </CardContent>

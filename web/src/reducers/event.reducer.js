@@ -1,4 +1,12 @@
-import { CREATE_EVENT, CREATE_EVENT_ERROR, JOIN_EVENT, GET_EVENTS, RESET_EVENT_CREATION, REMOVE_EVENT_ERRORS } from '../actions/types';
+import {
+  CREATE_EVENT,
+  CREATE_EVENT_ERROR,
+  JOIN_EVENT,
+  GET_EVENTS,
+  RESET_EVENT_CREATION,
+  REMOVE_EVENT_ERRORS,
+  JOIN_EVENT_ERROR
+} from '../actions/types';
 
 export default function(state = null, action) {
   switch (action.type) {
@@ -9,7 +17,10 @@ export default function(state = null, action) {
       return {...state, errors: action.payload, created: false};
     }
     case JOIN_EVENT: {
-      return { ...state, joined: action.payload };
+      return { ...state, joined: true };
+    }
+    case JOIN_EVENT_ERROR: {
+      return { ...state, errors: action.payload, joined: false };
     }
     case GET_EVENTS: {
       return { ...state, events: action.payload };

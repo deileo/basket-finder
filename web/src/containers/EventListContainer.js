@@ -8,6 +8,7 @@ const mapStateToProps = state => {
     courtsReducer: state.courtsReducer,
     loaderReducer: state.loaderReducer,
     userReducer: state.userReducer,
+    modalReducer: state.modalReducer,
   };
 };
 
