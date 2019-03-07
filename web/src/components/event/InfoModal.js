@@ -22,9 +22,6 @@ class InfoModal extends Component {
         <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
           El. pastas: {event.creatorEmail ? event.creatorEmail : '-'}
         </Typography>
-        <Typography variant="h6" style={{color: 'rgba(0, 0, 0, 0.54)'}}>
-          Tel. nr: {event.creatorPhoneNumber ? event.creatorPhoneNumber : '-'}
-        </Typography>
         <DialogContentText style={{color: 'rgba(0, 0, 0, 0.54)'}}>
           {event.comment ? event.comment : ''}
         </DialogContentText>
@@ -42,9 +39,6 @@ class InfoModal extends Component {
         </Typography>
         <Typography variant="h6"  style={{color: 'rgba(0, 0, 0, 0.54)'}}>
           El. pastas: {createdBy.email}
-        </Typography>
-        <Typography variant="h6" style={{color: 'rgba(0, 0, 0, 0.54)'}}>
-          Tel. nr: {event.creatorPhoneNumber ? event.creatorPhoneNumber : '-'}
         </Typography>
         <DialogContentText style={{color: 'rgba(0, 0, 0, 0.54)'}}>
           {event.comment ? event.comment : ''}

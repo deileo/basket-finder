@@ -63,7 +63,7 @@ class CourtMarker extends Component {
         <InfoWindow>
           <div className={classes.container}>
             {courtReducer.type === TYPE_COURT ?
-              this.renderCourtWindow(court, classes) :
+              this.renderCourtWindow(court, userReducer, classes) :
               this.renderGymCourtWindow(court, userReducer, classes)
             }
             <Modal
@@ -83,7 +83,7 @@ class CourtMarker extends Component {
     }
   };
 
-  renderCourtWindow(court, classes) {
+  renderCourtWindow(court, userReducer, classes) {
     return (
       <div>
         <CardContent className={classes.content}>
@@ -99,9 +99,11 @@ class CourtMarker extends Component {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
-            Skelbti varzybas
-          </Button>
+          {userReducer.isAuthenticated ?
+            <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
+              Skelbti varzybas
+            </Button> : ''
+          }
         </CardActions>
       </div>
     )

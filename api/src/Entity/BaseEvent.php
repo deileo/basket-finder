@@ -19,13 +19,6 @@ abstract class BaseEvent
     /**
      * @var string
      *
-     * @ORM\Column(nullable=true)
-     */
-    protected $creatorPhoneNumber;
-
-    /**
-     * @var string
-     *
      * @ORM\Column()
      * @Assert\NotBlank
      */
@@ -46,14 +39,6 @@ abstract class BaseEvent
      * @Assert\NotBlank
      */
     protected $startTime;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="time")
-     * @Assert\NotBlank
-     */
-    protected $endTime;
 
     /**
      * @var int
@@ -77,22 +62,6 @@ abstract class BaseEvent
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreatorPhoneNumber(): ?string
-    {
-        return $this->creatorPhoneNumber;
-    }
-
-    /**
-     * @param string $creatorPhoneNumber
-     */
-    public function setCreatorPhoneNumber(?string $creatorPhoneNumber): void
-    {
-        $this->creatorPhoneNumber = $creatorPhoneNumber;
     }
 
     /**
@@ -141,22 +110,6 @@ abstract class BaseEvent
     public function setStartTime($startTime): void
     {
         $this->startTime = $startTime;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getEndTime()
-    {
-        return $this->endTime;
-    }
-
-    /**
-     * @param \DateTime $endTime
-     */
-    public function setEndTime($endTime): void
-    {
-        $this->endTime = $endTime;
     }
 
     /**

@@ -7,17 +7,14 @@ import {
   LOADING_EVENTS_STARTED,
   LOADING_EVENTS_ENDED,
   RESET_EVENT_CREATION,
-  TYPE_GYM_COURT,
   REMOVE_EVENT_ERRORS,
-  JOIN_EVENT_ERROR,
-  JOIN_EVENT_MODAL_CLOSED,
   CREATE_EVENT_MODAL_CLOSED
 } from './types';
 import {createEvent, joinEvent, getEvents} from '../services/eventService';
 
-export const createEventAction = createEventData => {
+export const createEventAction = (createEventData, type, token) => {
   return function(dispatch) {
-    return createEvent(createEventData)
+    return createEvent(createEventData, type, token)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: CREATE_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
@@ -35,44 +32,24 @@ export const createEventAction = createEventData => {
   };
 };
 
-export const createGymEventAction = (createEventData, token) => {
+export const joinEventAction = (token, eventId, type) => {
   return function(dispatch) {
-    return createEvent(createEventData, TYPE_GYM_COURT, token)
+    dispatch({ type: LOADING_EVENTS_STARTED });
+
+    return joinEvent(token, eventId, type)
       .then(response => {
         if (response.status === 201) {
-          dispatch({type: CREATE_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event created!', variant: 'success'}});
-
-          return dispatch({type: CREATE_EVENT, payload: response.data});
-        }
-        if (response.status === 200) {
-          return dispatch({ type: CREATE_EVENT_ERROR, payload: response.data });
-        }
-      })
-      .catch(error => {
-        return showConsoleError(error);
-      });
-  };
-};
-
-export const joinEventAction = (joinEventData, eventId) => {
-  return function(dispatch) {
-    return joinEvent(joinEventData, eventId)
-      .then(response => {
-        if (response.status === 201) {
-          dispatch({type: JOIN_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
           dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event joined!', variant: 'success'}});
 
           return dispatch({type: JOIN_EVENT, payload: response.data});
         }
-
-        if (response.status === 200) {
-          return dispatch({ type: JOIN_EVENT_ERROR, payload: response.data, joined: false });
-        }
       })
       .catch(error => {
         return showConsoleError(error);
-      });
+      })
+      .finally(() => {
+        dispatch({ type: LOADING_EVENTS_ENDED });
+      })
   };
 };
 

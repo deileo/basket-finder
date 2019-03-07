@@ -17,7 +17,6 @@ import Input from "@material-ui/core/Input";
 class CreateGymEventForm extends Component {
 
   state = {
-    creatorPhoneNumber: '',
     price: 0,
     name: '',
     comment: '',
@@ -30,10 +29,6 @@ class CreateGymEventForm extends Component {
 
   handleNeededPlayersChange = (event, neededPlayers) => {
     this.setState({neededPlayers});
-  };
-
-  handlePhoneNumberChange = (event) => {
-    this.setState({creatorPhoneNumber: event.target.value});
   };
 
   handleCommentChange = (event) => {
@@ -79,12 +74,12 @@ class CreateGymEventForm extends Component {
   }
 
   handleSubmit = () => {
-    this.props.createGymEventAction(this.state, this.props.userReducer.auth.googleAccessToken);
+    this.props.createEventAction(this.state, this.props.courtsReducer.type, this.props.userReducer.auth.googleAccessToken);
   };
 
   render() {
     const {classes, court, handleClose} = this.props;
-    const {neededPlayers, date, startTime, endTime, creatorPhoneNumber, name, comment, price} = this.state;
+    const {neededPlayers, date, startTime, endTime, name, comment, price} = this.state;
 
     return (
       <div>
@@ -141,17 +136,6 @@ class CreateGymEventForm extends Component {
                         onChange={this.handleEndTimeChange}
             />
             {this.getErrorMessage('endTime')}
-          </FormControl>
-
-          <FormControl margin="normal" fullWidth>
-            <TextField
-              id="phone-number"
-              label="Telefono nr."
-              value={creatorPhoneNumber}
-              error={this.hasError('creatorPhoneNumber')}
-              onChange={this.handlePhoneNumberChange}
-            />
-            {this.getErrorMessage('creatorPhoneNumber')}
           </FormControl>
 
           <FormControl margin="normal" required fullWidth>

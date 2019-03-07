@@ -22,7 +22,6 @@ class GymEventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('creatorPhoneNumber', TextType::class)
             ->add('name', TextType::class)
             ->add('date', DateType::class, [
                 'widget' => 'single_text',

@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Court;
 use App\Entity\Event;
-use App\Entity\EventParticipant;
-use App\Form\Event\EventParticipantType;
+use App\Entity\Participant;
 use App\Form\Event\EventType;
 use App\Service\EventService;
 use App\Service\JsonSerializeService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,12 +41,13 @@ class EventController extends BaseController
 
     /**
      * @Route("/new", name="api:event:new")
+     * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @return Response
      */
     public function newEvent(Request $request): Response
     {
-        $event = new Event();
+        $event = new Event($this->getUser());
         $form = $this->createForm(EventType::class, $event);
         $form->submit($request->request->all());
 
@@ -81,23 +82,19 @@ class EventController extends BaseController
 
     /**
      * @Route("/{id}/join", name="api:event:join")
-     * @param Request $request
+     * @Security("is_granted('API_ACCESS')")
      * @param Event $event
      * @return Response
      */
-    public function joinEvent(Request $request, Event $event): Response
+    public function joinEvent(Event $event): Response
     {
-        $participant = new EventParticipant($event);
-        $form = $this->createForm(EventParticipantType::class, $participant);
-        $form->submit($request->request->all());
-
-        if ($form->isValid()) {
-            $this->persist($participant);
-            $this->flush();
-
-            return new JsonResponse('success', Response::HTTP_CREATED);
+        if (!$this->getUser()) {
+            return new JsonResponse();
         }
 
-        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
+        $event->addParticipant($this->getUser());
+        $this->flush();
+
+        return new JsonResponse('success', Response::HTTP_CREATED);
     }
 }

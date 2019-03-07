@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -13,28 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Event extends BaseEvent
 {
     /**
-     * @var string
+     * @var UserInterface
      *
-     * @ORM\Column()
-     * @Assert\NotBlank
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
      */
-    private $creatorFirstName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column()
-     * @Assert\NotBlank
-     */
-    private $creatorLastName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(nullable=true)
-     * @Assert\Email
-     */
-    private $creatorEmail;
+    private $createdBy;
 
     /**
      * @var Court
@@ -45,63 +28,20 @@ class Event extends BaseEvent
     private $court;
 
     /**
-     * @var Collection|EventParticipant[]
+     * @var Collection|User[]
      *
-     * @ORM\OneToMany(targetEntity="EventParticipant", mappedBy="event")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="joinedEvents")
+     * @ORM\JoinTable(name="event_participants")
      */
     private $participants;
 
-    public function __construct()
+    /**
+     * @param User $user
+     */
+    public function __construct(?User $user)
     {
+        $this->createdBy = $user;
         $this->participants = new ArrayCollection();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreatorFirstName(): ?string
-    {
-        return $this->creatorFirstName;
-    }
-
-    /**
-     * @param string $creatorFirstName
-     */
-    public function setCreatorFirstName(?string $creatorFirstName): void
-    {
-        $this->creatorFirstName = $creatorFirstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreatorLastName(): ?string
-    {
-        return $this->creatorLastName;
-    }
-
-    /**
-     * @param string $creatorLastName
-     */
-    public function setCreatorLastName(?string $creatorLastName): void
-    {
-        $this->creatorLastName = $creatorLastName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreatorEmail(): ?string
-    {
-        return $this->creatorEmail;
-    }
-
-    /**
-     * @param string $creatorEmail
-     */
-    public function setCreatorEmail(?string $creatorEmail): void
-    {
-        $this->creatorEmail = $creatorEmail;
     }
 
     /**
@@ -121,7 +61,23 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return EventParticipant[]|Collection
+     * @return UserInterface|null
+     */
+    public function getCreatedBy(): ?UserInterface
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param UserInterface|null $createdBy
+     */
+    public function setCreatedBy(?UserInterface $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return User[]|Collection
      */
     public function getParticipants(): Collection
     {
@@ -129,20 +85,19 @@ class Event extends BaseEvent
     }
 
     /**
-     * @param EventParticipant $participant
+     * @param User $participant
      */
-    public function addParticipant(EventParticipant $participant): void
+    public function addParticipant(User $participant): void
     {
         if (!$this->getParticipants()->contains($participant)) {
             $this->getParticipants()->add($participant);
-            $participant->setEvent($this);
         }
     }
 
     /**
-     * @param EventParticipant $participant
+     * @param User $participant
      */
-    public function removeParticipant(EventParticipant $participant)
+    public function removeParticipant(User $participant)
     {
         if ($this->getParticipants()->contains($participant)) {
             $this->getParticipants()->removeElement($participant);

@@ -49,10 +49,9 @@ class EventList extends Component {
               key={event.id}
               event={event}
               type={this.props.courtsReducer.type}
-              isAuthenticated={this.props.userReducer.isAuthenticated}
+              userReducer={this.props.userReducer}
               modalReducer={this.props.modalReducer}
-              closeJoinEventModal={this.props.closeJoinEventModalAction}
-              openJoinEventModal={this.props.openJoinEventModalAction}
+              joinEventAction={this.props.joinEventAction}
             />
           )
         })}

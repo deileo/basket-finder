@@ -9,22 +9,21 @@ const config = {
   }
 };
 
-export function createEvent(eventData, type = TYPE_COURT, token = null) {
-  if (type === TYPE_GYM_COURT) {
-    config.headers['X-AUTH-TOKEN'] = token;
-  }
+export function createEvent(eventData, type = TYPE_COURT, token) {
+  config.headers['X-AUTH-TOKEN'] = token;
 
   let url = type === TYPE_COURT ?
     API_URL + '/events/new' :
     API_URL + '/events/gym/new';
 
-    return axios.post(url, eventData, config);
+  return axios.post(url, eventData, config);
 }
 
-export function joinEvent(joinData, eventId) {
+export function joinEvent(token, eventId, type) {
+  config.headers['X-AUTH-TOKEN'] = token;
+
   return axios.post(
-    API_URL + '/events/' + eventId + '/join',
-    joinData,
+    API_URL + '/events/' + eventId + '/join', {},
     config
   );
 }

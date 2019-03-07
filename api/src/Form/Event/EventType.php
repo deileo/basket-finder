@@ -21,16 +21,11 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('creatorFirstName', TextType::class)
-            ->add('creatorLastName', TextType::class)
-            ->add('creatorEmail', TextType::class)
-            ->add('creatorPhoneNumber', TextType::class)
             ->add('name', TextType::class)
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
             ])
             ->add('startTime', TextType::class)
-            ->add('endTime', TextType::class)
             ->add('neededPlayers', IntegerType::class)
             ->add('comment', TextType::class)
             ->add('court', EntityType::class, [
@@ -47,7 +42,6 @@ class EventType extends AbstractType
         );
 
         $builder->get('startTime')->addModelTransformer($dateTimeTransformer);
-        $builder->get('endTime')->addModelTransformer($dateTimeTransformer);
     }
 
     /**

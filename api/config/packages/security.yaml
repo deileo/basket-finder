@@ -15,7 +15,7 @@ security:
       guard:
         authenticators:
           - App\Security\GoogleAuthenticator
-#          - App\Security\TokenAuthenticator
-#        entry_point: App\Security\GoogleAuthenticator
+          - App\Security\TokenAuthenticator
+        entry_point: App\Security\GoogleAuthenticator
 
   access_control:

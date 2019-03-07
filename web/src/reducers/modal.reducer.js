@@ -1,8 +1,6 @@
 import {
   CREATE_EVENT_MODAL_OPENED,
   CREATE_EVENT_MODAL_CLOSED,
-  JOIN_EVENT_MODAL_OPENED,
-  JOIN_EVENT_MODAL_CLOSED
 } from '../actions/types';
 
 const modalState = {
@@ -17,12 +15,6 @@ export default function(state = modalState, action) {
     }
     case CREATE_EVENT_MODAL_CLOSED: {
       return { ...state, isCreateEventOpen: false };
-    }
-    case JOIN_EVENT_MODAL_OPENED: {
-      return { ...state, isJoinEventOpen: true };
-    }
-    case JOIN_EVENT_MODAL_CLOSED: {
-      return { ...state, isJoinEventOpen: false };
     }
     default:
       return state;

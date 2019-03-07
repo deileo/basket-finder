@@ -46,7 +46,7 @@ class GymEventController extends BaseController
      */
     public function newEvent(Request $request): Response
     {
-        $gymEvent = new GymEvent();
+        $gymEvent = new GymEvent($this->getUser());
         $form = $this->createForm(GymEventType::class, $gymEvent);
         $form->submit($request->request->all());
 

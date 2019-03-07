@@ -30,8 +30,6 @@ export const FLASH_MESSAGE = 'flash_message';
 //Modal
 export const CREATE_EVENT_MODAL_OPENED = 'create_event_modal_opened';
 export const CREATE_EVENT_MODAL_CLOSED = 'create_event_modal_closed';
-export const JOIN_EVENT_MODAL_OPENED = 'join_event_modal_opened';
-export const JOIN_EVENT_MODAL_CLOSED = 'join_event_modal_closed';
 
 //user
 export const GET_USER = 'get_user';

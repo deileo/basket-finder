@@ -69,11 +69,35 @@ class User implements UserInterface
      *
      * @ORM\OneToMany(targetEntity="GymEvent", mappedBy="createdBy")
      */
+    private $createdGymEvents;
+
+    /**
+     * @var GymEvent[]|Collection
+     *
+     * @ORM\ManyToMany(targetEntity="GymEvent", mappedBy="participants")
+     */
+    private $joinedGymEvents;
+
+    /**
+     * @var Event[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="createdBy")
+     */
     private $createdEvents;
+
+    /**
+     * @var Event[]|Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Event", mappedBy="participants")
+     */
+    private $joinedEvents;
 
     public function __construct()
     {
         $this->createdEvents = new ArrayCollection();
+        $this->createdGymEvents = new ArrayCollection();
+        $this->joinedEvents = new ArrayCollection();
+        $this->joinedGymEvents = new ArrayCollection();
     }
 
     /**
@@ -183,7 +207,7 @@ class User implements UserInterface
     /**
      * @return GymEvent[]|ArrayCollection
      */
-    public function getCreatedEvents(): Collection
+    public function getCreatedGymEvents(): Collection
     {
         return $this->createdEvents;
     }
@@ -191,10 +215,10 @@ class User implements UserInterface
     /**
      * @param GymEvent $gymEvent
      */
-    public function addCreatedEvent(GymEvent $gymEvent): void
+    public function addCreatedGymEvent(GymEvent $gymEvent): void
     {
-        if (!$this->getCreatedEvents()->contains($gymEvent)) {
-            $this->createdEvents->add($gymEvent);
+        if (!$this->getCreatedGymEvents()->contains($gymEvent)) {
+            $this->getCreatedGymEvents()->add($gymEvent);
             $gymEvent->setCreatedBy($this);
         }
     }
@@ -202,10 +226,39 @@ class User implements UserInterface
     /**
      * @param GymEvent $gymEvent
      */
-    public function removeCreatedEvent(GymEvent $gymEvent): void
+    public function removeCreatedGymEvent(GymEvent $gymEvent): void
     {
-        if ($this->getCreatedEvents()->contains($gymEvent)) {
-            $this->createdEvents->removeElement($gymEvent);
+        if ($this->getCreatedGymEvents()->contains($gymEvent)) {
+            $this->getCreatedGymEvents()->removeElement($gymEvent);
+        }
+    }
+
+    /**
+     * @return Event[]|ArrayCollection
+     */
+    public function getCreatedEvents(): Collection
+    {
+        return $this->createdEvents;
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function addCreatedEvent(Event $event): void
+    {
+        if (!$this->getCreatedEvents()->contains($event)) {
+            $this->getCreatedEvents()->add($event);
+            $event->setCreatedBy($this);
+        }
+    }
+
+    /**
+     * @param Event $event
+     */
+    public function removeCreatedEvent(Event $event): void
+    {
+        if ($this->getCreatedEvents()->contains($event)) {
+            $this->getCreatedEvents()->removeElement($event);
         }
     }
 

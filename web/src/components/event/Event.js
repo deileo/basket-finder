@@ -9,7 +9,6 @@ import { withStyles } from '@material-ui/core/styles';
 import InfoModal from "./InfoModal";
 import Modal from "@material-ui/core/Modal/Modal";
 import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
-import JoinEventForm from "../form/JoinEventForm";
 
 const styles = theme => ({
   eventContent: {
@@ -63,31 +62,24 @@ class Event extends Component {
     this.setState({infoModalOpen: false});
   };
 
-  handleOpenJoinModalClick = () => {
-    this.props.openJoinEventModal();
+  handleJoin = () => {
+    const {userReducer, event, type} = this.props;
+    this.props.joinEventAction(userReducer.auth.googleAccessToken, event.id, type)
   };
 
-  handleCloseJoinModalClick = () => {
-    this.props.closeJoinEventModal();
-  };
-
-  getEventTime = event => {
+  getEventTime = (event, type) => {
     let startTime = moment.unix(event.startTime.timestamp);
-    let endTime = moment.unix(event.endTime.timestamp);
+    let eventTime = moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm');
 
-    return moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm') + ' - ' + endTime.format('H:mm');
-  };
-
-  allowJoin = (type, isAuthenticated) => {
-    if (type === TYPE_COURT) {
-      return true;
+    if (type === TYPE_GYM_COURT) {
+      eventTime += ' - ' + moment.unix(event.endTime.timestamp).format('H:mm');
     }
 
-    return type === TYPE_GYM_COURT && isAuthenticated
+    return eventTime;
   };
 
   render() {
-    const {isAuthenticated, type, event, classes, modalReducer} = this.props;
+    const {userReducer, type, event, classes} = this.props;
 
     return (
         <Card className={classes.card}>
@@ -97,7 +89,7 @@ class Event extends Component {
             </Typography>
             <hr/>
             <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
-              Laikas: {this.getEventTime(event)}
+              Laikas: {this.getEventTime(event, type)}
             </Typography>
             <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
               Adresas: {event.court ? event.court.address : event.gymCourt.address}
@@ -116,8 +108,8 @@ class Event extends Component {
               </Typography> : ''
             }
             <CardActions>
-              {this.allowJoin(type, isAuthenticated) ?
-                <Button size="small" variant="contained" color="primary" onClick={this.handleOpenJoinModalClick}>
+              {userReducer.isAuthenticated ?
+                <Button size="small" variant="contained" color="primary" onClick={this.handleJoin}>
                   Prisijungti
                 </Button> : ''
               }
@@ -137,17 +129,6 @@ class Event extends Component {
                       type={type}
                     />
                   </div>
-              </Modal>
-              <Modal
-                open={modalReducer.isJoinEventOpen}
-                onClose={this.handleCloseJoinModalClick}
-              >
-                <div style={getModalStyle()} className={classes.paper}>
-                  <JoinEventForm
-                    event={event}
-                    handleClose={this.handleCloseJoinModalClick}
-                  />
-                </div>
               </Modal>
             </CardActions>
           </CardContent>

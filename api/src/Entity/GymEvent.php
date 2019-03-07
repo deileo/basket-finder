@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -17,6 +20,14 @@ class GymEvent extends BaseEvent
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="time")
+     * @Assert\NotBlank
+     */
+    protected $endTime;
 
     /**
      * @var UserInterface
@@ -34,6 +45,20 @@ class GymEvent extends BaseEvent
     private $gymCourt;
 
     /**
+     * @var Collection|User[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="joinedGymEvents")
+     * @ORM\JoinTable(name="gym_event_participants")
+     */
+    private $participants;
+
+    public function __construct(?UserInterface $user)
+    {
+        $this->createdBy = $user;
+        $this->participants = new ArrayCollection();
+    }
+
+    /**
      * @return float|null
      */
     public function getPrice(): ?float
@@ -47,6 +72,22 @@ class GymEvent extends BaseEvent
     public function setPrice(?float $price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEndTime()
+    {
+        return $this->endTime;
+    }
+
+    /**
+     * @param \DateTime $endTime
+     */
+    public function setEndTime($endTime): void
+    {
+        $this->endTime = $endTime;
     }
 
     /**
@@ -79,5 +120,33 @@ class GymEvent extends BaseEvent
     public function setGymCourt(?GymCourt $gymCourt): void
     {
         $this->gymCourt = $gymCourt;
+    }
+
+    /**
+     * @return User[]|Collection
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    /**
+     * @param User $participant
+     */
+    public function addParticipant(User $participant): void
+    {
+        if (!$this->getParticipants()->contains($participant)) {
+            $this->getParticipants()->add($participant);
+        }
+    }
+
+    /**
+     * @param User $participant
+     */
+    public function removeParticipant(User $participant)
+    {
+        if ($this->getParticipants()->contains($participant)) {
+            $this->getParticipants()->removeElement($participant);
+        }
     }
 }
