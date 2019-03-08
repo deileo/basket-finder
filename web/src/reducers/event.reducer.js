@@ -5,7 +5,7 @@ import {
   GET_EVENTS,
   RESET_EVENT_CREATION,
   REMOVE_EVENT_ERRORS,
-  JOIN_EVENT_ERROR
+  LEAVE_EVENT
 } from '../actions/types';
 
 export default function(state = null, action) {
@@ -19,8 +19,8 @@ export default function(state = null, action) {
     case JOIN_EVENT: {
       return { ...state, joined: true };
     }
-    case JOIN_EVENT_ERROR: {
-      return { ...state, errors: action.payload, joined: false };
+    case LEAVE_EVENT: {
+      return { ...state, joined: false };
     }
     case GET_EVENTS: {
       return { ...state, events: action.payload };

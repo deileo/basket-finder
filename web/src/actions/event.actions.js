@@ -8,9 +8,9 @@ import {
   LOADING_EVENTS_ENDED,
   RESET_EVENT_CREATION,
   REMOVE_EVENT_ERRORS,
-  CREATE_EVENT_MODAL_CLOSED
+  CREATE_EVENT_MODAL_CLOSED, LEAVE_EVENT
 } from './types';
-import {createEvent, joinEvent, getEvents} from '../services/eventService';
+import {createEvent, joinEvent, getEvents, leaveEvent} from '../services/eventService';
 
 export const createEventAction = (createEventData, type, token) => {
   return function(dispatch) {
@@ -43,6 +43,25 @@ export const joinEventAction = (token, eventId, type) => {
 
           return dispatch({type: JOIN_EVENT, payload: response.data});
         }
+      })
+      .catch(error => {
+        return showConsoleError(error);
+      })
+      .finally(() => {
+        dispatch({ type: LOADING_EVENTS_ENDED });
+      })
+  };
+};
+
+export const leaveEventAction = (token, eventId, type) => {
+  return function(dispatch) {
+    dispatch({ type: LOADING_EVENTS_STARTED });
+
+    return leaveEvent(token, eventId, type)
+      .then(response => {
+        dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Successfully Left!', variant: 'success'}});
+
+        return dispatch({type: LEAVE_EVENT, payload: response.data});
       })
       .catch(error => {
         return showConsoleError(error);

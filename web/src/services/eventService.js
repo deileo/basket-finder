@@ -9,6 +9,10 @@ const config = {
   }
 };
 
+const getGymTypeUrlPart = (type) => {
+  return type === TYPE_GYM_COURT ? 'gym/' : '';
+};
+
 export function createEvent(eventData, type = TYPE_COURT, token) {
   config.headers['X-AUTH-TOKEN'] = token;
 
@@ -23,16 +27,24 @@ export function joinEvent(token, eventId, type) {
   config.headers['X-AUTH-TOKEN'] = token;
 
   return axios.post(
-    API_URL + '/events/' + eventId + '/join', {},
+    API_URL + '/events/' + getGymTypeUrlPart(type) + eventId + '/join', {},
+    config
+  );
+}
+
+export function leaveEvent(token, eventId, type) {
+  config.headers['X-AUTH-TOKEN'] = token;
+
+  return axios.post(
+    API_URL + '/events/' + getGymTypeUrlPart(type) + eventId + '/leave', {},
     config
   );
 }
 
 export function getEvents(type, courtId = null) {
-  let gymType = type === TYPE_GYM_COURT ? 'gym/' : '';
   let url = courtId ?
-    API_URL + '/events/' + gymType + 'court/' + courtId :
-    API_URL + '/events/' + gymType + 'all';
+    API_URL + '/events/' + getGymTypeUrlPart(type) + 'court/' + courtId :
+    API_URL + '/events/' + getGymTypeUrlPart(type) + 'all';
 
   return axios.get(url, config);
 }

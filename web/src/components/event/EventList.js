@@ -52,6 +52,8 @@ class EventList extends Component {
               userReducer={this.props.userReducer}
               modalReducer={this.props.modalReducer}
               joinEventAction={this.props.joinEventAction}
+              leaveEventAction={this.props.leaveEventAction}
+              getEventsAction={this.props.getEventsAction}
             />
           )
         })}

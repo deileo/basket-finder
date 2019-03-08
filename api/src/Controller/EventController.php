@@ -97,4 +97,22 @@ class EventController extends BaseController
 
         return new JsonResponse('success', Response::HTTP_CREATED);
     }
+
+    /**
+     * @Route("/{id}/leave", name="api:event:leave")
+     * @Security("is_granted('API_ACCESS')")
+     * @param Event $event
+     * @return Response
+     */
+    public function leaveEvent(Event $event): Response
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse();
+        }
+
+        $event->removeParticipant($this->getUser());
+        $this->flush();
+
+        return new JsonResponse('success');
+    }
 }

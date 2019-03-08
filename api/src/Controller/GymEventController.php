@@ -78,4 +78,40 @@ class GymEventController extends BaseController
     {
         return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court)));
     }
+
+    /**
+     * @Route("/{id}/join", name="api:gym-event:join")
+     * @Security("is_granted('API_ACCESS')")
+     * @param GymEvent $event
+     * @return Response
+     */
+    public function joinEvent(GymEvent $event): Response
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse();
+        }
+
+        $event->addParticipant($this->getUser());
+        $this->flush();
+
+        return new JsonResponse('success', Response::HTTP_CREATED);
+    }
+
+    /**
+     * @Route("/{id}/leave", name="api:gym-event:leave")
+     * @Security("is_granted('API_ACCESS')")
+     * @param GymEvent $event
+     * @return Response
+     */
+    public function leaveEvent(GymEvent $event): Response
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse();
+        }
+
+        $event->removeParticipant($this->getUser());
+        $this->flush();
+
+        return new JsonResponse('success');
+    }
 }

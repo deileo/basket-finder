@@ -8,7 +8,10 @@ import Card from "@material-ui/core/Card/Card";
 import { withStyles } from '@material-ui/core/styles';
 import InfoModal from "./InfoModal";
 import Modal from "@material-ui/core/Modal/Modal";
-import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
+import {TYPE_GYM_COURT} from "../../actions/types";
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import {IconButton} from "@material-ui/core";
 
 const styles = theme => ({
   eventContent: {
@@ -64,18 +67,47 @@ class Event extends Component {
 
   handleJoin = () => {
     const {userReducer, event, type} = this.props;
-    this.props.joinEventAction(userReducer.auth.googleAccessToken, event.id, type)
+    this.props.joinEventAction(userReducer.auth.googleAccessToken, event.id, type);
+  };
+
+  handleLeave = () => {
+    const {userReducer, event, type} = this.props;
+    this.props.leaveEventAction(userReducer.auth.googleAccessToken, event.id, type);
   };
 
   getEventTime = (event, type) => {
     let startTime = moment.unix(event.startTime.timestamp);
     let eventTime = moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm');
 
-    if (type === TYPE_GYM_COURT) {
+    if (type === TYPE_GYM_COURT && event.endTime) {
       eventTime += ' - ' + moment.unix(event.endTime.timestamp).format('H:mm');
     }
 
     return eventTime;
+  };
+
+  renderEventJoinActions = (userReducer, event) => {
+    if (!userReducer.isAuthenticated) {
+      return null;
+    }
+
+    let isUserJoined = event.participants.map(function (participant) {
+      return participant.id === userReducer.auth.id;
+    });
+
+    if (isUserJoined.length > 0) {
+      return (
+        <Button size="small" variant="contained" color="secondary" onClick={this.handleLeave}>
+          Išeiti
+        </Button>
+      )
+    }
+
+    return (
+      <Button size="small" variant="contained" color="primary" onClick={this.handleJoin}>
+        Prisijungti
+      </Button>
+    );
   };
 
   render() {
@@ -86,6 +118,10 @@ class Event extends Component {
           <CardContent className={classes.cardContent}>
             <Typography variant="h5" component="h4">
               {event.name}
+              {/*<div style={{float: 'right'}}>*/}
+                <IconButton children={<DeleteIcon color="secondary"/>} />
+                <IconButton children={<EditIcon color="primary"/>} />
+              {/*</div>*/}
             </Typography>
             <hr/>
             <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
@@ -95,7 +131,7 @@ class Event extends Component {
               Adresas: {event.court ? event.court.address : event.gymCourt.address}
             </Typography>
             <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
-              Zaidejai: 0/{event.neededPlayers}
+              Zaidejai: {event.participants.length}/{event.neededPlayers}
             </Typography>
             {type === TYPE_GYM_COURT && event.price > 0 ?
               <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
@@ -108,11 +144,7 @@ class Event extends Component {
               </Typography> : ''
             }
             <CardActions>
-              {userReducer.isAuthenticated ?
-                <Button size="small" variant="contained" color="primary" onClick={this.handleJoin}>
-                  Prisijungti
-                </Button> : ''
-              }
+              {this.renderEventJoinActions(userReducer, event)}
               <Button size="small" variant="outlined" color="primary" onClick={this.handleOpenInfoModalClick}>
                 Informacija
               </Button>
