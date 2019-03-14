@@ -69,6 +69,9 @@ class Navbar extends Component {
               userReducer={this.props.userReducer}
               checkUserAction={this.props.checkUserAction}
               logoutUser={this.props.logoutUser}
+              toggleMyEventModalAction={this.props.toggleMyEventModalAction}
+              toggleMyJoinedEventModalAction={this.props.toggleMyJoinedEventModalAction}
+              modalReducer={this.props.modalReducer}
             />
           </Toolbar>
         </AppBar>

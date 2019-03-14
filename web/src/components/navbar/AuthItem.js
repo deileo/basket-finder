@@ -10,6 +10,8 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener/ClickAwayList
 import MenuList from "@material-ui/core/MenuList/MenuList";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {withStyles} from "@material-ui/core";
+import MyCreatedEvents from "../event/MyCreatedEvents";
+import MyJoinedEvents from "../event/MyJoinedEvents";
 
 class AuthItem extends Component {
   state = {
@@ -25,6 +27,16 @@ class AuthItem extends Component {
     this.setState({ anchorEl: null });
   };
 
+  handleMyEventsModal = () => {
+    this.setState({ anchorEl: null });
+    this.props.toggleMyEventModalAction(true);
+  };
+
+  handleMyJoinedEventsModal = () => {
+    this.setState({ anchorEl: null });
+    this.props.toggleMyJoinedEventModalAction(true);
+  };
+
   responseGoogle = (response) => {
     console.error(response);
   };
@@ -38,7 +50,7 @@ class AuthItem extends Component {
   };
 
   render() {
-    const {userReducer} = this.props;
+    const {userReducer, modalReducer} = this.props;
     if (!userReducer || !userReducer.isAuthenticated) {
       return (
         <div>
@@ -70,8 +82,8 @@ class AuthItem extends Component {
               <Paper>
                 <ClickAwayListener onClickAway={this.handleClose}>
                   <MenuList>
-                    <MenuItem onClick={this.handleClose}>Mano varzybos</MenuItem>
-                    <MenuItem onClick={this.handleClose}>Mano dalyvavimas</MenuItem>
+                    <MenuItem onClick={this.handleMyEventsModal}>Mano varzybos</MenuItem>
+                    <MenuItem onClick={this.handleMyJoinedEventsModal}>Mano dalyvavimas</MenuItem>
                     <MenuItem onClick={this.handleClose}>
                       <GoogleLogout
                         buttonText="Atsijungti"
@@ -85,6 +97,14 @@ class AuthItem extends Component {
             </Grow>
           )}
         </Popper>
+        <MyCreatedEvents
+            open={modalReducer.isMyEventOpen}
+            toggleMyEventModalAction={this.props.toggleMyEventModalAction}
+        />
+        <MyJoinedEvents
+            open={modalReducer.isMyJoinedEventOpen}
+            toggleMyJoinedEventModalAction={this.props.toggleMyJoinedEventModalAction}
+        />
       </div>
     )
   }
