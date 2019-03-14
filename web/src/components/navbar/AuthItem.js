@@ -50,7 +50,8 @@ class AuthItem extends Component {
   };
 
   render() {
-    const {userReducer, modalReducer} = this.props;
+    const {userReducer, modalReducer, eventReducer} = this.props;
+
     if (!userReducer || !userReducer.isAuthenticated) {
       return (
         <div>
@@ -99,7 +100,10 @@ class AuthItem extends Component {
         </Popper>
         <MyCreatedEvents
             open={modalReducer.isMyEventOpen}
+            eventReducer={eventReducer}
+            user={user}
             toggleMyEventModalAction={this.props.toggleMyEventModalAction}
+            getUserCreatedEventsAction={this.props.getUserCreatedEventsAction}
         />
         <MyJoinedEvents
             open={modalReducer.isMyJoinedEventOpen}

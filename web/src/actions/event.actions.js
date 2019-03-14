@@ -6,11 +6,12 @@ import {
   JOIN_EVENT,
   LOADING_EVENTS_STARTED,
   LOADING_EVENTS_ENDED,
+  GET_USER_CREATED_EVENTS,
   RESET_EVENT_CREATION,
   REMOVE_EVENT_ERRORS,
   CREATE_EVENT_MODAL_CLOSED, LEAVE_EVENT
 } from './types';
-import {createEvent, joinEvent, getEvents, leaveEvent} from '../services/eventService';
+import {createEvent, joinEvent, getEvents, leaveEvent, getUserCreatedEvents} from '../services/eventService';
 
 export const createEventAction = (createEventData, type, token) => {
   return function(dispatch) {
@@ -87,6 +88,18 @@ export const getEventsAction = (type, courtId = null) => {
         dispatch({ type: LOADING_EVENTS_ENDED });
       })
   };
+};
+
+export const getUserCreatedEventsAction = (type, token) => {
+  return function (dispatch) {
+    return getUserCreatedEvents(type, token)
+        .then(response => {
+          return dispatch({ type: GET_USER_CREATED_EVENTS, payload: response.data });
+        })
+        .catch(error => {
+          return showConsoleError(error);
+        })
+  }
 };
 
 export const resetEventCreationAction = () => {

@@ -23,6 +23,7 @@ export const LEAVE_EVENT = 'event_leave';
 export const GET_EVENTS = 'get_events';
 export const RESET_EVENT_CREATION = 'reset_event_creation';
 export const REMOVE_EVENT_ERRORS = 'remove_event_errors';
+export const GET_USER_CREATED_EVENTS = 'get_user_created_events';
 
 //Flash
 export const FLASH_MESSAGE = 'flash_message';

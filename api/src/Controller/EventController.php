@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Court;
 use App\Entity\Event;
-use App\Entity\Participant;
 use App\Form\Event\EventType;
 use App\Service\EventService;
 use App\Service\JsonSerializeService;
@@ -114,5 +113,18 @@ class EventController extends BaseController
         $this->flush();
 
         return new JsonResponse('success');
+    }
+
+    /**
+     * @Route("/user", name="api:event:user")
+     * @Security("is_granted('API_ACCESS')")
+     */
+    public function getUserEvents(): Response
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse();
+        }
+
+        return new Response($this->serializer->serialize($this->eventService->getUserEvents()));
     }
 }

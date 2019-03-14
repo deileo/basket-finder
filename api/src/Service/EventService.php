@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\GymCourt;
 use App\Repository\EventRepository;
 use App\Repository\GymEventRepository;
+use Symfony\Component\Security\Core\Security;
 
 class EventService
 {
@@ -21,13 +22,20 @@ class EventService
     private $gymEventRepository;
 
     /**
+     * @var Security
+     */
+    private $security;
+
+    /**
      * @param EventRepository $eventRepository
      * @param GymEventRepository $gymEventRepository
+     * @param Security $security
      */
-    public function __construct(EventRepository $eventRepository, GymEventRepository $gymEventRepository)
+    public function __construct(EventRepository $eventRepository, GymEventRepository $gymEventRepository, Security $security)
     {
         $this->eventRepository = $eventRepository;
         $this->gymEventRepository = $gymEventRepository;
+        $this->security = $security;
     }
 
     /**
@@ -54,5 +62,13 @@ class EventService
         }
 
         return $this->eventRepository->getActiveCourtEvents($court);
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function getUserEvents(): array
+    {
+        return $this->eventRepository->getUserEvents($this->security->getUser());
     }
 }

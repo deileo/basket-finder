@@ -5,7 +5,8 @@ import {
   GET_EVENTS,
   RESET_EVENT_CREATION,
   REMOVE_EVENT_ERRORS,
-  LEAVE_EVENT
+  LEAVE_EVENT,
+  GET_USER_CREATED_EVENTS
 } from '../actions/types';
 
 export default function(state = null, action) {
@@ -24,6 +25,9 @@ export default function(state = null, action) {
     }
     case GET_EVENTS: {
       return { ...state, events: action.payload };
+    }
+    case GET_USER_CREATED_EVENTS: {
+      return { ...state, userCreatedEvents: action.payload };
     }
     case RESET_EVENT_CREATION: {
       return { ...state, created: false };

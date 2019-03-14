@@ -9,6 +9,10 @@ import Dialog from "@material-ui/core/Dialog";
 
 class MyCreatedEvents extends Component {
 
+    componentDidMount() {
+        this.props.getUserCreatedEventsAction(null, this.props.user.googleAccessToken)
+    }
+
     handleClose = () => {
         this.props.toggleMyEventModalAction(false);
     };

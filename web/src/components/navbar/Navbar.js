@@ -67,11 +67,13 @@ class Navbar extends Component {
             </Tabs>
             <AuthItem
               userReducer={this.props.userReducer}
+              eventReducer={this.props.eventReducer}
               checkUserAction={this.props.checkUserAction}
               logoutUser={this.props.logoutUser}
               toggleMyEventModalAction={this.props.toggleMyEventModalAction}
               toggleMyJoinedEventModalAction={this.props.toggleMyJoinedEventModalAction}
               modalReducer={this.props.modalReducer}
+              getUserCreatedEventsAction={this.props.getUserCreatedEventsAction}
             />
           </Toolbar>
         </AppBar>
