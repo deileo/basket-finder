@@ -95,4 +95,34 @@ class EventRepository extends ServiceEntityRepository
                 ])
                 ->getQuery()->getResult();
     }
+
+    /**
+     * @param UserInterface $user
+     * @return Event[]
+     */
+    public function getUserJoinedEvents(UserInterface $user): array
+    {
+        $date = new \DateTime();
+        $qb = $this->createQueryBuilder('e')->leftJoin('e.participants', 'p');
+
+        return
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->gte('e.date', ':date'),
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('e.date', ':date'),
+                        $qb->expr()->gt('e.startTime', ':time')
+                    )
+                )
+            )
+                ->andWhere($qb->expr()->eq('p', ':user'))
+                ->addOrderBy('e.date')
+                ->addOrderBy('e.startTime')
+                ->setParameters([
+                    'user' => $user,
+                    'time' => $date->format('H:i:s'),
+                    'date' => $date->format('Y-m-d'),
+                ])
+                ->getQuery()->getResult();
+    }
 }

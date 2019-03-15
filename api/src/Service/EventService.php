@@ -71,4 +71,12 @@ class EventService
     {
         return $this->eventRepository->getUserEvents($this->security->getUser());
     }
+
+    /**
+     * @return Event[]
+     */
+    public function getUserJoinedEvents(): array
+    {
+        return $this->eventRepository->getUserJoinedEvents($this->security->getUser());
+    }
 }

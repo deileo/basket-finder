@@ -7,11 +7,12 @@ import {
   LOADING_EVENTS_STARTED,
   LOADING_EVENTS_ENDED,
   GET_USER_CREATED_EVENTS,
+  GET_USER_JOINED_EVENTS,
   RESET_EVENT_CREATION,
   REMOVE_EVENT_ERRORS,
   CREATE_EVENT_MODAL_CLOSED, LEAVE_EVENT
 } from './types';
-import {createEvent, joinEvent, getEvents, leaveEvent, getUserCreatedEvents} from '../services/eventService';
+import {createEvent, joinEvent, getEvents, leaveEvent, getUserCreatedEvents, getUserJoinedEvents} from '../services/eventService';
 
 export const createEventAction = (createEventData, type, token) => {
   return function(dispatch) {
@@ -90,11 +91,23 @@ export const getEventsAction = (type, courtId = null) => {
   };
 };
 
-export const getUserCreatedEventsAction = (type, token) => {
+export const getUserCreatedEventsAction = (token) => {
   return function (dispatch) {
-    return getUserCreatedEvents(type, token)
+    return getUserCreatedEvents(token)
         .then(response => {
           return dispatch({ type: GET_USER_CREATED_EVENTS, payload: response.data });
+        })
+        .catch(error => {
+          return showConsoleError(error);
+        })
+  }
+};
+
+export const getUserJoinedEventsAction = (token) => {
+  return function (dispatch) {
+    return getUserJoinedEvents(token)
+        .then(response => {
+          return dispatch({ type: GET_USER_JOINED_EVENTS, payload: response.data });
         })
         .catch(error => {
           return showConsoleError(error);

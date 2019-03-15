@@ -74,6 +74,7 @@ class Navbar extends Component {
               toggleMyJoinedEventModalAction={this.props.toggleMyJoinedEventModalAction}
               modalReducer={this.props.modalReducer}
               getUserCreatedEventsAction={this.props.getUserCreatedEventsAction}
+              getUserJoinedEventsAction={this.props.getUserJoinedEventsAction}
             />
           </Toolbar>
         </AppBar>

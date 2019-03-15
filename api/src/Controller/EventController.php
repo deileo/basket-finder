@@ -127,4 +127,16 @@ class EventController extends BaseController
 
         return new Response($this->serializer->serialize($this->eventService->getUserEvents()));
     }
+
+    /**
+     * @Route("/user/joined", name="api:event:user-joined")
+     * @Security("is_granted('API_ACCESS')")
+     */
+    public function getUserJoinedEvents(): Response
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse();
+        }
+        return new Response($this->serializer->serialize($this->eventService->getUserJoinedEvents()));
+    }
 }

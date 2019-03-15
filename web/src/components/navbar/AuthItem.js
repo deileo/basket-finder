@@ -107,7 +107,10 @@ class AuthItem extends Component {
         />
         <MyJoinedEvents
             open={modalReducer.isMyJoinedEventOpen}
+            eventReducer={eventReducer}
+            user={user}
             toggleMyJoinedEventModalAction={this.props.toggleMyJoinedEventModalAction}
+            getUserJoinedEventsAction={this.props.getUserJoinedEventsAction}
         />
       </div>
     )

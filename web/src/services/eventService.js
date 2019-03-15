@@ -49,12 +49,18 @@ export function getEvents(type, courtId = null) {
   return axios.get(url, config);
 }
 
-export function getUserCreatedEvents(type, token)
-{
+export function getUserCreatedEvents(token) {
   config.headers['X-AUTH-TOKEN'] = token;
 
   let url = API_URL + '/events/user';
 
   return axios.get(url, config);
+}
 
+export function getUserJoinedEvents(token) {
+  config.headers['X-AUTH-TOKEN'] = token;
+
+  let url = API_URL + '/events/user/joined';
+
+  return axios.get(url, config);
 }
