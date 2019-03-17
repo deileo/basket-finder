@@ -10,13 +10,13 @@ const config = {
 };
 
 export function fetchCourts(type) {
-  let url = type === TYPE_COURT ? API_URL + '/courts/all' : API_URL + '/gym-courts/all';
+  let url = type === TYPE_COURT ? API_URL + '/courts/court/all' : API_URL + '/courts/gym-court/all';
 
   return axios.get(url, config);
 }
 
 export function getCourt(type, courtId) {
-  let url = type === TYPE_COURT ? API_URL + '/courts/' : API_URL + '/gym-courts/';
+  let url = type === TYPE_COURT ? API_URL + '/courts/court/' : API_URL + '/courts/gym-court/';
 
   return axios.get(url + courtId, config);
 }

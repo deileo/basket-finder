@@ -7,7 +7,7 @@ use App\Entity\GymEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class GymEventRepository extends ServiceEntityRepository
+class GymEventRepository extends ServiceEntityRepository implements EventRepositoryInterface
 {
     /**
      * @param RegistryInterface $registry

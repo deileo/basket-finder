@@ -4,23 +4,9 @@ import Paper from '@material-ui/core/Paper';
 import Event from "./Event";
 import Typography from "@material-ui/core/Typography/Typography";
 import {withStyles} from "@material-ui/core";
-
-const styles = {
-  root: {
-    height: '93vh',
-    overflowY: 'auto',
-    width: '100%'
-  },
-  paper: {
-    margin: 5,
-    padding: 10,
-    marginBottom: 25
-  },
-  textCenter: {
-    textAlign: 'center',
-    textAlignVertical: 'center',
-  }
-};
+import {eventListStyles} from "../styles";
+import {connect} from "react-redux";
+import * as actions from '../../actions';
 
 class EventList extends Component {
 
@@ -49,11 +35,6 @@ class EventList extends Component {
               key={event.id}
               event={event}
               type={this.props.courtsReducer.type}
-              userReducer={this.props.userReducer}
-              modalReducer={this.props.modalReducer}
-              joinEventAction={this.props.joinEventAction}
-              leaveEventAction={this.props.leaveEventAction}
-              getEventsAction={this.props.getEventsAction}
             />
           )
         })}
@@ -62,7 +43,7 @@ class EventList extends Component {
   };
 
   renderCourtEvents = (court, classes) => {
-    let events = this.props.eventReducer.events;
+    const events = this.props.eventReducer.events;
     return (
       <div>
         <Paper className={classes.paper} elevation={1}>
@@ -123,4 +104,12 @@ class EventList extends Component {
   }
 }
 
-export default withStyles(styles)(EventList);
+const mapStateToProps = state => {
+  return {
+    eventReducer: state.eventReducer,
+    courtsReducer: state.courtsReducer,
+    loaderReducer: state.loaderReducer,
+  };
+};
+
+export default connect(mapStateToProps, actions)(withStyles(eventListStyles)(EventList));

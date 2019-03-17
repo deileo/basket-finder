@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import MapContainer from './containers/MapContainer';
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
+import moment from 'moment';
 import FlashMessage from "./components/flash/FlashMessage";
-import EventListContainer from "./containers/EventListContainer";
-import NavbarContainer from "./containers/NavbarContainer";
+import Navbar from "./components/navbar/Navbar";
+import EventList from "./components/event/EventList";
+import Map from "./components/map/Map";
 
 const theme = createMuiTheme({
   palette: {
@@ -47,19 +48,17 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider utils={MomentUtils}>
         <Grid item xs={12}>
-          <NavbarContainer />
+          <Navbar />
         </Grid>
         <Grid>
-          <FlashMessage closeFlashMessage={this.props.closeFlashMessage}
-                        flashMessage={this.props.flashReducer}
-          />
+          <FlashMessage />
         </Grid>
         <Grid container>
-          <Grid item xs={3}>
-            <EventListContainer />
+          <Grid item lg={3} xs={12}>
+            <EventList />
           </Grid>
-          <Grid item xs={9}>
-            <MapContainer />
+          <Grid item lg={9} xs={12}>
+            <Map />
           </Grid>
         </Grid>
 

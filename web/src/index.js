@@ -5,16 +5,16 @@ import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
 import reducers from "./reducers";
 import './index.css';
-import AppContainer from './containers/AppContainer';
 import * as serviceWorker from './serviceWorker';
 import "typeface-roboto";
+import App from "./App";
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
 ReactDOM.render(
   <Provider store={store}>
-    <AppContainer />
+    <App />
   </Provider>,
   document.getElementById('root')
 );

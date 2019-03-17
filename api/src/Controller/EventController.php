@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Court;
+use App\Entity\CourtInterface;
 use App\Entity\Event;
+use App\Entity\EventInterface;
+use App\Entity\GymEvent;
 use App\Form\Event\EventType;
+use App\Form\Event\GymEventType;
 use App\Service\EventService;
 use App\Service\JsonSerializeService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,7 +43,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/new", name="api:event:new")
+     * @Route("/court/new", name="api:event:new")
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @return Response
@@ -61,31 +65,56 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/all", name="api:event:all")
+     * @Route("/gym-court/new", name="api:gym-event:new")
+     * @Security("is_granted('API_ACCESS')")
+     * @param Request $request
      * @return Response
      */
-    public function getEvents(): Response
+    public function newGymEvent(Request $request): Response
     {
-        return new Response($this->serializer->serialize($this->eventService->getTodayEvents()));
+        $gymEvent = new GymEvent($this->getUser());
+        $form = $this->createForm(GymEventType::class, $gymEvent);
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            $this->persist($gymEvent);
+            $this->flush();
+
+            return new JsonResponse('success', Response::HTTP_CREATED);
+        }
+
+        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
     }
 
     /**
-     * @Route("/court/{id}", name="api:event:court")
-     * @param Court $court
+     * @Route("/{type}/all", name="api:event:all")
+     * @param string $type
      * @return Response
      */
-    public function getCourtEvents(Court $court): Response
+    public function getEvents(string $type): Response
+    {
+        return new Response($this->serializer->serialize($this->eventService->getTodayEvents($type)));
+    }
+
+    /**
+     * @Route("/{type}/{id}", name="api:event:court")
+     * @ParamConverter("CourtInterface", class="App\Entity\CourtInterface")
+     * @param CourtInterface $court
+     * @return Response
+     */
+    public function getCourtEvents(CourtInterface $court): Response
     {
         return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court)));
     }
 
     /**
-     * @Route("/{id}/join", name="api:event:join")
+     * @Route("/{type}/{id}/join", name="api:event:join")
+     * @ParamConverter("EventInterface", class="App\Entity\EventInterface")
      * @Security("is_granted('API_ACCESS')")
-     * @param Event $event
+     * @param EventInterface $event
      * @return Response
      */
-    public function joinEvent(Event $event): Response
+    public function joinEvent(EventInterface $event): Response
     {
         if (!$this->getUser()) {
             return new JsonResponse();
@@ -98,12 +127,13 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/{id}/leave", name="api:event:leave")
+     * @Route("/{type}/{id}/leave", name="api:event:leave")
+     * @ParamConverter("EventInterface", class="App\Entity\EventInterface")
      * @Security("is_granted('API_ACCESS')")
-     * @param Event $event
+     * @param EventInterface $event
      * @return Response
      */
-    public function leaveEvent(Event $event): Response
+    public function leaveEvent(EventInterface $event): Response
     {
         if (!$this->getUser()) {
             return new JsonResponse();
@@ -129,7 +159,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/user/joined", name="api:event:user-joined")
+     * @Route("/user/joined/events", name="api:event:user-joined")
      * @Security("is_granted('API_ACCESS')")
      */
     public function getUserJoinedEvents(): Response
@@ -137,6 +167,7 @@ class EventController extends BaseController
         if (!$this->getUser()) {
             return new JsonResponse();
         }
+
         return new Response($this->serializer->serialize($this->eventService->getUserJoinedEvents()));
     }
 }

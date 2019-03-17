@@ -12,8 +12,8 @@ export const LOADING_EVENTS_ENDED = 'loading_events_ended';
 export const FETCH_COURTS = 'fetch_courts';
 export const FETCH_COURT = 'fetch_court';
 export const CHANGE_COURT_TYPE = 'change_court_type';
-export const TYPE_COURT = 0;
-export const TYPE_GYM_COURT = 1;
+export const TYPE_COURT = 'court';
+export const TYPE_GYM_COURT = 'gym-court';
 
 //Event
 export const CREATE_EVENT = 'event_create';

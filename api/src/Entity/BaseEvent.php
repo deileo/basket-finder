@@ -37,6 +37,7 @@ abstract class BaseEvent
      *
      * @ORM\Column(type="time")
      * @Assert\NotBlank
+     * @Assert\GreaterThanOrEqual("-1 minute")
      */
     protected $startTime;
 

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
-class Event extends BaseEvent
+class Event extends BaseEvent implements EventInterface
 {
     /**
      * @var UserInterface
@@ -97,7 +97,7 @@ class Event extends BaseEvent
     /**
      * @param User $participant
      */
-    public function removeParticipant(User $participant)
+    public function removeParticipant(User $participant): void
     {
         if ($this->getParticipants()->contains($participant)) {
             $this->getParticipants()->removeElement($participant);

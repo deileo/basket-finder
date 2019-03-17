@@ -3,6 +3,8 @@ import {MAP_CENTER, MAP_URL, MAP_ZOOM} from '../../config';
 import AppMap from "./AppMap";
 import Loader from "../MapLoader";
 import {TYPE_COURT} from "../../actions/types";
+import {connect} from "react-redux";
+import * as actions from '../../actions';
 
 class Map extends Component {
 
@@ -11,7 +13,8 @@ class Map extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchCourtsAction(this.props.courtsReducer.type ? this.props.courtsReducer.type : TYPE_COURT);
+    const {courtsReducer} = this.props;
+    this.props.fetchCourtsAction(courtsReducer.type ? courtsReducer.type : TYPE_COURT);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -53,7 +56,6 @@ class Map extends Component {
           loadingElement={<div style={{height: `100%`}}/>}
           containerElement={<div style={{height: `93vh`}}/>}
           mapElement={<div style={{height: `100%`}}/>}
-          courts={this.props.courtsReducer}
           handleMarkerClick={this.handleMarkerClick}
           activeMarker={this.state.activeMarker}
         />
@@ -62,4 +64,11 @@ class Map extends Component {
   }
 }
 
-export default Map;
+const mapStateToProps = state => {
+  return {
+    courtsReducer: state.courtsReducer,
+    loaderReducer: state.loaderReducer
+  };
+};
+
+export default connect(mapStateToProps, actions)(Map);

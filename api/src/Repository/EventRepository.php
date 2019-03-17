@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class EventRepository extends ServiceEntityRepository
+class EventRepository extends ServiceEntityRepository implements EventRepositoryInterface
 {
     /**
      * @param RegistryInterface $registry

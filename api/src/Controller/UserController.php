@@ -16,7 +16,7 @@ class UserController extends AbstractController
     /**
      * @Route(name="api:user:get")
      * @param JsonSerializeService $serializer
-     * @return JsonResponse
+     * @return Response
      */
     public function user(JsonSerializeService $serializer): Response
     {

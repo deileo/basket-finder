@@ -12,25 +12,8 @@ import * as actions from "../../actions";
 import icon  from "../../icon-56.png";
 import {TYPE_COURT} from "../../actions/types";
 import CreateGymEventForm from "../form/CreateGymEventForm";
+import {courtStyles} from "../styles";
 
-const styles = theme => ({
-  container: {
-    maxWidth: 280,
-  },
-  title: {
-    fontSize: 20,
-  },
-  content: {
-    paddingRight: 0,
-  },
-  paper: {
-    position: 'absolute',
-    width: theme.spacing.unit * 75,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
-  },
-});
 
 function getModalStyle() {
   const top = 50;
@@ -160,4 +143,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actions)(withStyles(styles)(CourtMarker));
+export default connect(mapStateToProps, actions)(withStyles(courtStyles)(CourtMarker));

@@ -7,6 +7,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class BaseCourt
 {
+    public const PUBLIC_COURT = 'court';
+    public const GYM_COURT = 'gym-court';
+
+    /**
+     * @var array
+     */
+    public static $supportedTypes = [
+        self::PUBLIC_COURT,
+        self::GYM_COURT,
+    ];
+
     /**
      * @var int
      *

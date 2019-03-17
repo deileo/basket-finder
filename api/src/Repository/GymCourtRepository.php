@@ -6,7 +6,7 @@ use App\Entity\GymCourt;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class GymCourtRepository extends ServiceEntityRepository
+class GymCourtRepository extends ServiceEntityRepository implements CourtRepositoryInterface
 {
     /**
      * @param RegistryInterface $registry

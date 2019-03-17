@@ -28,7 +28,7 @@ class GoogleController extends AbstractController
     /**
      * @Route("/check", name="connect:google:check")
      * @param JsonSerializeService $serializer
-     * @return JsonResponse
+     * @return Response
      */
     public function connectCheckAction(JsonSerializeService $serializer): Response
     {

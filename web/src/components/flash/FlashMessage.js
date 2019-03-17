@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import FlashContent from "./FlashContent";
+import {connect} from "react-redux";
+import * as actions from '../../actions';
 
 class FlashMessage extends Component {
   handleClose = () => {
@@ -8,7 +10,7 @@ class FlashMessage extends Component {
   };
 
   render() {
-    const {isOpen, message, variant, className } = this.props.flashMessage;
+    const {isOpen, message, variant, className } = this.props.flashReducer;
 
     if (!isOpen) {
       return null;
@@ -34,4 +36,10 @@ class FlashMessage extends Component {
   }
 }
 
-export default FlashMessage;
+const mapStateToProps = state => {
+  return {
+    flashReducer: state.flashReducer,
+  };
+};
+
+export default connect(mapStateToProps, actions)(FlashMessage);

@@ -2,11 +2,15 @@
 
 namespace App\Service;
 
+use App\Entity\BaseCourt;
 use App\Entity\CourtInterface;
 use App\Entity\Event;
+use App\Entity\EventInterface;
 use App\Entity\GymCourt;
 use App\Repository\EventRepository;
+use App\Repository\EventRepositoryInterface;
 use App\Repository\GymEventRepository;
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Symfony\Component\Security\Core\Security;
 
 class EventService
@@ -39,16 +43,13 @@ class EventService
     }
 
     /**
-     * @param bool $isGym
-     * @return Event[]
+     * @param string $type
+     * @return Event[]|array
+     * @internal param bool $isGym
      */
-    public function getTodayEvents(bool $isGym = false): array
+    public function getTodayEvents(string $type): array
     {
-        if ($isGym) {
-            return $this->gymEventRepository->getTodayEvents();
-        }
-
-        return $this->eventRepository->getTodayEvents();
+        return $this->getEventRepository($type)->getTodayEvents();
     }
 
     /**
@@ -78,5 +79,36 @@ class EventService
     public function getUserJoinedEvents(): array
     {
         return $this->eventRepository->getUserJoinedEvents($this->security->getUser());
+    }
+
+    /**
+     * @param string $type
+     * @param int $id
+     * @return EventInterface|null
+     */
+    public function getEvent(string $type, int $id): EventInterface
+    {
+        if (!in_array($type, BaseCourt::$supportedTypes)) {
+            throw new ORMInvalidArgumentException();
+        }
+
+        return $this->getEventRepository($type)->find($id);
+    }
+
+    /**
+     * @param string $type
+     * @return EventRepositoryInterface
+     */
+    private function getEventRepository(string $type): EventRepositoryInterface
+    {
+        if ($type === BaseCourt::PUBLIC_COURT) {
+            return $this->eventRepository;
+        }
+
+        if ($type === BaseCourt::GYM_COURT) {
+            return $this->gymEventRepository;
+        }
+
+        throw new ORMInvalidArgumentException();
     }
 }

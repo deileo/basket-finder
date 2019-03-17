@@ -36,7 +36,6 @@ export const fetchCourtsAction = (type) => {
 
 export const fetchCourtById = (type, courtId) => {
   return function(dispatch) {
-    dispatch({ type: LOADING_EVENTS_STARTED });
 
     return getCourt(type, courtId)
       .then(response => {
@@ -48,9 +47,6 @@ export const fetchCourtById = (type, courtId) => {
         }
         return Promise.reject({});
       })
-      .finally(() => {
-        dispatch({ type: LOADING_EVENTS_ENDED });
-      });
   };
 };
 

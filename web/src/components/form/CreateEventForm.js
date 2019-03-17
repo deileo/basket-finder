@@ -19,8 +19,8 @@ class CreateEventForm extends Component {
     name: '',
     comment: '',
     neededPlayers: 1,
-    date: null,
-    startTime: null,
+    date: new Date(),
+    startTime: new Date(),
     court: this.props.court.id,
   };
 
@@ -90,21 +90,29 @@ class CreateEventForm extends Component {
                   required={true}
                   error={this.hasError('name')}
                   onChange={this.handleNameChange}
+                  variant="outlined"
                 />
                 {this.getErrorMessage('name')}
               </FormControl>
+            </Grid>
 
+            <Grid item sm={6}>
               <FormControl margin="normal" required fullWidth>
                 <DatePicker autoOk
                             label="Data"
+                            disablePast
                             value={date}
                             required={true}
+                            error={this.hasError('date')}
                             format="YYYY-MM-DD"
                             onChange={this.handleDateChange}
+                            variant="outlined"
                 />
                 {this.getErrorMessage('date')}
               </FormControl>
+            </Grid>
 
+            <Grid item sm={6}>
               <FormControl margin="normal" required fullWidth>
                 <TimePicker autoOk
                             ampm={false}
@@ -112,10 +120,14 @@ class CreateEventForm extends Component {
                             value={startTime}
                             required={true}
                             onChange={this.handleStartTimeChange}
+                            variant="outlined"
+                            error={this.hasError('startTime')}
                 />
                 {this.getErrorMessage('startTime')}
               </FormControl>
+            </Grid>
 
+            <Grid item xs={12}>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų
                   skaičius: {neededPlayers}</InputLabel>
@@ -142,6 +154,7 @@ class CreateEventForm extends Component {
                   multiline={true}
                   style={{marginBottom: 30}}
                   rows="3"
+                  variant="outlined"
                 />
                 {this.getErrorMessage('comment')}
               </FormControl>

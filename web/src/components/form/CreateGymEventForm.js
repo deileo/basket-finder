@@ -11,8 +11,7 @@ import { connect } from 'react-redux';
 import * as actions from "../../actions";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Input from "@material-ui/core/Input";
+import Grid from "@material-ui/core/es/Grid/Grid";
 
 class CreateGymEventForm extends Component {
 
@@ -21,9 +20,9 @@ class CreateGymEventForm extends Component {
     name: '',
     comment: '',
     neededPlayers: 1,
-    date: null,
-    startTime: null,
-    endTime: null,
+    date: new Date(),
+    startTime: new Date(),
+    endTime: new Date(),
     gymCourt: this.props.court.id,
   };
 
@@ -93,91 +92,115 @@ class CreateGymEventForm extends Component {
           <CloseIcon />
         </IconButton>
         <form className={classes.form} noValidate>
-          <FormControl margin="normal" required fullWidth>
-            <TextField
-              id="name"
-              label="Varžybų pavadinimas"
-              value={name}
-              required={true}
-              error={this.hasError('name')}
-              onChange={this.handleNameChange}
-            />
-            {this.getErrorMessage('name')}
-          </FormControl>
+          <Grid container spacing={24}>
+            <Grid item xs={12}>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  id="name"
+                  label="Varžybų pavadinimas"
+                  value={name}
+                  required={true}
+                  error={this.hasError('name')}
+                  onChange={this.handleNameChange}
+                  variant="outlined"
+                />
+                {this.getErrorMessage('name')}
+              </FormControl>
+            </Grid>
 
-          <FormControl margin="normal" required fullWidth>
-            <DatePicker autoOk
-                        label="Data"
-                        value={date}
+            <Grid item xs={6}>
+              <FormControl margin="normal" required fullWidth>
+                <DatePicker autoOk
+                            label="Data"
+                            value={date}
+                            required={true}
+                            format="YYYY-MM-DD"
+                            disablePast
+                            error={this.hasError('date')}
+                            onChange={this.handleDateChange}
+                            variant="outlined"
+                />
+                {this.getErrorMessage('date')}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  id="price"
+                  label="Kaina €"
+                  value={price}
+                  error={this.hasError('price')}
+                  onChange={this.handlePriceChange}
+                  required={false}
+                  variant="outlined"
+                />
+                {this.getErrorMessage('price')}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormControl margin="normal" required fullWidth>
+                <TimePicker autoOk
+                            ampm={false}
+                            label="Pradzios laikas"
+                            value={startTime}
+                            required={true}
+                            onChange={this.handleStartTimeChange}
+                            error={this.hasError('startTime')}
+                            variant="outlined"
+                />
+                {this.getErrorMessage('startTime')}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormControl margin="normal" required fullWidth>
+                <TimePicker autoOk
+                            ampm={false}
+                            label="Pabaigos laikas"
+                            value={endTime}
+                            required={true}
+                            error={this.hasError('endTime')}
+                            onChange={this.handleEndTimeChange}
+                            variant="outlined"
+                />
+                {this.getErrorMessage('endTime')}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų skaičius: {neededPlayers}</InputLabel>
+                <Slider value={neededPlayers}
+                        min={1}
+                        max={10}
+                        step={1}
+                        onChange={this.handleNeededPlayersChange}
+                        style={{marginBottom: 30}}
                         required={true}
-                        format="YYYY-MM-DD"
-                        onChange={this.handleDateChange}
-            />
-            {this.getErrorMessage('date')}
-          </FormControl>
+                />
+                {this.getErrorMessage('neededPlayers')}
+              </FormControl>
+            </Grid>
 
-          <FormControl margin="normal" required fullWidth>
-            <TimePicker autoOk
-                        ampm={false}
-                        label="Pradzios laikas"
-                        value={startTime}
-                        required={true}
-                        onChange={this.handleStartTimeChange}
-            />
-            {this.getErrorMessage('startTime')}
-          </FormControl>
-
-          <FormControl margin="normal" required fullWidth>
-            <TimePicker autoOk
-                        ampm={false}
-                        label="Pabaigos laikas"
-                        value={endTime}
-                        required={true}
-                        onChange={this.handleEndTimeChange}
-            />
-            {this.getErrorMessage('endTime')}
-          </FormControl>
-
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="price">Kaina</InputLabel>
-            <Input
-              id="price"
-              value={price}
-              error={this.hasError('price')}
-              onChange={this.handlePriceChange}
-              required={false}
-              startAdornment={<InputAdornment position="start">€</InputAdornment>}
-            />
-            {this.getErrorMessage('price')}
-          </FormControl>
-
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų skaičius: {neededPlayers}</InputLabel>
-            <Slider value={neededPlayers}
-                    min={1}
-                    max={10}
-                    step={1}
-                    onChange={this.handleNeededPlayersChange}
-                    style={{marginBottom: 30}}
-                    required={true}
-            />
-            {this.getErrorMessage('neededPlayers')}
-          </FormControl>
-
-          <FormControl margin="normal" fullWidth>
-            <TextField
-              id="comment"
-              label="Komentaras"
-              value={comment}
-              error={this.hasError('comment')}
-              onChange={this.handleCommentChange}
-              multiline={true}
-              style={{marginBottom: 30}}
-              rows="3"
-            />
-            {this.getErrorMessage('comment')}
-          </FormControl>
-
+            <Grid item xs={12}>
+              <FormControl margin="normal" fullWidth>
+                <TextField
+                  id="comment"
+                  label="Komentaras"
+                  value={comment}
+                  error={this.hasError('comment')}
+                  onChange={this.handleCommentChange}
+                  multiline={true}
+                  style={{marginBottom: 30}}
+                  rows="3"
+                  variant="outlined"
+                />
+                {this.getErrorMessage('comment')}
+              </FormControl>
+            </Grid>
+          </Grid>
           <Button type="button"
                   fullWidth
                   variant="contained"

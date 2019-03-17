@@ -10,8 +10,10 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener/ClickAwayList
 import MenuList from "@material-ui/core/MenuList/MenuList";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import {withStyles} from "@material-ui/core";
-import MyCreatedEvents from "../event/MyCreatedEvents";
-import MyJoinedEvents from "../event/MyJoinedEvents";
+import MyCreatedEvents from "../modal/MyCreatedEvents";
+import MyJoinedEvents from "../modal/MyJoinedEvents";
+import { connect } from 'react-redux';
+import * as actions from './../../actions';
 
 class AuthItem extends Component {
   state = {
@@ -50,7 +52,7 @@ class AuthItem extends Component {
   };
 
   render() {
-    const {userReducer, modalReducer, eventReducer} = this.props;
+    const {userReducer, modalReducer} = this.props;
 
     if (!userReducer || !userReducer.isAuthenticated) {
       return (
@@ -69,6 +71,7 @@ class AuthItem extends Component {
 
     const user = userReducer.auth;
     const open = Boolean(this.state.anchorEl);
+
     return (
       <div>
         <Button color="inherit" onClick={this.handleMenu}>
@@ -100,21 +103,22 @@ class AuthItem extends Component {
         </Popper>
         <MyCreatedEvents
             open={modalReducer.isMyEventOpen}
-            eventReducer={eventReducer}
             user={user}
-            toggleMyEventModalAction={this.props.toggleMyEventModalAction}
-            getUserCreatedEventsAction={this.props.getUserCreatedEventsAction}
         />
         <MyJoinedEvents
             open={modalReducer.isMyJoinedEventOpen}
-            eventReducer={eventReducer}
             user={user}
-            toggleMyJoinedEventModalAction={this.props.toggleMyJoinedEventModalAction}
-            getUserJoinedEventsAction={this.props.getUserJoinedEventsAction}
         />
       </div>
     )
   }
 }
 
-export default withStyles({})(AuthItem);
+const mapStateToProps = state => {
+  return {
+    userReducer: state.userReducer,
+    modalReducer: state.modalReducer,
+  };
+};
+
+export default connect(mapStateToProps, actions)(withStyles({})(AuthItem));

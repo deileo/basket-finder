@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Court;
+use App\Entity\CourtInterface;
 use App\Service\CourtService;
 use App\Service\JsonSerializeService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,22 +26,24 @@ class CourtController extends BaseController
     }
 
     /**
-     * @Route("/all", name="api:courts:all")
+     * @Route("/{type}/all", name="api:courts:all")
+     * @param string $type
      * @param JsonSerializeService $serializer
-     * @return JsonResponse
+     * @return JsonResponse|Response
      */
-    public function getCourtsAction(JsonSerializeService $serializer): Response
+    public function getCourtsAction(string $type, JsonSerializeService $serializer): Response
     {
-        return new Response($serializer->serialize($this->courtService->getAllCourts(), ['default']));
+        return new Response($serializer->serialize($this->courtService->getCourtsByType($type), ['default']));
     }
 
     /**
-     * @Route("/{id}", name="api:courts:get")
-     * @param Court $court
+     * @Route("/{type}/{id}", name="api:courts:get")
+     * @ParamConverter("CourtInterface", class="App\Entity\CourtInterface")
+     * @param CourtInterface $court
      * @param JsonSerializeService $serializer
      * @return Response
      */
-    public function getCourt(Court $court, JsonSerializeService $serializer): Response
+    public function getCourt(CourtInterface $court, JsonSerializeService $serializer): Response
     {
         return new Response($serializer->serialize($court, ['default']));
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  * @ORM\Table()
  */
-class GymEvent extends BaseEvent
+class GymEvent extends BaseEvent implements EventInterface
 {
     /**
      * @var float|null
@@ -26,6 +26,10 @@ class GymEvent extends BaseEvent
      *
      * @ORM\Column(type="time")
      * @Assert\NotBlank
+     * @Assert\Expression(
+     *     "this.getEndTime() > this.getStartTime()",
+     *     message="Pabaigos laikas turi buti velesnis negu pradzios laikas"
+     * )
      */
     protected $endTime;
 
@@ -143,7 +147,7 @@ class GymEvent extends BaseEvent
     /**
      * @param User $participant
      */
-    public function removeParticipant(User $participant)
+    public function removeParticipant(User $participant): void
     {
         if ($this->getParticipants()->contains($participant)) {
             $this->getParticipants()->removeElement($participant);
