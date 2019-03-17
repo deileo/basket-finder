@@ -10,8 +10,14 @@ import {connect} from 'react-redux';
 import * as actions from './../../actions';
 import MyJoinedEvent from './../event/MyJoinedEvent'
 import Typography from "@material-ui/core/es/Typography/Typography";
+import AppBar from "@material-ui/core/es/AppBar/AppBar";
+import Tabs from "@material-ui/core/es/Tabs/Tabs";
+import Tab from "@material-ui/core/es/Tab/Tab";
 
 class MyJoinedEvents extends Component {
+  state = {
+    value: 0,
+  };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!prevProps.open && this.props.open) {
@@ -23,7 +29,19 @@ class MyJoinedEvents extends Component {
     this.props.toggleMyJoinedEventModalAction(false);
   };
 
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
   renderEvents = (events) => {
+    if (events.length === 0) {
+      return (
+        <Typography variant="h5" component="h2">
+          Nera dalyvavimu
+        </Typography>
+      )
+    }
+
     return events.map(event => {
       return (
         <MyJoinedEvent
@@ -61,12 +79,20 @@ class MyJoinedEvents extends Component {
             <hr/>
           </DialogTitle>
           <DialogContent>
-            {eventReducer.userJoinedEvents.length > 0 ?
-              this.renderEvents(eventReducer.userJoinedEvents) :
-              <Typography variant="h5" component="h4">
-                Nera dalyvavimu
-              </Typography>
-            }
+            <AppBar position="static" color="default">
+              <Tabs
+                value={this.state.value}
+                onChange={this.handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+              >
+                <Tab label="Lauko" />
+                <Tab label="Vidaus" />
+              </Tabs>
+            </AppBar>
+            {this.state.value === 0 && <div>{this.renderEvents(eventReducer.userJoinedEvents.court)}</div>}
+            {this.state.value === 1 && <div>{this.renderEvents(eventReducer.userJoinedEvents.gymCourt)}</div>}
           </DialogContent>
         </Dialog>
       </div>

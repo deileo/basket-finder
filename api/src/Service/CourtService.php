@@ -37,10 +37,10 @@ class CourtService
      */
     public function getAllCourts(): array
     {
-        return array_merge(
-            $this->courtRepository->findAll(),
-            $this->gymCourtRepository->findAll()
-        );
+        return [
+            'court' => $this->courtRepository->findAll(),
+            'gymCourt' => $this->gymCourtRepository->findAll()
+        ];
     }
 
     /**

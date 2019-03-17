@@ -37,6 +37,11 @@ class MyJoinedEvent extends Component {
           <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
             Zaidejai: {event.participants.length}/{event.neededPlayers}
           </Typography>
+          {event.price && event.price > 0 ?
+            <Typography variant="h6" component="h4" gutterBottom className={classes.eventContent}>
+              Kaina: {event.price} €
+            </Typography> : ''
+          }
           {event.comment ?
             <Typography component="p" gutterBottom style={{color: 'rgba(0, 0, 0, 0.54)'}}>
               Aprasymas: {event.comment.substring(0, 100)}{event.comment.length > 100 ? '...' : ''}

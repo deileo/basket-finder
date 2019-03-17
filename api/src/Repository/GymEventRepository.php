@@ -6,6 +6,7 @@ use App\Entity\GymCourt;
 use App\Entity\GymEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class GymEventRepository extends ServiceEntityRepository implements EventRepositoryInterface
 {
@@ -59,6 +60,66 @@ class GymEventRepository extends ServiceEntityRepository implements EventReposit
                 ->addOrderBy('e.startTime')
                 ->setParameters([
                     'court' => $court,
+                    'time' => $date->format('H:i:s'),
+                    'date' => $date->format('Y-m-d'),
+                ])
+                ->getQuery()->getResult();
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return GymEvent[]
+     */
+    public function getUserEvents(UserInterface $user): array
+    {
+        $date = new \DateTime();
+        $qb = $this->createQueryBuilder('e');
+
+        return
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->gte('e.date', ':date'),
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('e.date', ':date'),
+                        $qb->expr()->gt('e.startTime', ':time')
+                    )
+                )
+            )
+                ->andWhere($qb->expr()->eq('e.createdBy', ':user'))
+                ->addOrderBy('e.date')
+                ->addOrderBy('e.startTime')
+                ->setParameters([
+                    'user' => $user,
+                    'time' => $date->format('H:i:s'),
+                    'date' => $date->format('Y-m-d'),
+                ])
+                ->getQuery()->getResult();
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return GymEventRepository[]
+     */
+    public function getUserJoinedEvents(UserInterface $user): array
+    {
+        $date = new \DateTime();
+        $qb = $this->createQueryBuilder('e')->leftJoin('e.participants', 'p');
+
+        return
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->gte('e.date', ':date'),
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('e.date', ':date'),
+                        $qb->expr()->gt('e.startTime', ':time')
+                    )
+                )
+            )
+                ->andWhere($qb->expr()->eq('p', ':user'))
+                ->addOrderBy('e.date')
+                ->addOrderBy('e.startTime')
+                ->setParameters([
+                    'user' => $user,
                     'time' => $date->format('H:i:s'),
                     'date' => $date->format('Y-m-d'),
                 ])

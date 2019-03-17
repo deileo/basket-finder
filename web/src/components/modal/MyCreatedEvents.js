@@ -10,8 +10,14 @@ import { connect } from 'react-redux';
 import * as actions from './../../actions';
 import MyCreatedEvent from "./../event/MyCreatedEvent";
 import Typography from "@material-ui/core/es/Typography/Typography";
+import AppBar from "@material-ui/core/es/AppBar/AppBar";
+import Tabs from "@material-ui/core/es/Tabs/Tabs";
+import Tab from "@material-ui/core/es/Tab/Tab";
 
 class MyCreatedEvents extends Component {
+  state = {
+    value: 0,
+  };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!prevProps.open && this.props.open) {
@@ -23,7 +29,19 @@ class MyCreatedEvents extends Component {
     this.props.toggleMyEventModalAction(false);
   };
 
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
   renderEvents = (events) => {
+    if (events.length === 0) {
+      return (
+      <Typography variant="h5" component="h2">
+        Nera sukurti varzybu
+      </Typography>
+      )
+    }
+
     return events.map(event => {
       return (
         <MyCreatedEvent
@@ -61,12 +79,20 @@ class MyCreatedEvents extends Component {
             <hr/>
           </DialogTitle>
           <DialogContent>
-            {eventReducer.userCreatedEvents.length > 0 ?
-              this.renderEvents(eventReducer.userCreatedEvents) :
-              <Typography variant="h5" component="h4">
-                Nera sukurtu varzybu
-              </Typography>
-            }
+            <AppBar position="static" color="default">
+              <Tabs
+                value={this.state.value}
+                onChange={this.handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+              >
+                <Tab label="Lauko" />
+                <Tab label="Vidaus" />
+              </Tabs>
+            </AppBar>
+            {this.state.value === 0 && <div>{this.renderEvents(eventReducer.userCreatedEvents.court)}</div>}
+            {this.state.value === 1 && <div>{this.renderEvents(eventReducer.userCreatedEvents.gymCourt)}</div>}
           </DialogContent>
         </Dialog>
       </div>

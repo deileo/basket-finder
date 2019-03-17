@@ -70,7 +70,10 @@ class EventService
      */
     public function getUserEvents(): array
     {
-        return $this->eventRepository->getUserEvents($this->security->getUser());
+        return [
+            'court' => $this->eventRepository->getUserEvents($this->security->getUser()),
+            'gymCourt' => $this->gymEventRepository->getUserEvents($this->security->getUser()),
+        ];
     }
 
     /**
@@ -78,7 +81,10 @@ class EventService
      */
     public function getUserJoinedEvents(): array
     {
-        return $this->eventRepository->getUserJoinedEvents($this->security->getUser());
+        return [
+            'court' => $this->eventRepository->getUserJoinedEvents($this->security->getUser()),
+            'gymCourt' => $this->gymEventRepository->getUserJoinedEvents($this->security->getUser()),
+        ];
     }
 
     /**

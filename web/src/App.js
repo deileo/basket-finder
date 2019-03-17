@@ -5,7 +5,6 @@ import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MomentUtils from '@date-io/moment';
-import moment from 'moment';
 import FlashMessage from "./components/flash/FlashMessage";
 import Navbar from "./components/navbar/Navbar";
 import EventList from "./components/event/EventList";
