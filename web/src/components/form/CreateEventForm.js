@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import * as actions from "../../actions";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
+import {TYPE_COURT} from "../../actions/types";
 
 class CreateEventForm extends Component {
 
@@ -23,6 +24,21 @@ class CreateEventForm extends Component {
     startTime: new Date(),
     court: this.props.court.id,
   };
+
+  componentDidMount() {
+    const {event} = this.props;
+
+    if (event) {
+      console.log(event);
+      this.setState({
+        'name': event.name,
+        'comment': event.comment ? event.comment : '',
+        'neededPlayers': event.neededPlayers,
+        'date': new Date(event.date.timestamp * 1000),
+        'startTime': new Date((event.date.timestamp + event.startTime.timestamp) * 1000),
+      });
+    }
+  }
 
   handleNeededPlayersChange = (event, neededPlayers) => {
     this.setState({neededPlayers});
@@ -63,7 +79,12 @@ class CreateEventForm extends Component {
   }
 
   handleSubmit = () => {
-    this.props.createEventAction(this.state, this.props.courtsReducer.type, this.props.userReducer.auth.googleAccessToken);
+    let accessToken = this.props.userReducer.auth.googleAccessToken;
+    if (!this.props.event) {
+      this.props.createEventAction(this.state, TYPE_COURT, accessToken);
+    } else {
+      this.props.editEventAction(this.state, this.props.event.id, TYPE_COURT, accessToken);
+    }
   };
 
   render() {

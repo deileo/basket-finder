@@ -10,9 +10,18 @@ import {
   GET_USER_JOINED_EVENTS,
   RESET_EVENT_CREATION,
   REMOVE_EVENT_ERRORS,
-  CREATE_EVENT_MODAL_CLOSED, LEAVE_EVENT
+  CREATE_EVENT_MODAL_CLOSED, LEAVE_EVENT, DELETE_EVENT, EDIT_EVENT
 } from './types';
-import {createEvent, joinEvent, getEvents, leaveEvent, getUserCreatedEvents, getUserJoinedEvents} from '../services/eventService';
+import {
+  createEvent,
+  joinEvent,
+  getEvents,
+  leaveEvent,
+  getUserCreatedEvents,
+  getUserJoinedEvents,
+  deleteEvent,
+  editEvent
+} from '../services/eventService';
 
 export const createEventAction = (createEventData, type, token) => {
   return function(dispatch) {
@@ -31,6 +40,25 @@ export const createEventAction = (createEventData, type, token) => {
       .catch(error => {
         return showConsoleError(error);
       });
+  };
+};
+
+export const editEventAction = (eventData, eventId, type, token) => {
+  return function(dispatch) {
+    return editEvent(eventData, eventId, type, token)
+        .then(response => {
+          if (response.status === 202) {
+            dispatch({type: CREATE_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
+            dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event updated!', variant: 'success'}});
+
+            return dispatch({type: EDIT_EVENT, payload: response.data});
+          }
+
+          return dispatch({ type: CREATE_EVENT_ERROR, payload: response.data });
+        })
+        .catch(error => {
+          return showConsoleError(error);
+        });
   };
 };
 
@@ -113,6 +141,25 @@ export const getUserJoinedEventsAction = (token) => {
           return showConsoleError(error);
         })
   }
+};
+
+export const deleteEventAction = (event, type, token) => {
+  return function(dispatch) {
+    dispatch({ type: LOADING_EVENTS_STARTED });
+      return deleteEvent(event, type, token)
+        .then(response => {
+          if (response.status === 200) {
+            dispatch({type: DELETE_EVENT});
+            dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event deleted!', variant: 'success'}});
+          }
+        })
+        .catch(error => {
+          return showConsoleError(error);
+        })
+        .finally(() => {
+            dispatch({ type: LOADING_EVENTS_ENDED });
+        });
+  };
 };
 
 export const resetEventCreationAction = () => {

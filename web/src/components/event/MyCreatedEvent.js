@@ -9,11 +9,42 @@ import {eventStyles} from '../styles';
 import {getEventTime} from '../../services/eventService';
 import {connect} from 'react-redux';
 import * as actions from './../../actions';
+import {TYPE_COURT} from "../../actions/types";
+import CreateEventForm from "../form/CreateEventForm";
+import Modal from "@material-ui/core/Modal";
+import CreateGymEventForm from "../form/CreateGymEventForm";
+
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 class MyCreatedEvent extends Component {
 
+  handleDelete = () => {
+    const {userReducer, event, type} = this.props;
+
+    this.props.deleteEventAction(event.id, type, userReducer.auth.googleAccessToken);
+    this.props.getUserCreatedEventsAction(userReducer.auth.googleAccessToken);
+  };
+
+  handleClose = () => {
+    this.props.closeCreateEventModalAction();
+    this.props.removeEventErrorsAction();
+  };
+
+  handleOpen = () => {
+    this.props.openCreateEventModalAction();
+  };
+
   render () {
-    const {event, type, classes} = this.props;
+    const {modalReducer, event, type, classes} = this.props;
 
     return (
       <Card className={classes.card} key={event.id}>
@@ -42,17 +73,36 @@ class MyCreatedEvent extends Component {
             </Typography> : ''
           }
           <CardActions>
-            <Button size="small" variant="contained" color="primary" onClick={this.handleJoin}>
+            <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
               Redaguoti
             </Button>
-            <Button size="small" variant="contained" color="secondary" onClick={this.handleLeave}>
+            <Button size="small" variant="contained" color="secondary" onClick={this.handleDelete}>
               Ištrinti
             </Button>
           </CardActions>
         </CardContent>
+        <Modal
+            open={modalReducer.isCreateEventOpen}
+            onClose={this.handleClose}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            {type === TYPE_COURT ?
+                <CreateEventForm court={event.court} event={event} handleClose={this.handleClose}/> :
+                <CreateGymEventForm court={event.court} event={event} handleClose={this.handleClose}/>
+            }
+          </div>
+        </Modal>
       </Card>
+
     )
   }
 }
 
-export default connect(null, actions)(withStyles(eventStyles)(MyCreatedEvent));
+const mapStateToProps = state => {
+  return {
+    userReducer: state.userReducer,
+    modalReducer: state.modalReducer,
+  };
+};
+
+export default connect(mapStateToProps, actions)(withStyles(eventStyles)(MyCreatedEvent));

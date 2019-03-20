@@ -15,11 +15,10 @@ class EventList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    const {eventReducer} = this.props;
     let court = this.props.courtsReducer ? this.props.courtsReducer.court : null;
-    let prevCreated = prevProps.eventReducer ? prevProps.eventReducer.created : null;
-    let created = this.props.eventReducer ? this.props.eventReducer.created : null;
 
-    if (court && !prevCreated && created) {
+    if (court && !prevProps.eventReducer.reload && eventReducer.reload) {
       this.props.fetchCourtById(this.props.courtsReducer.type, court.id);
       this.props.getEventsAction(this.props.courtsReducer.type, court.id);
       this.props.resetEventCreationAction();

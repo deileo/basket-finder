@@ -33,11 +33,15 @@ class EventType extends AbstractType
             ]);
 
         $dateTimeTransformer = new CallbackTransformer(
-            function (?string $timeAsString) {
+            function ($timeAsString) {
+                if (is_object($timeAsString)) {
+                    return $timeAsString->format('Y-m-d');
+                }
+
                 return $timeAsString ? new \DateTime($timeAsString) : null;
             },
             function ($dateTimeAsString) {
-                return new \DateTime($dateTimeAsString);
+                return new \DateTime(is_array($dateTimeAsString) ? date('Y-m-d H:i', $dateTimeAsString['timestamp']) : $dateTimeAsString);
             }
         );
 

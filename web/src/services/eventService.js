@@ -19,6 +19,14 @@ export function createEvent(eventData, type = TYPE_COURT, token) {
   return axios.post(url, eventData, config);
 }
 
+export function editEvent(eventData, eventId, type = TYPE_COURT, token) {
+  config.headers['X-AUTH-TOKEN'] = token;
+
+  let url = API_URL + '/events/' + type + '/' + eventId + '/edit';
+
+  return axios.post(url, eventData, config);
+}
+
 export function joinEvent(token, eventId, type) {
   config.headers['X-AUTH-TOKEN'] = token;
 
@@ -73,4 +81,13 @@ export function getEventTime(event, type) {
   }
 
   return eventTime;
+}
+
+export function deleteEvent(eventId, type, token)
+{
+  config.headers['X-AUTH-TOKEN'] = token;
+
+  let url = API_URL + '/events/' + type + '/' + eventId + '/delete';
+
+  return axios.post(url, {}, config);
 }

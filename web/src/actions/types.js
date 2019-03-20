@@ -17,6 +17,7 @@ export const TYPE_GYM_COURT = 'gym-court';
 
 //Event
 export const CREATE_EVENT = 'event_create';
+export const EDIT_EVENT = 'edit_event';
 export const CREATE_EVENT_ERROR = 'event_create_error';
 export const JOIN_EVENT = 'event_join';
 export const LEAVE_EVENT = 'event_leave';
@@ -25,6 +26,7 @@ export const RESET_EVENT_CREATION = 'reset_event_creation';
 export const REMOVE_EVENT_ERRORS = 'remove_event_errors';
 export const GET_USER_CREATED_EVENTS = 'get_user_created_events';
 export const GET_USER_JOINED_EVENTS = 'get_user_joined_events';
+export const DELETE_EVENT = 'delete_event';
 
 //Flash
 export const FLASH_MESSAGE = 'flash_message';

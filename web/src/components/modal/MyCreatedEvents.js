@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/es/Typography/Typography";
 import AppBar from "@material-ui/core/es/AppBar/AppBar";
 import Tabs from "@material-ui/core/es/Tabs/Tabs";
 import Tab from "@material-ui/core/es/Tab/Tab";
+import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
 
 class MyCreatedEvents extends Component {
   state = {
@@ -20,7 +21,10 @@ class MyCreatedEvents extends Component {
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevProps.open && this.props.open) {
+    const {eventReducer} = this.props;
+    console.log(eventReducer);
+
+    if (!prevProps.open && this.props.open || eventReducer.reload) {
       this.props.getUserCreatedEventsAction(this.props.user.googleAccessToken)
     }
   }
@@ -47,7 +51,7 @@ class MyCreatedEvents extends Component {
         <MyCreatedEvent
           key={event.id}
           event={event}
-          type={this.props.type}
+          type={this.state.value === 1 ? TYPE_GYM_COURT : TYPE_COURT}
         />
       )
     });

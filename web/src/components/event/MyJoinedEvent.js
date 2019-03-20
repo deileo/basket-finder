@@ -16,6 +16,7 @@ class MyJoinedEvent extends Component {
     const {userReducer, event, type} = this.props;
 
     this.props.leaveEventAction(userReducer.auth.googleAccessToken, event.id, type);
+    this.props.getUserJoinedEventsAction(userReducer.auth.googleAccessToken)
   };
 
   render () {

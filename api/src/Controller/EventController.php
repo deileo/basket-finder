@@ -65,6 +65,32 @@ class EventController extends BaseController
     }
 
     /**
+     * @Route("/court/{id}/edit", name="api:event:edit")
+     * @Security("is_granted('API_ACCESS')")
+     * @param Request $request
+     * @param Event $event
+     * @return Response
+     */
+    public function editEvent(Request $request, Event $event): Response
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse();
+        }
+
+        $form = $this->createForm(EventType::class, $event);
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            $this->persist($event);
+            $this->flush();
+
+            return new JsonResponse('success', Response::HTTP_ACCEPTED);
+        }
+
+        return new JsonResponse($this->getFormErrors($form));
+    }
+
+    /**
      * @Route("/gym-court/new", name="api:gym-event:new")
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
@@ -169,5 +195,27 @@ class EventController extends BaseController
         }
 
         return new Response($this->serializer->serialize($this->eventService->getUserJoinedEvents()));
+    }
+
+    /**
+     * @Route("/{type}/{id}/delete", name="api:event:delete")
+     * @Security("is_granted('API_ACCESS')")
+     * @param EventInterface $event
+     * @return Response
+     */
+    public function deleteEvent(EventInterface $event): Response
+    {
+        if (!$this->getUser()) {
+            return new JsonResponse();
+        }
+
+        if ($event->getCreatedBy() !== $this->getUser()) {
+            return new JsonResponse('Forbidden!', Response::HTTP_FORBIDDEN);
+        }
+
+        $this->remove($event);
+        $this->flush();
+
+        return new JsonResponse();
     }
 }

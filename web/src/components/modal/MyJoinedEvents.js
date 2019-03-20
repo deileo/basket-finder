@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/es/Typography/Typography";
 import AppBar from "@material-ui/core/es/AppBar/AppBar";
 import Tabs from "@material-ui/core/es/Tabs/Tabs";
 import Tab from "@material-ui/core/es/Tab/Tab";
+import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
 
 class MyJoinedEvents extends Component {
   state = {
@@ -20,7 +21,9 @@ class MyJoinedEvents extends Component {
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevProps.open && this.props.open) {
+    const {eventReducer} = this.props;
+
+    if ((!prevProps.open && this.props.open) || eventReducer.reload) {
       this.props.getUserJoinedEventsAction(this.props.user.googleAccessToken)
     }
   }
@@ -47,7 +50,7 @@ class MyJoinedEvents extends Component {
         <MyJoinedEvent
           key={event.id}
           event={event}
-          type={this.props.type}
+          type={this.state.value === 1 ? TYPE_GYM_COURT : TYPE_COURT}
         />
       )
     });

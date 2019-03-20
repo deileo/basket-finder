@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface EventInterface
 {
@@ -75,4 +76,14 @@ interface EventInterface
      * @param User $participant
      */
     public function removeParticipant(User $participant): void;
+
+    /**
+     * @return UserInterface|null
+     */
+    public function getCreatedBy(): ?UserInterface;
+
+    /**
+     * @param UserInterface|null $user
+     */
+    public function setCreatedBy(?UserInterface $user): void;
 }
