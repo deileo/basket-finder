@@ -73,10 +73,6 @@ class EventController extends BaseController
      */
     public function editEvent(Request $request, Event $event): Response
     {
-        if (!$this->getUser()) {
-            return new JsonResponse();
-        }
-
         $form = $this->createForm(EventType::class, $event);
         $form->submit($request->request->all());
 
@@ -142,10 +138,6 @@ class EventController extends BaseController
      */
     public function joinEvent(EventInterface $event): Response
     {
-        if (!$this->getUser()) {
-            return new JsonResponse();
-        }
-
         $event->addParticipant($this->getUser());
         $this->flush();
 
@@ -161,10 +153,6 @@ class EventController extends BaseController
      */
     public function leaveEvent(EventInterface $event): Response
     {
-        if (!$this->getUser()) {
-            return new JsonResponse();
-        }
-
         $event->removeParticipant($this->getUser());
         $this->flush();
 
@@ -177,10 +165,6 @@ class EventController extends BaseController
      */
     public function getUserEvents(): Response
     {
-        if (!$this->getUser()) {
-            return new JsonResponse();
-        }
-
         return new Response($this->serializer->serialize($this->eventService->getUserEvents()));
     }
 
@@ -190,10 +174,6 @@ class EventController extends BaseController
      */
     public function getUserJoinedEvents(): Response
     {
-        if (!$this->getUser()) {
-            return new JsonResponse();
-        }
-
         return new Response($this->serializer->serialize($this->eventService->getUserJoinedEvents()));
     }
 
@@ -205,10 +185,6 @@ class EventController extends BaseController
      */
     public function deleteEvent(EventInterface $event): Response
     {
-        if (!$this->getUser()) {
-            return new JsonResponse();
-        }
-
         if ($event->getCreatedBy() !== $this->getUser()) {
             return new JsonResponse('Forbidden!', Response::HTTP_FORBIDDEN);
         }

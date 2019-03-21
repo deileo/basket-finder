@@ -28,7 +28,7 @@ export const eventListStyles = {
   paper: {
     margin: 5,
     padding: 10,
-    marginBottom: 25
+    marginBottom: 5
   },
   textCenter: {
     textAlign: 'center',
@@ -38,27 +38,24 @@ export const eventListStyles = {
 
 export const eventStyles = theme => ({
   eventContent: {
-    fontSize: '1rem',
+    fontSize: '.8rem',
     color: 'rgba(0, 0, 0, 0.54)',
   },
   card: {
     maxWidth: '100%',
     margin: 5,
     padding: 10,
-    marginBottom: 25
+    marginBottom: 10
   },
   cardContent: {
     padding: '0 16px 0 16px',
     paddingBottom: '0!important'
   },
-  tableRow: {
-    height: 32
-  },
   paper: {
     position: 'absolute',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing.unit * 2,
     width: theme.spacing.unit * 75,
   },
 });

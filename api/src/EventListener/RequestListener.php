@@ -2,6 +2,8 @@
 
 namespace App\EventListener;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class RequestListener
@@ -11,23 +13,21 @@ class RequestListener
      */
     public function onKernelRequest(GetResponseEvent $event): void
     {
-        if (!$this->isValidRequest($event)) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 
         $request = $event->getRequest();
-        $postData = json_decode($request->getContent(), true);
-        if ($postData) {
-            $event->getRequest()->request->add($postData);
-        }
-    }
 
-    /**
-     * @param GetResponseEvent $event
-     * @return bool
-     */
-    private function isValidRequest(GetResponseEvent $event): bool
-    {
-        return $event->isMasterRequest() && $event->getRequest()->getMethod() === 'POST';
+        if ($request->getMethod() === Request::METHOD_OPTIONS) {
+            $event->setResponse(new JsonResponse());
+        }
+
+        if ($request->getMethod() === Request::METHOD_POST) {
+            $postData = json_decode($request->getContent(), true);
+            if ($postData) {
+                $event->getRequest()->request->add($postData);
+            }
+        }
     }
 }

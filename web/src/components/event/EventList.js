@@ -46,18 +46,18 @@ class EventList extends Component {
     return (
       <div>
         <Paper className={classes.paper} elevation={1}>
-          <Typography variant="h5" component="h3">
+          <Typography variant="h5">
             {court.address}
           </Typography>
-          <Typography component="p">
+          <Typography variant="body1">
             Kiekis: {events.length}
           </Typography>
-          <Typography component="p">
+          <Typography variant="body1">
             Rajonas: {court.location}
           </Typography>
         </Paper>
         {events.length ? this.renderEvents(events) :
-          <Typography className={classes.textCenter} variant="h5" component="h2">Nera paskelbtu varzybu</Typography>
+          <Typography className={classes.textCenter} variant="h5">Nera paskelbtu varzybu</Typography>
         }
       </div>
     )
@@ -67,15 +67,15 @@ class EventList extends Component {
     return (
       <div>
         <Paper className={classes.paper} elevation={1}>
-          <Typography variant="h5" component="h3">
+          <Typography variant="h5">
             Artimiausios varžybos
           </Typography>
-          <Typography component="p">
+          <Typography variant="body1">
             Kiekis: {events.length}
           </Typography>
         </Paper>
         {events.length ? this.renderEvents(events) :
-          <Typography className={classes.textCenter} variant="h5" component="h2">Nera paskelbtu varzybu</Typography>
+          <Typography className={classes.textCenter} variant="h5">Nera paskelbtu varzybu</Typography>
         }
       </div>
     )
