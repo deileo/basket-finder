@@ -31,11 +31,11 @@ class CreateEventForm extends Component {
     if (event) {
       console.log(event);
       this.setState({
-        'name': event.name,
-        'comment': event.comment ? event.comment : '',
-        'neededPlayers': event.neededPlayers,
-        'date': new Date(event.date.timestamp * 1000),
-        'startTime': new Date((event.date.timestamp + event.startTime.timestamp) * 1000),
+        name: event.name,
+        comment: event.comment ? event.comment : '',
+        neededPlayers: event.neededPlayers,
+        date: new Date(event.date.timestamp * 1000),
+        startTime: new Date((event.date.timestamp + event.startTime.timestamp) * 1000),
       });
     }
   }
@@ -189,7 +189,7 @@ class CreateEventForm extends Component {
                   className={classes.submit}
                   onClick={this.handleSubmit}
           >
-            Sukurti
+            {this.props.event ? 'Redaguoti' : 'Sukurti'}
           </Button>
         </form>
       </div>

@@ -12,19 +12,7 @@ import * as actions from "../../actions";
 import icon  from "../../icon-56.png";
 import {TYPE_COURT} from "../../actions/types";
 import CreateGymEventForm from "../form/CreateGymEventForm";
-import {courtStyles} from "../styles";
-
-
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
+import {courtStyles, modalStyles} from "../styles";
 
 class CourtMarker extends Component {
   state = {
@@ -53,7 +41,7 @@ class CourtMarker extends Component {
               open={modalReducer.isCreateEventOpen}
               onClose={this.handleClose}
             >
-              <div style={getModalStyle()} className={classes.paper}>
+              <div style={modalStyles} className={classes.paper}>
                 {courtReducer.type === TYPE_COURT ?
                   <CreateEventForm court={court} handleClose={this.handleClose}/> :
                   <CreateGymEventForm court={court} handleClose={this.handleClose}/>

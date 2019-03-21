@@ -1,30 +1,23 @@
 import {
   CREATE_EVENT_MODAL_OPENED,
-  CREATE_EVENT_MODAL_CLOSED,
-  MY_EVENT_MODAL_OPENED,
-  MY_JOINED_EVENT_MODAL_OPENED,
+  CREATE_EVENT_MODAL_CLOSED, TYPE_COURT,
+  CREATE_GYM_EVENT_MODAL_OPENED,
 } from './types';
 
-export const closeCreateEventModalAction = () => {
+export const closeCreateEventModalAction = (type = TYPE_COURT) => {
   return {
     type: CREATE_EVENT_MODAL_CLOSED
   };
 };
 
-export const openCreateEventModalAction = () => {
-  return {
-    type: CREATE_EVENT_MODAL_OPENED
-  };
-};
-
-export const toggleMyEventModalAction = (isOpen) => {
-  return {
-    type: MY_EVENT_MODAL_OPENED, payload: isOpen
+export const openCreateEventModalAction = (type = TYPE_COURT) => {
+  if (type === TYPE_COURT) {
+    return {
+      type: CREATE_EVENT_MODAL_OPENED
+    };
   }
-};
 
-export const toggleMyJoinedEventModalAction = (isOpen) => {
   return {
-    type: MY_JOINED_EVENT_MODAL_OPENED, payload: isOpen
+    type: CREATE_GYM_EVENT_MODAL_OPENED
   }
 };

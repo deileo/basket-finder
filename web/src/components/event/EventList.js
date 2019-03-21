@@ -15,12 +15,18 @@ class EventList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {eventReducer} = this.props;
-    let court = this.props.courtsReducer ? this.props.courtsReducer.court : null;
+    const {eventReducer, courtsReducer} = this.props;
 
-    if (court && !prevProps.eventReducer.reload && eventReducer.reload) {
-      this.props.fetchCourtById(this.props.courtsReducer.type, court.id);
-      this.props.getEventsAction(this.props.courtsReducer.type, court.id);
+    if (!eventReducer || !prevProps.eventReducer || !courtsReducer) {
+      return;
+    }
+
+    if (!prevProps.eventReducer.reload && eventReducer.reload) {
+      let court = this.props.courtsReducer ? this.props.courtsReducer.court : null;
+      if (court) {
+        this.props.fetchCourtById(this.props.courtsReducer.type, court.id);
+      }
+      this.props.getEventsAction(this.props.courtsReducer.type, court ? court.id : null);
       this.props.resetEventCreationAction();
     }
   }

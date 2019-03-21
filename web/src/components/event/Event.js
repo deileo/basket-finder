@@ -8,21 +8,10 @@ import {withStyles} from '@material-ui/core/styles';
 import InfoModal from "./InfoModal";
 import Modal from "@material-ui/core/Modal/Modal";
 import {TYPE_GYM_COURT} from "../../actions/types";
-import {eventStyles} from "../styles";
+import {eventStyles, modalStyles} from "../styles";
 import {getEventTime} from "../../services/eventService";
 import {connect} from "react-redux";
 import * as actions from './../../actions';
-
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
 
 class Event extends Component {
 
@@ -111,7 +100,7 @@ class Event extends Component {
               open={this.state.infoModalOpen}
               onClose={this.handleClose}
             >
-              <div style={getModalStyle()} className={classes.paper}>
+              <div style={modalStyles} className={classes.paper}>
                 <InfoModal
                   event={event}
                   onClose={this.handleCloseInfoModalClick}

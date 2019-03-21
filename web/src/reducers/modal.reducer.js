@@ -1,14 +1,12 @@
 import {
   CREATE_EVENT_MODAL_OPENED,
   CREATE_EVENT_MODAL_CLOSED,
-  MY_EVENT_MODAL_OPENED,
-  MY_JOINED_EVENT_MODAL_OPENED,
+  CREATE_GYM_EVENT_MODAL_OPENED,
 } from '../actions/types';
 
 const modalState = {
   isCreateEventOpen: false,
-  isMyEventOpen: false,
-  isMyJoinedEventOpen: false
+  isCreateGymEventOpen: false,
 };
 
 export default function(state = modalState, action) {
@@ -16,14 +14,11 @@ export default function(state = modalState, action) {
     case CREATE_EVENT_MODAL_OPENED: {
       return { ...state, isCreateEventOpen: true };
     }
+    case CREATE_GYM_EVENT_MODAL_OPENED: {
+      return { ...state, isCreateGymEventOpen: true };
+    }
     case CREATE_EVENT_MODAL_CLOSED: {
-      return { ...state, isCreateEventOpen: false };
-    }
-    case MY_EVENT_MODAL_OPENED: {
-      return { ...state, isMyEventOpen: action.payload };
-    }
-    case MY_JOINED_EVENT_MODAL_OPENED: {
-      return { ...state, isMyJoinedEventOpen: action.payload };
+      return { ...state, isCreateEventOpen: false, isCreateGymEventOpen: false };
     }
     default:
       return state;

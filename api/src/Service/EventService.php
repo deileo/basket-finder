@@ -66,25 +66,25 @@ class EventService
     }
 
     /**
-     * @return Event[]
+     * @return EventInterface[]
      */
     public function getUserEvents(): array
     {
-        return [
-            'court' => $this->eventRepository->getUserEvents($this->security->getUser()),
-            'gymCourt' => $this->gymEventRepository->getUserEvents($this->security->getUser()),
-        ];
+        return array_merge(
+            $this->eventRepository->getUserEvents($this->security->getUser()),
+            $this->gymEventRepository->getUserEvents($this->security->getUser())
+        );
     }
 
     /**
-     * @return Event[]
+     * @return EventInterface[]
      */
     public function getUserJoinedEvents(): array
     {
-        return [
-            'court' => $this->eventRepository->getUserJoinedEvents($this->security->getUser()),
-            'gymCourt' => $this->gymEventRepository->getUserJoinedEvents($this->security->getUser()),
-        ];
+        return array_merge(
+            $this->eventRepository->getUserJoinedEvents($this->security->getUser()),
+            $this->gymEventRepository->getUserJoinedEvents($this->security->getUser())
+        );
     }
 
     /**

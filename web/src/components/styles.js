@@ -58,6 +58,10 @@ export const eventStyles = theme => ({
     padding: theme.spacing.unit * 2,
     width: theme.spacing.unit * 75,
   },
+  textCenter: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  }
 });
 
 export const courtStyles = theme => ({
@@ -78,3 +82,9 @@ export const courtStyles = theme => ({
     padding: theme.spacing.unit * 4,
   },
 });
+
+export const modalStyles = {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+};

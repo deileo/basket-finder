@@ -12,6 +12,7 @@ import AuthItem from "./AuthItem";
 import { connect } from 'react-redux';
 import * as actions from './../../actions';
 import {navbarStyles} from '../styles'
+import Setting from "./Setting";
 
 class Navbar extends Component {
   state = {
@@ -31,7 +32,7 @@ class Navbar extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, userReducer } = this.props;
 
     return (
       <div className={classes.root}>
@@ -47,6 +48,7 @@ class Navbar extends Component {
               <Tab label="Lauko aiksteles" />
               <Tab label="Vidaus aisteles" />
             </Tabs>
+            {userReducer.isAuthenticated ? <Setting userReducer={userReducer}/> : ''}
             <AuthItem />
           </Toolbar>
         </AppBar>
@@ -55,4 +57,10 @@ class Navbar extends Component {
   }
 }
 
-export default connect(null, actions)(withStyles(navbarStyles)(Navbar));
+const mapStateToProps = state => {
+  return {
+    userReducer: state.userReducer,
+  };
+};
+
+export default connect(mapStateToProps, actions)(withStyles(navbarStyles)(Navbar));

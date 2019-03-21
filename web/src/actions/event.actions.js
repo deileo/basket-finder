@@ -64,8 +64,6 @@ export const editEventAction = (eventData, eventId, type, token) => {
 
 export const joinEventAction = (token, eventId, type) => {
   return function(dispatch) {
-    dispatch({ type: LOADING_EVENTS_STARTED });
-
     return joinEvent(token, eventId, type)
       .then(response => {
         if (response.status === 201) {
@@ -77,16 +75,11 @@ export const joinEventAction = (token, eventId, type) => {
       .catch(error => {
         return showConsoleError(error);
       })
-      .finally(() => {
-        dispatch({ type: LOADING_EVENTS_ENDED });
-      })
   };
 };
 
 export const leaveEventAction = (token, eventId, type) => {
   return function(dispatch) {
-    dispatch({ type: LOADING_EVENTS_STARTED });
-
     return leaveEvent(token, eventId, type)
       .then(response => {
         dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Successfully Left!', variant: 'success'}});
@@ -95,9 +88,6 @@ export const leaveEventAction = (token, eventId, type) => {
       })
       .catch(error => {
         return showConsoleError(error);
-      })
-      .finally(() => {
-        dispatch({ type: LOADING_EVENTS_ENDED });
       })
   };
 };
@@ -145,20 +135,16 @@ export const getUserJoinedEventsAction = (token) => {
 
 export const deleteEventAction = (event, type, token) => {
   return function(dispatch) {
-    dispatch({ type: LOADING_EVENTS_STARTED });
-      return deleteEvent(event, type, token)
-        .then(response => {
-          if (response.status === 200) {
-            dispatch({type: DELETE_EVENT});
-            dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event deleted!', variant: 'success'}});
-          }
-        })
-        .catch(error => {
-          return showConsoleError(error);
-        })
-        .finally(() => {
-            dispatch({ type: LOADING_EVENTS_ENDED });
-        });
+    return deleteEvent(event, type, token)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch({type: DELETE_EVENT});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event deleted!', variant: 'success'}});
+        }
+      })
+      .catch(error => {
+        return showConsoleError(error);
+      })
   };
 };
 

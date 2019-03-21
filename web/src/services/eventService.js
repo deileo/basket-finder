@@ -72,17 +72,6 @@ export function getUserJoinedEvents(token) {
   return axios.get(url, config);
 }
 
-export function getEventTime(event, type) {
-  let startTime = moment.unix(event.startTime.timestamp);
-  let eventTime = moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm');
-
-  if (type === TYPE_GYM_COURT && event.endTime) {
-    eventTime += ' - ' + moment.unix(event.endTime.timestamp).format('H:mm');
-  }
-
-  return eventTime;
-}
-
 export function deleteEvent(eventId, type, token)
 {
   config.headers['X-AUTH-TOKEN'] = token;
@@ -91,3 +80,18 @@ export function deleteEvent(eventId, type, token)
 
   return axios.post(url, {}, config);
 }
+
+export const getEventTime = (event, type) => {
+  let startTime = moment.unix(event.startTime.timestamp);
+  let eventTime = moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm');
+
+  if (type === TYPE_GYM_COURT && event.endTime) {
+    eventTime += ' - ' + moment.unix(event.endTime.timestamp).format('H:mm');
+  }
+
+  return eventTime;
+};
+
+export const isArrayNotEmpty = (collection) => {
+  return collection && collection.length > 0;
+};

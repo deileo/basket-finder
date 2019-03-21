@@ -26,6 +26,22 @@ class CreateGymEventForm extends Component {
     gymCourt: this.props.court.id,
   };
 
+  componentDidMount() {
+    const {event} = this.props;
+
+    if (event) {
+      this.setState({
+        name: event.name,
+        price: event.price,
+        comment: event.comment ? event.comment : '',
+        neededPlayers: event.neededPlayers,
+        date: new Date(event.date.timestamp * 1000),
+        startTime: new Date((event.date.timestamp + event.startTime.timestamp) * 1000),
+        endTime: new Date((event.date.timestamp + event.endTime ? event.endTime.timestamp : 0) * 1000),
+      });
+    }
+  }
+
   handleNeededPlayersChange = (event, neededPlayers) => {
     this.setState({neededPlayers});
   };
@@ -208,7 +224,7 @@ class CreateGymEventForm extends Component {
                   className={classes.submit}
                   onClick={this.handleSubmit}
           >
-            Sukurti
+            {this.props.event ? 'Redaguoti' : 'Sukurti'}
           </Button>
         </form>
       </div>
