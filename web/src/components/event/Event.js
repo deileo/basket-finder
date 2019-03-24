@@ -9,7 +9,7 @@ import InfoModal from "./InfoModal";
 import Modal from "@material-ui/core/Modal/Modal";
 import {TYPE_GYM_COURT} from "../../actions/types";
 import {eventStyles, modalStyles} from "../styles";
-import {getEventTime} from "../../services/eventService";
+import {getConfirmedParticipantsCount, getEventTime} from "../../services/eventService";
 import {connect} from "react-redux";
 import * as actions from './../../actions';
 
@@ -37,16 +37,40 @@ class Event extends Component {
     this.props.leaveEventAction(userReducer.auth.googleAccessToken, event.id, type);
   };
 
-  renderEventJoinActions = (userReducer, event) => {
+  renderEventJoinActions = (userReducer, event, type) => {
     if (!userReducer.isAuthenticated) {
       return null;
     }
 
-    let isUserJoined = event.participants.map(function (participant) {
-      return participant.id === userReducer.auth.id;
+
+    let joinedUserList = event.participants.filter(function (participant) {
+      return type === TYPE_GYM_COURT ?
+        participant.user && participant.user.id === userReducer.auth.id :
+        participant.id === userReducer.auth.id;
     });
 
-    if (isUserJoined.length > 0) {
+
+    if (joinedUserList.length > 0) {
+      if (type === TYPE_GYM_COURT) {
+        let confirmedUsers = joinedUserList.filter(function (participant) {
+          return participant.confirmed === true;
+        });
+
+        if (confirmedUsers.length > 0) {
+          return (
+            <Button size="small" variant="contained" color="secondary" onClick={this.handleLeave}>
+              Išeiti
+            </Button>
+          )
+        } else {
+          return (
+            <Button size="small" variant="contained" color="inherit" disabled={true}>
+              Prasymas issiustas
+            </Button>
+          )
+        }
+      }
+
       return (
         <Button size="small" variant="contained" color="secondary" onClick={this.handleLeave}>
           Išeiti
@@ -56,7 +80,7 @@ class Event extends Component {
 
     return (
       <Button size="small" variant="contained" color="primary" onClick={this.handleJoin}>
-        Prisijungti
+        {this.props.type === TYPE_GYM_COURT ? 'Siusti prasyma' : 'Prisijungti'}
       </Button>
     );
   };
@@ -78,7 +102,7 @@ class Event extends Component {
             Adresas: {event.court ? event.court.address : event.gymCourt.address}
           </Typography>
           <Typography variant="body1" gutterBottom className={classes.eventContent}>
-            Zaidejai: {event.participants.length}/{event.neededPlayers}
+            Zaidejai: {type === TYPE_GYM_COURT ? getConfirmedParticipantsCount(event) : event.participants.length}/{event.neededPlayers}
           </Typography>
           {type === TYPE_GYM_COURT && event.price > 0 ?
             <Typography variant="body1" gutterBottom className={classes.eventContent}>
@@ -91,7 +115,7 @@ class Event extends Component {
             </Typography> : ''
           }
           <CardActions>
-            {this.renderEventJoinActions(this.props.userReducer, event)}
+            {this.renderEventJoinActions(this.props.userReducer, event, type)}
             <Button size="small" variant="outlined" color="primary" onClick={this.handleOpenInfoModalClick}>
               Informacija
             </Button>

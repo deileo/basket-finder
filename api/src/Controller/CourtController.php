@@ -38,7 +38,7 @@ class CourtController extends BaseController
 
     /**
      * @Route("/{type}/{id}", name="api:courts:get")
-     * @ParamConverter("CourtInterface", class="App\Entity\CourtInterface")
+     * @ParamConverter("CorurtInterface", class="App\Entity\CourtInterface")
      * @param CourtInterface $court
      * @param JsonSerializeService $serializer
      * @return Response

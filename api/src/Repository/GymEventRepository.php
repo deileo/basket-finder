@@ -115,7 +115,8 @@ class GymEventRepository extends ServiceEntityRepository implements EventReposit
                     )
                 )
             )
-                ->andWhere($qb->expr()->eq('p', ':user'))
+                ->andWhere($qb->expr()->eq('p.user', ':user'))
+                ->andWhere($qb->expr()->eq('p.isConfirmed', $qb->expr()->literal(true)))
                 ->addOrderBy('e.date')
                 ->addOrderBy('e.startTime')
                 ->setParameters([

@@ -9,9 +9,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 import MyCreatedEvents from "../event/MyCreatedEvents";
 import MyJoinedEvents from "../event/MyJoinedEvents";
+import MyParticipantRequests from "../participant/MyParticipantRequests";
+import Badge from "@material-ui/core/es/Badge/Badge";
 
 class Setting extends Component {
   state = {
@@ -20,10 +21,33 @@ class Setting extends Component {
     anchorEl: null,
   };
 
+  componentDidMount() {
+    this.props.getUserCreatedEventsAction(this.props.userReducer.auth.googleAccessToken);
+    this.props.getUserJoinedEventsAction(this.props.userReducer.auth.googleAccessToken);
+    this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
+  }
+
+  updateUserEvents() {
+    if (this.state.value === 0) {
+      this.props.getUserCreatedEventsAction(this.props.userReducer.auth.googleAccessToken);
+    }
+
+    if (this.state.value === 1) {
+      this.props.getUserJoinedEventsAction(this.props.userReducer.auth.googleAccessToken);
+    }
+
+    if (this.state.value === 2) {
+      this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!prevState.open && this.state.open) {
-      this.props.getUserCreatedEventsAction(this.props.userReducer.auth.googleAccessToken);
-      this.props.getUserJoinedEventsAction(this.props.userReducer.auth.googleAccessToken);
+      this.updateUserEvents();
+    }
+
+    if (prevState.value !== this.state.value) {
+      this.updateUserEvents();
     }
   }
 
@@ -38,12 +62,14 @@ class Setting extends Component {
   };
 
   render() {
-    const {classes} = this.props;
+    const {classes, participantReducer} = this.props;
 
     return (
       <div>
         <IconButton className={classes.menuButton} color="inherit" onClick={this.toggleTab}>
-          <SettingsIcon />
+          <Badge badgeContent={participantReducer.unconfirmedParticipants.length} color="error">
+            <SettingsIcon />
+          </Badge>
         </IconButton>
         <Popper open={this.state.open} anchorEl={this.state.anchorEl} transition disablePortal>
           {({TransitionProps}) => (
@@ -56,14 +82,13 @@ class Setting extends Component {
                   textColor="primary"
                   variant="fullWidth"
                 >
-                  <Tab label="Sukurtos varzybos"/>
-                  <Tab label="Dalyvavimai"/>
                   <Tab label="Prasymai"/>
+                  <Tab label="Dalyvavimai"/>
+                  <Tab label="Sukurtos varzybos"/>
                 </Tabs>
-                {this.state.value === 0 && <MyCreatedEvents />}
+                {this.state.value === 0 && <MyParticipantRequests />}
                 {this.state.value === 1 && <MyJoinedEvents />}
-                {this.state.value === 2 && <Typography variant={"body1"}>
-                  789456123</Typography>}
+                {this.state.value === 2 && <MyCreatedEvents />}
               </Paper>
             </Grow>
           )}
@@ -77,6 +102,7 @@ const mapStateToProps = state => {
   return {
     eventReducer: state.eventReducer,
     modalReducer: state.modalReducer,
+    participantReducer: state.participantReducer
   };
 };
 

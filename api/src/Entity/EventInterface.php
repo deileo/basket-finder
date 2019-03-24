@@ -63,19 +63,19 @@ interface EventInterface
     public function setComment(?string $comment): void;
 
     /**
-     * @return User[]|Collection
+     * @return User[]|Collection||GymEventParticipant[]
      */
     public function getParticipants(): Collection;
 
     /**
-     * @param User $participant
+     * @param User|GymEventParticipant $participant
      */
-    public function addParticipant(User $participant): void;
+    public function addParticipant($participant): void;
 
     /**
-     * @param User $participant
+     * @param User|GymEventParticipant $participant
      */
-    public function removeParticipant(User $participant): void;
+    public function removeParticipant($participant): void;
 
     /**
      * @return UserInterface|null

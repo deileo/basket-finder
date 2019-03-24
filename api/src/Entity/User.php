@@ -72,9 +72,9 @@ class User implements UserInterface
     private $createdGymEvents;
 
     /**
-     * @var GymEvent[]|Collection
+     * @var GymEventParticipant[]|Collection
      *
-     * @ORM\ManyToMany(targetEntity="GymEvent", mappedBy="participants")
+     * @ORM\OneToMany(targetEntity="GymEventParticipant", mappedBy="user")
      */
     private $joinedGymEvents;
 
@@ -205,7 +205,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return GymEvent[]|ArrayCollection
+     * @return GymEvent[]|Collection
      */
     public function getCreatedGymEvents(): Collection
     {
@@ -234,7 +234,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return Event[]|ArrayCollection
+     * @return Event[]|Collection
      */
     public function getCreatedEvents(): Collection
     {

@@ -87,7 +87,7 @@ class Event extends BaseEvent implements EventInterface
     /**
      * @param User $participant
      */
-    public function addParticipant(User $participant): void
+    public function addParticipant($participant): void
     {
         if (!$this->getParticipants()->contains($participant)) {
             $this->getParticipants()->add($participant);
@@ -97,7 +97,7 @@ class Event extends BaseEvent implements EventInterface
     /**
      * @param User $participant
      */
-    public function removeParticipant(User $participant): void
+    public function removeParticipant($participant): void
     {
         if ($this->getParticipants()->contains($participant)) {
             $this->getParticipants()->removeElement($participant);

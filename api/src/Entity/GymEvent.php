@@ -49,10 +49,9 @@ class GymEvent extends BaseEvent implements EventInterface
     private $gymCourt;
 
     /**
-     * @var Collection|User[]
+     * @var Collection|GymEventParticipant[]
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="joinedGymEvents")
-     * @ORM\JoinTable(name="gym_event_participants")
+     * @ORM\OneToMany(targetEntity="GymEventParticipant", mappedBy="event")
      */
     private $participants;
 
@@ -127,7 +126,7 @@ class GymEvent extends BaseEvent implements EventInterface
     }
 
     /**
-     * @return User[]|Collection
+     * @return GymEventParticipant[]|Collection
      */
     public function getParticipants(): Collection
     {
@@ -135,19 +134,20 @@ class GymEvent extends BaseEvent implements EventInterface
     }
 
     /**
-     * @param User $participant
+     * @param GymEventParticipant $participant
      */
-    public function addParticipant(User $participant): void
+    public function addParticipant($participant): void
     {
         if (!$this->getParticipants()->contains($participant)) {
             $this->getParticipants()->add($participant);
+            $participant->setEvent($this);
         }
     }
 
     /**
-     * @param User $participant
+     * @param GymEventParticipant $participant
      */
-    public function removeParticipant(User $participant): void
+    public function removeParticipant($participant): void
     {
         if ($this->getParticipants()->contains($participant)) {
             $this->getParticipants()->removeElement($participant);

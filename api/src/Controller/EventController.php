@@ -6,8 +6,10 @@ use App\Entity\CourtInterface;
 use App\Entity\Event;
 use App\Entity\EventInterface;
 use App\Entity\GymEvent;
+use App\Entity\GymEventParticipant;
 use App\Form\Event\EventType;
 use App\Form\Event\GymEventType;
+use App\Repository\ParticipantRepository;
 use App\Service\EventService;
 use App\Service\JsonSerializeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -138,7 +140,13 @@ class EventController extends BaseController
      */
     public function joinEvent(EventInterface $event): Response
     {
-        $event->addParticipant($this->getUser());
+        if ($event instanceof GymEvent) {
+            $participant = $this->eventService->addGymEventParticipant($event);
+            $this->persist($participant);
+        } else {
+            $event->addParticipant($this->getUser());
+        }
+
         $this->flush();
 
         return new JsonResponse('success', Response::HTTP_CREATED);
@@ -153,7 +161,16 @@ class EventController extends BaseController
      */
     public function leaveEvent(EventInterface $event): Response
     {
-        $event->removeParticipant($this->getUser());
+        if ($event instanceof GymEvent) {
+            $participant = $this->eventService->removeGymEventParticipant($event);
+
+            if($participant) {
+                $this->remove($participant);
+            }
+
+        } else {
+            $event->removeParticipant($this->getUser());
+        }
         $this->flush();
 
         return new JsonResponse('success');

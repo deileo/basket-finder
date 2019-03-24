@@ -7,9 +7,12 @@ use App\Entity\CourtInterface;
 use App\Entity\Event;
 use App\Entity\EventInterface;
 use App\Entity\GymCourt;
+use App\Entity\GymEvent;
+use App\Entity\GymEventParticipant;
 use App\Repository\EventRepository;
 use App\Repository\EventRepositoryInterface;
 use App\Repository\GymEventRepository;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Symfony\Component\Security\Core\Security;
 
@@ -18,12 +21,17 @@ class EventService
     /**
      * @var EventRepository
      */
-    private $eventRepository;
+    private $eventRepo;
 
     /**
      * @var GymEventRepository
      */
-    private $gymEventRepository;
+    private $gymEventRepo;
+
+    /**
+     * @var ParticipantRepository
+     */
+    private $participantRepo;
 
     /**
      * @var Security
@@ -31,14 +39,16 @@ class EventService
     private $security;
 
     /**
-     * @param EventRepository $eventRepository
-     * @param GymEventRepository $gymEventRepository
+     * @param EventRepository $eventRepo
+     * @param GymEventRepository $gymEventRepo
+     * @param ParticipantRepository $participantRepo
      * @param Security $security
      */
-    public function __construct(EventRepository $eventRepository, GymEventRepository $gymEventRepository, Security $security)
+    public function __construct(EventRepository $eventRepo, GymEventRepository $gymEventRepo, ParticipantRepository $participantRepo,Security $security)
     {
-        $this->eventRepository = $eventRepository;
-        $this->gymEventRepository = $gymEventRepository;
+        $this->eventRepo = $eventRepo;
+        $this->gymEventRepo = $gymEventRepo;
+        $this->participantRepo = $participantRepo;
         $this->security = $security;
     }
 
@@ -59,10 +69,10 @@ class EventService
     public function getActiveCourtEvents(CourtInterface $court): array
     {
         if ($court instanceof GymCourt) {
-            return $this->gymEventRepository->getActiveCourtEvents($court);
+            return $this->gymEventRepo->getActiveCourtEvents($court);
         }
 
-        return $this->eventRepository->getActiveCourtEvents($court);
+        return $this->eventRepo->getActiveCourtEvents($court);
     }
 
     /**
@@ -71,8 +81,8 @@ class EventService
     public function getUserEvents(): array
     {
         return array_merge(
-            $this->eventRepository->getUserEvents($this->security->getUser()),
-            $this->gymEventRepository->getUserEvents($this->security->getUser())
+            $this->eventRepo->getUserEvents($this->security->getUser()),
+            $this->gymEventRepo->getUserEvents($this->security->getUser())
         );
     }
 
@@ -82,8 +92,8 @@ class EventService
     public function getUserJoinedEvents(): array
     {
         return array_merge(
-            $this->eventRepository->getUserJoinedEvents($this->security->getUser()),
-            $this->gymEventRepository->getUserJoinedEvents($this->security->getUser())
+            $this->eventRepo->getUserJoinedEvents($this->security->getUser()),
+            $this->gymEventRepo->getUserJoinedEvents($this->security->getUser())
         );
     }
 
@@ -102,17 +112,49 @@ class EventService
     }
 
     /**
+     * @param GymEvent $event
+     * @return GymEventParticipant
+     */
+    public function addGymEventParticipant(GymEvent $event): GymEventParticipant
+    {
+        $participant = new GymEventParticipant($event, $this->security->getUser());
+        $event->addParticipant($participant);
+
+        return $participant;
+    }
+
+    /**
+     * @param GymEvent $event
+     * @return GymEventParticipant|null
+     */
+    public function removeGymEventParticipant(GymEvent $event): ?GymEventParticipant
+    {
+        $participant = $this->participantRepo->findOneBy([
+            'event' => $event,
+            'user' => $this->security->getUser(),
+        ]);
+
+        if (!$participant) {
+            return null;
+        }
+
+        $event->removeParticipant($participant);
+
+        return $participant;
+    }
+
+    /**
      * @param string $type
      * @return EventRepositoryInterface
      */
     private function getEventRepository(string $type): EventRepositoryInterface
     {
         if ($type === BaseCourt::PUBLIC_COURT) {
-            return $this->eventRepository;
+            return $this->eventRepo;
         }
 
         if ($type === BaseCourt::GYM_COURT) {
-            return $this->gymEventRepository;
+            return $this->gymEventRepo;
         }
 
         throw new ORMInvalidArgumentException();

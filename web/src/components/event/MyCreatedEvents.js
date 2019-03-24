@@ -4,7 +4,7 @@ import {eventStyles, modalStyles} from '../styles';
 import {connect} from 'react-redux';
 import * as actions from './../../actions';
 import Typography from "@material-ui/core/es/Typography/Typography";
-import {getEventTime, isArrayNotEmpty} from "../../services/eventService";
+import {getConfirmedParticipantsCount, getEventTime, isArrayNotEmpty} from "../../services/eventService";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
@@ -18,6 +18,8 @@ import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
 import Modal from "@material-ui/core/Modal";
 import CreateEventForm from "../form/CreateEventForm";
 import CreateGymEventForm from "../form/CreateGymEventForm";
+import EventLoader from "../EventLoader";
+import icon  from "../../event-icon.png";
 
 class MyCreatedEvents extends Component {
 
@@ -63,7 +65,7 @@ class MyCreatedEvents extends Component {
   };
 
   getEventListItemInfo = (event) => {
-    let info = 'Zaidejai: ' + event.participants.length + "/" + event.neededPlayers;
+    let info = 'Zaidejai: ' + (event.court ? event.participants.length : getConfirmedParticipantsCount(event)) + "/" + event.neededPlayers;
     if (event.price) {
       info += ' Kaina: ' + event.price + '€';
     }
@@ -90,15 +92,26 @@ class MyCreatedEvents extends Component {
   };
 
   render() {
-    const {classes, eventReducer} = this.props;
+    const {classes, eventReducer, loaderReducer} = this.props;
+
+    if (loaderReducer.isEventsLoading) {
+      return (
+        <div>
+          <List className={classes.root} style={{height: '30vh'}}>
+            <EventLoader/>
+          </List>
+        </div>
+      )
+    }
+
     return (
       <div>
-      <List className={classes.root}>
+      <List className={classes.root} style={{height: '30vh'}}>
         {isArrayNotEmpty(eventReducer.userCreatedEvents) ? eventReducer.userCreatedEvents.map(event => {
           return (
             <ListItem alignItems="flex-start" key={event.id}>
               <ListItemAvatar>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+                <Avatar alt="Remy Sharp" src={icon}/>
               </ListItemAvatar>
               <div>
                 <ListItemText
@@ -141,6 +154,7 @@ const mapStateToProps = state => {
   return {
     eventReducer: state.eventReducer,
     userReducer: state.userReducer,
+    loaderReducer: state.loaderReducer,
   };
 };
 

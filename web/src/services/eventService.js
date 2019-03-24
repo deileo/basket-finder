@@ -72,8 +72,7 @@ export function getUserJoinedEvents(token) {
   return axios.get(url, config);
 }
 
-export function deleteEvent(eventId, type, token)
-{
+export function deleteEvent(eventId, type, token) {
   config.headers['X-AUTH-TOKEN'] = token;
 
   let url = API_URL + '/events/' + type + '/' + eventId + '/delete';
@@ -90,6 +89,14 @@ export const getEventTime = (event, type) => {
   }
 
   return eventTime;
+};
+
+export const getConfirmedParticipantsCount = (event) => {
+  let confirmedParticipants = event.participants.filter(function(participant) {
+    return participant.confirmed === true;
+  });
+
+  return confirmedParticipants.length;
 };
 
 export const isArrayNotEmpty = (collection) => {
