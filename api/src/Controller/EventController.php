@@ -45,7 +45,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/court/new", name="api:event:new")
+     * @Route("/court/new", name="api:event:new", methods={"post"})
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @return Response
@@ -67,7 +67,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/court/{id}/edit", name="api:event:edit")
+     * @Route("/court/{id}/edit", name="api:event:edit", methods={"post"})
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @param Event $event
@@ -89,7 +89,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/gym-court/new", name="api:gym-event:new")
+     * @Route("/gym-court/new", name="api:gym-event:new", methods={"post"})
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @return Response

@@ -92,12 +92,20 @@ class User implements UserInterface
      */
     private $joinedEvents;
 
+    /**
+     * @var Permission[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="user")
+     */
+    private $permissions;
+
     public function __construct()
     {
         $this->createdEvents = new ArrayCollection();
         $this->createdGymEvents = new ArrayCollection();
         $this->joinedEvents = new ArrayCollection();
         $this->joinedGymEvents = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
     }
 
     /**
@@ -259,6 +267,35 @@ class User implements UserInterface
     {
         if ($this->getCreatedEvents()->contains($event)) {
             $this->getCreatedEvents()->removeElement($event);
+        }
+    }
+
+    /**
+     * @return Permission[]|Collection
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @param Permission $permission
+     */
+    public function addPermissions(Permission $permission): void
+    {
+        if (!$this->getPermissions()->contains($permission)) {
+            $this->getPermissions()->add($permission);
+            $permission->setUser($this);
+        }
+    }
+
+    /**
+     * @param Permission $permission
+     */
+    public function removePermission(Permission $permission): void
+    {
+        if ($this->getPermissions()->contains($permission)) {
+            $this->getPermissions()->removeElement($permission);
         }
     }
 

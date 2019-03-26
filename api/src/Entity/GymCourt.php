@@ -44,6 +44,19 @@ class GymCourt extends BaseCourt implements CourtInterface
     protected $events;
 
     /**
+     * @var Permission[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="gymCourt")
+     */
+    private $permissions;
+
+    public function __construct()
+    {
+        $this->events = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -92,7 +105,7 @@ class GymCourt extends BaseCourt implements CourtInterface
     }
 
     /**
-     * @return Event[]|Collection
+     * @return GymEvent[]|Collection
      */
     public function getEvents(): Collection
     {
@@ -100,9 +113,9 @@ class GymCourt extends BaseCourt implements CourtInterface
     }
 
     /**
-     * @param Event $event
+     * @param GymEvent $event
      */
-    public function addEvent(Event $event): void
+    public function addEvent(GymEvent $event): void
     {
         if (!$this->getEvents()->contains($event)) {
             $this->getEvents()->add($event);
@@ -111,12 +124,42 @@ class GymCourt extends BaseCourt implements CourtInterface
     }
 
     /**
-     * @param Event $event
+     * @param GymEvent $event
      */
-    public function removeEvent(Event $event): void
+    public function removeEvent(GymEvent $event): void
     {
         if ($this->getEvents()->contains($event)) {
             $this->getEvents()->removeElement($event);
+        }
+    }
+
+
+    /**
+     * @return Permission[]|Collection
+     */
+    public function getPermissions(): Collection
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @param Permission $permission
+     */
+    public function addPermissions(Permission $permission): void
+    {
+        if (!$this->getPermissions()->contains($permission)) {
+            $this->getPermissions()->add($permission);
+            $permission->setGymCourt($this);
+        }
+    }
+
+    /**
+     * @param Permission $permission
+     */
+    public function removePermission(Permission $permission): void
+    {
+        if ($this->getPermissions()->contains($permission)) {
+            $this->getPermissions()->removeElement($permission);
         }
     }
 

@@ -10,7 +10,7 @@ import {
   GET_USER_JOINED_EVENTS,
   RESET_EVENT_CREATION,
   REMOVE_EVENT_ERRORS,
-  CREATE_EVENT_MODAL_CLOSED, LEAVE_EVENT, DELETE_EVENT, EDIT_EVENT
+  CREATE_EVENT_MODAL_CLOSED, LEAVE_EVENT, DELETE_EVENT, EDIT_EVENT, ACCEPT_PARTICIPANT
 } from './types';
 import {
   createEvent,
@@ -68,6 +68,7 @@ export const joinEventAction = (token, eventId, type) => {
       .then(response => {
         if (response.status === 201) {
           dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event joined!', variant: 'success'}});
+          dispatch({type: ACCEPT_PARTICIPANT});
 
           return dispatch({type: JOIN_EVENT, payload: response.data});
         }

@@ -49,6 +49,10 @@ class Setting extends Component {
     if (prevState.value !== this.state.value) {
       this.updateUserEvents();
     }
+
+    if (!prevProps.participantReducer.reload && this.props.participantReducer.reload) {
+      this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
+    }
   }
 
   toggleTab = (event) => {
