@@ -6,10 +6,8 @@ use App\Entity\CourtInterface;
 use App\Entity\Event;
 use App\Entity\EventInterface;
 use App\Entity\GymEvent;
-use App\Entity\GymEventParticipant;
 use App\Form\Event\EventType;
 use App\Form\Event\GymEventType;
-use App\Repository\ParticipantRepository;
 use App\Service\EventService;
 use App\Service\JsonSerializeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -45,7 +43,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/court/new", name="api:event:new", methods={"post"})
+     * @Route("/court/new", name="api:event:new")
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @return Response
@@ -67,7 +65,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/court/{id}/edit", name="api:event:edit", methods={"post"})
+     * @Route("/court/{id}/edit", name="api:event:edit")
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @param Event $event
@@ -89,7 +87,7 @@ class EventController extends BaseController
     }
 
     /**
-     * @Route("/gym-court/new", name="api:gym-event:new", methods={"post"})
+     * @Route("/gym-court/new", name="api:gym-event:new")
      * @Security("is_granted('API_ACCESS')")
      * @param Request $request
      * @return Response

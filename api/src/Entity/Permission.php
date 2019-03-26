@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -44,7 +45,22 @@ class Permission
     private $validUntil;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @var string|null
+     *
+     * @ORM\Column(name="file", type="string", nullable=true)
+     */
+    private $filePath;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(nullable=true)
+     * @Assert\Length(max=255)
+     */
+    private $message;
+
+    /**
+     * @var UploadedFile|null
      */
     private $file;
 
@@ -105,18 +121,50 @@ class Permission
     }
 
     /**
-     * @param $file
+     * @param $file|null
      */
-    public function setFile($file): void
+    public function setFile(?UploadedFile $file): void
     {
         $this->file = $file;
     }
 
     /**
-     * @return mixed
+     * @return UploadedFile|null
      */
-    public function getFile()
+    public function getFile(): ?UploadedFile
     {
         return $this->file;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * @param string|null $filePath
+     */
+    public function setFilePath(?string $filePath): void
+    {
+        $this->filePath = $filePath;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param null|string $message
+     */
+    public function setMessage(?string $message): void
+    {
+        $this->message = $message;
     }
 }

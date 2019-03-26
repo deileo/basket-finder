@@ -6,6 +6,7 @@ use App\Entity\Permission;
 use App\Form\Permission\PermissionApproveType;
 use App\Form\Permission\PermissionRequestType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,20 +18,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class PermissionController extends BaseController
 {
     /**
-     * @Route("/new", name="api:permission:new", methods={"post"})
+     * @Route("/new", name="api:permission:new")
      * @Security("is_granted('API_ACCESS')")
      *
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      */
     public function newPermission(Request $request): Response
     {
         $permission = new Permission();
         $form = $this->createForm(PermissionRequestType::class, $permission);
         $form->submit($request->request->all());
-
         if ($form->isValid()) {
             $permission->setUser($this->getUser());
+            file_put_contents($this->getParameter('contract_directory').'/main.png', $request->request->get('file'));
+//            $file = $permission->getFile();
+//            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+//            try {
+//                $file->move($this->getParameter('contract_directory'), $fileName);
+//                $permission->setFilePath($fileName);
+//            } catch (FileException $e) {
+//                return new JsonResponse($e->getMessage(), $e->getCode());
+//            }
 
             $this->persist($permission);
             $this->flush();

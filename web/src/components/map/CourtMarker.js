@@ -13,6 +13,7 @@ import icon  from "../../icon-56.png";
 import {TYPE_COURT} from "../../actions/types";
 import CreateGymEventForm from "../form/CreateGymEventForm";
 import {courtStyles, modalStyles} from "../styles";
+import CreatePermissionRequestForm from "../form/CreatePermissionRequestForm";
 
 class CourtMarker extends Component {
   state = {
@@ -21,6 +22,14 @@ class CourtMarker extends Component {
 
   handleOpen = () => {
     this.props.openCreateEventModalAction();
+  };
+
+  handleRequestOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleRequestClose = () => {
+    this.setState({open: false});
   };
 
   handleClose = () => {
@@ -48,6 +57,17 @@ class CourtMarker extends Component {
                 }
               </div>
             </Modal>
+
+            <Modal
+              open={this.state.open}
+              onClose={this.handleRequestClose}
+            >
+              <div style={modalStyles} className={classes.paper}>
+                <CreatePermissionRequestForm gymCourt={court} handleClose={this.handleRequestClose}/>
+              </div>
+            </Modal>
+
+
           </div>
         </InfoWindow>
       )
@@ -97,9 +117,15 @@ class CourtMarker extends Component {
         </CardContent>
         <CardActions>
           {userReducer.isAuthenticated ?
-            <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
-              Skelbti varzybas
-            </Button> : ''
+            <div>
+              <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
+                Skelbti varzybas
+              </Button>
+              <Button size="small" variant="contained" color="default" onClick={this.handleRequestOpen}>
+                Siusti prasyma
+              </Button>
+            </div>
+            : ''
           }
         </CardActions>
       </div>
