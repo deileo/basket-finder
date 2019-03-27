@@ -28,18 +28,20 @@ class PermissionController extends BaseController
     {
         $permission = new Permission();
         $form = $this->createForm(PermissionRequestType::class, $permission);
-        $form->submit($request->request->all());
-        if ($form->isValid()) {
+        $form->handleRequest($request);
+        if ($form->isValid() && $form->isSubmitted()) {
             $permission->setUser($this->getUser());
-            file_put_contents($this->getParameter('contract_directory').'/main.png', $request->request->get('file'));
-//            $file = $permission->getFile();
-//            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-//            try {
-//                $file->move($this->getParameter('contract_directory'), $fileName);
-//                $permission->setFilePath($fileName);
-//            } catch (FileException $e) {
-//                return new JsonResponse($e->getMessage(), $e->getCode());
-//            }
+            $file = $permission->getFile();
+
+            if ($file) {
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                try {
+                    $file->move($this->getParameter('contract_directory'), $fileName);
+                    $permission->setFilePath($fileName);
+                } catch (FileException $e) {
+                    return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+                }
+            }
 
             $this->persist($permission);
             $this->flush();

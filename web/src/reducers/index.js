@@ -7,6 +7,7 @@ import flashReducer from './flash.reducer';
 import modalReducer from './modal.reducer';
 import userReducer from './user.reducer';
 import participantReducer from './participant.reducer';
+import permissionReducer from './permission.reducer';
 
 const reducers = combineReducers({
   navReducer,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   modalReducer,
   userReducer,
   participantReducer,
+  permissionReducer,
 });
 
 export default reducers;

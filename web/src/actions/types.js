@@ -43,3 +43,8 @@ export const GET_USER = 'get_user';
 export const GET_PARTICIPANTS_UNCONFIRMED = 'unconfirmed_participants';
 export const ACCEPT_PARTICIPANT = 'accept_participant';
 export const CANCEL_PARTICIPANT = 'cancle_participant';
+
+// permission request
+export const PERMISSION_REQUEST_CREATED = 'permission_request_created';
+export const PERMISSION_REQUEST_ERRORS = 'permission_request_errors';
+export const RESET_CREATED_REQUEST = 'reset_created_request';

@@ -19,33 +19,38 @@ class CreatePermissionRequestForm extends Component {
     gymCourt: this.props.gymCourt.id,
   };
 
+  componentDidMount() {
+    this.props.resetPermisionRequestState();
+  }
+
   handleCommentChange = (event) => {
     this.setState({message: event.target.value});
   };
 
   hasError(fieldName) {
-    // return this.props.eventReducer.errors && fieldName in this.props.eventReducer.errors;
+    return this.props.permissionReducer.errors && fieldName in this.props.permissionReducer.errors;
   }
 
   getErrorMessage(fieldName) {
     if (!this.hasError(fieldName)) {
       return null;
     }
+
+    return (
+      <ul>
+        {this.props.permissionReducer.errors[fieldName].map((error) => {
+          return (<li style={{color: '#f44336'}} key={error}>{error}</li>)
+        })}
+      </ul>
+    );
   }
 
   handleSubmit = () => {
     this.props.sendPermissionRequestAction(this.state, this.props.userReducer.auth.googleAccessToken);
-    console.log(this.state);
   };
 
   handleChange = (files) => {
-    console.log(files);
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-
-    reader.onload = (e) => {
-      this.setState({file: e.target.result});
-    };
+    this.setState({file: files[0]});
   };
 
   render() {
@@ -64,6 +69,21 @@ class CreatePermissionRequestForm extends Component {
         <form className={classes.form} noValidate>
           <Grid container spacing={24}>
             <Grid item xs={12}>
+              <FormControl margin="normal" fullWidth>
+                <TextField
+                  id="message"
+                  label="Prasymas"
+                  error={this.hasError('message')}
+                  onChange={this.handleCommentChange}
+                  multiline={true}
+                  rows="3"
+                  variant="outlined"
+                  required={true}
+                />
+                {this.getErrorMessage('message')}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} style={{marginBottom: 30}}>
               <DropzoneArea
                 onChange={this.handleChange}
                 showPreviews={false}
@@ -72,20 +92,6 @@ class CreatePermissionRequestForm extends Component {
                 maxFileSize={5000000}
                 filesLimit={1}
               />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl margin="normal" fullWidth>
-                <TextField
-                  id="message"
-                  label="Komentaras"
-                  error={this.hasError('message')}
-                  onChange={this.handleCommentChange}
-                  multiline={true}
-                  rows="3"
-                  variant="outlined"
-                />
-                {this.getErrorMessage('message')}
-              </FormControl>
             </Grid>
           </Grid>
           <Button
@@ -107,6 +113,7 @@ class CreatePermissionRequestForm extends Component {
 const mapStateToProps = state => {
   return {
     userReducer: state.userReducer,
+    permissionReducer: state.permissionReducer,
   };
 };
 

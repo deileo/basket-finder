@@ -20,6 +20,17 @@ class CourtMarker extends Component {
     open: false,
   };
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const {permissionReducer} = this.props;
+    if (!permissionReducer || !prevProps.permissionReducer) {
+      return;
+    }
+
+    if (permissionReducer.created && !prevProps.permissionReducer.created) {
+      this.setState({open: false});
+    }
+  }
+
   handleOpen = () => {
     this.props.openCreateEventModalAction();
   };
@@ -154,6 +165,7 @@ const mapStateToProps = state => {
     modalReducer: state.modalReducer,
     courtsReducer: state.courtsReducer,
     userReducer: state.userReducer,
+    permissionReducer: state.permissionReducer,
   };
 };
 

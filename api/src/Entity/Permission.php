@@ -54,8 +54,9 @@ class Permission
     /**
      * @var string|null
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\Column()
      * @Assert\Length(max=255)
+     * @Assert\NotBlank()
      */
     private $message;
 

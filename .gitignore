@@ -19,5 +19,6 @@
 /api/var/
 /api/vendor/
 /api/.web-server-pid
+/api/public/uploads/*
 
 .idea
