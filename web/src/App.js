@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import { createMuiTheme } from '@material-ui/core/styles';
+import React, {Component} from 'react';
+import {BrowserRouter, Route} from "react-router-dom";
+import Application from "./Application";
+import Admin from "./Admin";
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { withStyles } from '@material-ui/core/styles';
-import { MuiPickersUtilsProvider } from 'material-ui-pickers';
-import MomentUtils from '@date-io/moment';
-import FlashMessage from "./components/flash/FlashMessage";
-import Navbar from "./components/navbar/Navbar";
-import EventList from "./components/event/EventList";
-import Map from "./components/map/Map";
+import MomentUtils from "@date-io/moment";
+import { createMuiTheme } from '@material-ui/core/styles';
+import {MuiPickersUtilsProvider} from "material-ui-pickers";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const theme = createMuiTheme({
   palette: {
@@ -44,33 +43,26 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
-        <Grid item xs={12}>
-          <Navbar />
-        </Grid>
-        <Grid>
-          <FlashMessage />
-        </Grid>
-        <Grid container>
-          <Grid item lg={3} xs={12}>
-            <EventList />
-          </Grid>
-          <Grid item lg={9} xs={12}>
-            <Map />
-          </Grid>
-        </Grid>
+ render() {
+   return (
+     <BrowserRouter>
+       <MuiThemeProvider theme={theme}>
+         <MuiPickersUtilsProvider utils={MomentUtils}>
+           <div>
+             <CssBaseline />
+             <Route path="/" exact component={Application}/>
+             <Route path="/admin" exact component={Admin}/>
 
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
-        </MuiPickersUtilsProvider>
-      </MuiThemeProvider>
-    );
-  }
+             <link
+               rel="stylesheet"
+               href="https://fonts.googleapis.com/icon?family=Material+Icons"
+             />
+           </div>
+         </MuiPickersUtilsProvider>
+       </MuiThemeProvider>
+     </BrowserRouter>
+   );
+ }
 }
 
 export default withStyles(styles)(App);

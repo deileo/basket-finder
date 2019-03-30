@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\GymCourt;
 use App\Entity\Permission;
 use App\Form\Permission\PermissionApproveType;
 use App\Form\Permission\PermissionRequestType;
+use App\Service\JsonSerializeService;
+use App\Service\PermissionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,6 +20,26 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PermissionController extends BaseController
 {
+    /**
+     * @var PermissionService
+     */
+    private $permissionService;
+
+    /**
+     * @var JsonSerializeService
+     */
+    private $serializer;
+
+    /**
+     * @param PermissionService $permissionService
+     * @param JsonSerializeService $serializer
+     */
+    public function __construct(PermissionService $permissionService, JsonSerializeService $serializer)
+    {
+        $this->permissionService = $permissionService;
+        $this->serializer = $serializer;
+    }
+
     /**
      * @Route("/new", name="api:permission:new")
      * @Security("is_granted('API_ACCESS')")
@@ -53,7 +76,7 @@ class PermissionController extends BaseController
     }
 
     /**
-     * @Route("/approve/{id}", name="api:permission:approve", methods={"post"})
+     * @Route("/approve/{id}", name="api:permission:approve")
      * @Security("is_granted('API_ACCESS')")
      *
      * @param Request $request
@@ -72,5 +95,47 @@ class PermissionController extends BaseController
         }
 
         return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
+    }
+
+
+    /**
+     * @Route("/delete/{id}", name="api:permission:delete")
+     * @Security("is_granted('API_ACCESS')")
+
+     * @param Permission $permission
+     * @return JsonResponse
+     */
+    public function deletePermission(Permission $permission): JsonResponse
+    {
+        $this->remove($permission);
+        $this->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/gym-court/{id}", name="api:permission:gym-court")
+     * @Security("is_granted('API_ACCESS')")
+     *
+     * @param GymCourt $court
+     * @return Response
+     */
+    public function getPermissionToCourt(GymCourt $court): Response
+    {
+        $permission = $this->permissionService->getUserPermissionForGymCourt($court);
+
+        return new Response($this->serializer->serialize($permission));
+
+    }
+
+    /**
+     * @Route("/all", name="api:permission:pending")
+     * @Security("is_granted('API_ACCESS')")
+     *
+     * @return Response
+     */
+    public function getPermissions(): Response
+    {
+        return new Response($this->serializer->serialize($this->permissionService->getPermissions()));
     }
 }

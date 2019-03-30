@@ -47,4 +47,8 @@ export const CANCEL_PARTICIPANT = 'cancle_participant';
 // permission request
 export const PERMISSION_REQUEST_CREATED = 'permission_request_created';
 export const PERMISSION_REQUEST_ERRORS = 'permission_request_errors';
+export const PERMISSION_GYM_COURT = 'permission_gym_court';
+export const PERMISSIONS_ALL = 'permissions_all';
 export const RESET_CREATED_REQUEST = 'reset_created_request';
+export const PERMISSION_REQUEST_APPROVED = 'permission_request_approved';
+export const PERMISSION_DELETE = 'permission_delete';

@@ -99,6 +99,14 @@ class User implements UserInterface
      */
     private $permissions;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", nullable=false, options={"default: 0"})
+     * @Groups({"default"})
+     */
+    private $roles = 0;
+
     public function __construct()
     {
         $this->createdEvents = new ArrayCollection();
@@ -304,7 +312,7 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        return ['ROLE_USER', 'ROLE_ADMIN'];
     }
 
     /**
@@ -334,5 +342,21 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         return null;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRole(): int
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param $role
+     */
+    public function setRole(int $role): void
+    {
+        $this->roles = $role;
     }
 }

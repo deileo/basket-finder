@@ -83,8 +83,34 @@ export const courtStyles = theme => ({
   },
 });
 
+const drawerWidth = 240;
+export const adminNavbarStyles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    marginLeft: drawerWidth,
+    padding: theme.spacing.unit * 3,
+  },
+  toolbar: theme.mixins.toolbar,
+});
+
 export const modalStyles = {
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
 };

@@ -1,5 +1,9 @@
 security:
 
+  role_hierarchy:
+    ROLE_USER: []
+    ROLE_ADMIN: [ROLE_USER]
+
   providers:
     my_provider:
       entity: { class: App:User, property: email }

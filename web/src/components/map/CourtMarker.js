@@ -14,6 +14,7 @@ import {TYPE_COURT} from "../../actions/types";
 import CreateGymEventForm from "../form/CreateGymEventForm";
 import {courtStyles, modalStyles} from "../styles";
 import CreatePermissionRequestForm from "../form/CreatePermissionRequestForm";
+import moment from "moment";
 
 class CourtMarker extends Component {
   state = {
@@ -46,6 +47,34 @@ class CourtMarker extends Component {
   handleClose = () => {
     this.props.closeCreateEventModalAction();
     this.props.removeEventErrorsAction();
+  };
+
+  renderGymCourtActions = () => {
+    const {userReducer, permissionReducer} = this.props;
+
+    if (!userReducer.isAuthenticated) {
+      return null;
+    }
+
+    if (permissionReducer.permission) {
+      let isPermissionValid = permissionReducer.permission.validUntil;
+      if (isPermissionValid !== null) {
+        let validUntil = moment.unix(permissionReducer.permission.validUntil.timestamp).format('YYYY-MM-DD');
+        isPermissionValid = validUntil >= moment().format('YYYY-MM-DD');
+      }
+
+      return (
+        <Button size="small" variant="contained" disabled={!isPermissionValid} color="primary" onClick={this.handleOpen}>
+          {isPermissionValid ? 'Skelbti varzybas' : 'Laukiama patvirtinimo'}
+        </Button>
+      )
+    }
+
+    return (
+      <Button size="small" variant="contained" color="secondary" onClick={this.handleRequestOpen}>
+        Siusti prasyma
+      </Button>
+    )
   };
 
   renderInfoWindow = (court, classes, activeMarker, modalReducer, courtReducer, userReducer) => {
@@ -112,6 +141,7 @@ class CourtMarker extends Component {
   }
 
   renderGymCourtWindow(court, userReducer, classes) {
+    console.log(this.props.permissionReducer);
     return (
       <div>
         <CardContent className={classes.content}>
@@ -127,17 +157,7 @@ class CourtMarker extends Component {
           </Typography>
         </CardContent>
         <CardActions>
-          {userReducer.isAuthenticated ?
-            <div>
-              <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
-                Skelbti varzybas
-              </Button>
-              <Button size="small" variant="contained" color="default" onClick={this.handleRequestOpen}>
-                Siusti prasyma
-              </Button>
-            </div>
-            : ''
-          }
+          <div>{this.renderGymCourtActions()}</div>
         </CardActions>
       </div>
     )

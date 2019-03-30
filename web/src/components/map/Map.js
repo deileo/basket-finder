@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {MAP_CENTER, MAP_URL, MAP_ZOOM} from '../../config';
 import AppMap from "./AppMap";
 import Loader from "../MapLoader";
-import {TYPE_COURT} from "../../actions/types";
+import {TYPE_COURT, TYPE_GYM_COURT} from "../../actions/types";
 import {connect} from "react-redux";
 import * as actions from '../../actions';
 
@@ -37,6 +37,9 @@ class Map extends Component {
     if (courtId) {
       this.props.fetchCourtById(type, courtId);
       this.props.getEventsAction(type, courtId);
+      if (type === TYPE_GYM_COURT) {
+        this.props.getGymCourtPermissionAction(courtId, this.props.userReducer.auth.googleAccessToken)
+      }
     } else {
       this.props.setCourtToNull();
       this.props.getEventsAction(type);
@@ -67,7 +70,8 @@ class Map extends Component {
 const mapStateToProps = state => {
   return {
     courtsReducer: state.courtsReducer,
-    loaderReducer: state.loaderReducer
+    loaderReducer: state.loaderReducer,
+    userReducer: state.userReducer,
   };
 };
 

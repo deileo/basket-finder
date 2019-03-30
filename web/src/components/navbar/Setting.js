@@ -4,7 +4,7 @@ import Grow from "@material-ui/core/Grow/Grow";
 import {withStyles} from "@material-ui/core";
 import {connect} from 'react-redux';
 import * as actions from './../../actions';
-import SettingsIcon from '@material-ui/icons/Settings';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import IconButton from "@material-ui/core/IconButton";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -72,7 +72,7 @@ class Setting extends Component {
       <div>
         <IconButton className={classes.menuButton} color="inherit" onClick={this.toggleTab}>
           <Badge badgeContent={participantReducer.unconfirmedParticipants.length} color="error">
-            <SettingsIcon />
+            <AccountCircleIcon />
           </Badge>
         </IconButton>
         <Popper open={this.state.open} anchorEl={this.state.anchorEl} transition disablePortal>

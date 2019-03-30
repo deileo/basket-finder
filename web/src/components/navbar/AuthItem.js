@@ -60,7 +60,7 @@ class AuthItem extends Component {
     }
 
     const user = userReducer.auth;
-
+    console.log(user);
     return (
       <div>
         <Button color="inherit" onClick={this.handleMenu}>
@@ -73,6 +73,11 @@ class AuthItem extends Component {
               <Paper>
                 <ClickAwayListener onClickAway={this.handleClose}>
                   <MenuList>
+                    {user.roles === 1 ?
+                      <MenuItem onClick={() => {window.location.href = '/admin'}}>
+                        Admin
+                      </MenuItem> : ''
+                    }
                     <MenuItem onClick={this.handleClose}>
                       <GoogleLogout
                         buttonText="Atsijungti"
