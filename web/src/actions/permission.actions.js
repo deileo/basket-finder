@@ -8,7 +8,7 @@ import {
   PERMISSION_REQUEST_ERRORS,
   RESET_CREATED_REQUEST,
   PERMISSION_GYM_COURT, PERMISSIONS_ALL,
-  PERMISSION_REQUEST_APPROVED, PERMISSION_DELETE,
+  PERMISSION_REQUEST_APPROVED, PERMISSION_DELETE, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED,
 } from "./types";
 
 export const sendPermissionRequestAction = (requestData, token) => {
@@ -81,6 +81,8 @@ export const getGymCourtPermissionAction = (gymCourtId, token) => {
 
 export const getPermissionsAction = (token) => {
   return function(dispatch) {
+    dispatch({ type: LOADING_EVENTS_STARTED });
+
     return getPermissions(token)
       .then(response => {
         if (response.status === 200) {
@@ -89,6 +91,9 @@ export const getPermissionsAction = (token) => {
       })
       .catch(error => {
         return showConsoleError(error);
+      })
+      .finally(() => {
+        dispatch({ type: LOADING_EVENTS_ENDED });
       });
   };
 };

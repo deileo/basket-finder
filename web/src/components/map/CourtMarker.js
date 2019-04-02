@@ -140,8 +140,7 @@ class CourtMarker extends Component {
     )
   }
 
-  renderGymCourtWindow(court, userReducer, classes) {
-    console.log(this.props.permissionReducer);
+  renderGymCourtWindow(court, classes) {
     return (
       <div>
         <CardContent className={classes.content}>

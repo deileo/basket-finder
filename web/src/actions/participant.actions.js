@@ -1,4 +1,6 @@
-import {ACCEPT_PARTICIPANT, CANCEL_PARTICIPANT, FLASH_MESSAGE, GET_PARTICIPANTS_UNCONFIRMED} from "./types";
+import {
+  ACCEPT_PARTICIPANT, CANCEL_PARTICIPANT, FLASH_MESSAGE, GET_PARTICIPANTS_UNCONFIRMED
+} from "./types";
 import {acceptParticipant, cancelParticipant, getUnconfirmedParticipants} from '../services/participantService';
 
 export const getUnconfirmedParticipantsAction = (token) => {
@@ -29,7 +31,7 @@ export const acceptParticipantAction = (participant, token) => {
           console.error(error);
         }
         return Promise.reject({});
-      })
+      });
   };
 };
 

@@ -109,6 +109,39 @@ export const adminNavbarStyles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
+export const tableStyles = theme => ({
+  head: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  cell: {
+    fontSize: 12,
+    color: theme.palette.primary.contrastText,
+  },
+  dataCell: {
+    fontSize: 14,
+  },
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 700,
+  },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    },
+  },
+  paper: {
+    position: 'absolute',
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 2,
+    width: theme.spacing.unit * 50,
+  },
+});
+
 export const modalStyles = {
   top: '50%',
   left: '50%',
