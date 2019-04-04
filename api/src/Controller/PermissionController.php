@@ -9,6 +9,7 @@ use App\Form\Permission\PermissionRequestType;
 use App\Service\JsonSerializeService;
 use App\Service\PermissionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -137,5 +138,16 @@ class PermissionController extends BaseController
     public function getPermissions(): Response
     {
         return new Response($this->serializer->serialize($this->permissionService->getPermissions()));
+    }
+
+    /**
+     * @Route("/download/{fileName}", name="api:permission:download")
+     * @param string $fileName
+     *
+     * @return BinaryFileResponse
+     */
+    public function downloadPermissionFile(string $fileName): BinaryFileResponse
+    {
+        return $this->file($this->getParameter('contract_directory') . '/' . $fileName);
     }
 }

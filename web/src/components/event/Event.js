@@ -42,7 +42,6 @@ class Event extends Component {
       return null;
     }
 
-
     let joinedUserList = event.participants.filter(function (participant) {
       return type === TYPE_GYM_COURT ?
         participant.user && participant.user.id === userReducer.auth.id :

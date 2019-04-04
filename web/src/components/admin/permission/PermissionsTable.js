@@ -10,10 +10,12 @@ import TableBody from "@material-ui/core/TableBody";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import DownloadIcon from '@material-ui/icons/SaveAlt';
 import IconButton from "@material-ui/core/IconButton";
 import {modalStyles, tableStyles} from "../../styles";
 import Modal from "@material-ui/core/Modal";
 import AprovePermissionForm from "../form/AprovePermissionForm";
+import {API_URL} from "../../../config";
 
 class PermissionsTable extends Component {
 
@@ -83,7 +85,11 @@ class PermissionsTable extends Component {
                 <TableCell className={classes.dataCell}>{permission.user.firstName + ' ' + permission.user.lastName}</TableCell>
                 <TableCell className={classes.dataCell}>{permission.user.email}</TableCell>
                 <TableCell className={classes.dataCell}>{permission.message}</TableCell>
-                <TableCell className={classes.dataCell}>{permission.filePath ? 'Atsisiųsti' : '-'}</TableCell>
+                <TableCell className={classes.dataCell}>{permission.filePath ?
+                  <IconButton>
+                    <a href={API_URL + '/permission/download/' + permission.filePath}><DownloadIcon /></a>
+                  </IconButton>: '-' }
+                  </TableCell>
                 <TableCell>
                   {this.props.pending ?
                     <IconButton aria-label="Delete" color={"primary"} onClick={() => this.handleOpen(permission)}>
