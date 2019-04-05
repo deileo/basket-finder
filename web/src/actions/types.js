@@ -27,6 +27,7 @@ export const REMOVE_EVENT_ERRORS = 'remove_event_errors';
 export const GET_USER_CREATED_EVENTS = 'get_user_created_events';
 export const GET_USER_JOINED_EVENTS = 'get_user_joined_events';
 export const DELETE_EVENT = 'delete_event';
+export const RELOAD_EVENTS = 'reload_events';
 
 //Flash
 export const FLASH_MESSAGE = 'flash_message';

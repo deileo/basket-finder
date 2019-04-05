@@ -1,5 +1,5 @@
 import {
-  ACCEPT_PARTICIPANT, CANCEL_PARTICIPANT, FLASH_MESSAGE, GET_PARTICIPANTS_UNCONFIRMED
+  ACCEPT_PARTICIPANT, CANCEL_PARTICIPANT, FLASH_MESSAGE, GET_PARTICIPANTS_UNCONFIRMED, RELOAD_EVENTS
 } from "./types";
 import {acceptParticipant, cancelParticipant, getUnconfirmedParticipants} from '../services/participantService';
 
@@ -23,6 +23,7 @@ export const acceptParticipantAction = (participant, token) => {
     return acceptParticipant(participant, token)
       .then(response => {
         dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Request accepted!', variant: 'success'}});
+        dispatch({type: RELOAD_EVENTS});
 
         return dispatch({ type: ACCEPT_PARTICIPANT, payload: response.data });
       })
@@ -40,6 +41,7 @@ export const cancelParticipantAction = (participant, token) => {
     return cancelParticipant(participant, token)
       .then(response => {
         dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Request cancelled!', variant: 'success'}});
+        dispatch({type: RELOAD_EVENTS});
 
         return dispatch({ type: CANCEL_PARTICIPANT, payload: response.data });
       })

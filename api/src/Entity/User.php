@@ -15,6 +15,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class User implements UserInterface
 {
     /**
+     * @var array
+     */
+    static public $roleMap = [
+        'ROLE_USER' => 0,
+        'ROLE_ADMIN' => 1,
+    ];
+
+    /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -312,7 +320,15 @@ class User implements UserInterface
      */
     public function getRoles(): array
     {
-        return ['ROLE_USER', 'ROLE_ADMIN'];
+        $roles = [];
+
+        foreach (self::$roleMap as $role => $flag) {
+            if ($flag === ($this->roles & $flag)) {
+                $roles[] = $role;
+            }
+        }
+
+        return $roles;
     }
 
     /**

@@ -17,13 +17,13 @@ const defaultState = {
 export default function(state = defaultState, action) {
   switch (action.type) {
     case PERMISSION_REQUEST_CREATED:
-      return { ...state, created: true, errors: [] };
+      return { ...state, created: true, errors: [], reload: true };
     case PERMISSION_REQUEST_APPROVED:
       return { ...state, errors: [], reload: true };
     case PERMISSION_REQUEST_ERRORS:
       return { ...state, created: false, errors: action.payload };
     case PERMISSION_GYM_COURT:
-      return { ...state, created: false, permission: action.payload };
+      return { ...state, created: false, permission: action.payload, reload: true };
     case RESET_CREATED_REQUEST:
       return { ...state, created: false, reload: false, errors: [] };
     case PERMISSIONS_ALL:

@@ -35,6 +35,7 @@ class AuthItem extends Component {
 
   onGoogleSuccess = (response) => {
     this.props.checkUserAction(response.tokenObj);
+    localStorage.setItem('token', response.accessToken);
   };
 
   onLogoutSuccess = () => {
@@ -73,7 +74,7 @@ class AuthItem extends Component {
               <Paper>
                 <ClickAwayListener onClickAway={this.handleClose}>
                   <MenuList>
-                    {user.roles === 1 ?
+                    {user.roles.includes('ROLE_ADMIN') ?
                       <MenuItem onClick={() => {window.location.href = '/admin'}}>
                         Admin
                       </MenuItem> : ''

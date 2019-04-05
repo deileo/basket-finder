@@ -8,7 +8,8 @@ import {
   LEAVE_EVENT,
   GET_USER_CREATED_EVENTS,
   GET_USER_JOINED_EVENTS,
-  DELETE_EVENT, EDIT_EVENT
+  DELETE_EVENT, EDIT_EVENT,
+  RELOAD_EVENTS
 } from '../actions/types';
 
 export default function(state = null, action) {
@@ -45,6 +46,9 @@ export default function(state = null, action) {
     }
     case REMOVE_EVENT_ERRORS: {
       return { ...state, errors: null, reload: false}
+    }
+    case RELOAD_EVENTS: {
+      return { ...state, reload: true}
     }
     default:
       return state;

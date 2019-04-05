@@ -29,7 +29,7 @@ class Setting extends Component {
 
   updateUserEvents() {
     if (this.state.value === 0) {
-      this.props.getUserCreatedEventsAction(this.props.userReducer.auth.googleAccessToken);
+      this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
     }
 
     if (this.state.value === 1) {
@@ -37,7 +37,7 @@ class Setting extends Component {
     }
 
     if (this.state.value === 2) {
-      this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
+      this.props.getUserCreatedEventsAction(this.props.userReducer.auth.googleAccessToken);
     }
   }
 

@@ -51,7 +51,11 @@ class Admin extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, userReducer } = this.props;
+
+    if (userReducer.auth && !userReducer.auth.roles.includes('ROLE_ADMIN')) {
+      return null;
+    }
 
     return (
       <div>

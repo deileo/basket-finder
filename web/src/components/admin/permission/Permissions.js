@@ -16,23 +16,15 @@ class Permissions extends Component {
   };
 
   componentDidMount() {
-    const {userReducer} = this.props;
-
-    if (userReducer && userReducer.isAuthenticated) {
-      this.props.getPermissionsAction(userReducer.auth.googleAccessToken);
-    }
+    this.props.getPermissionsAction(localStorage.getItem('token'));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {userReducer, permissionReducer} = this.props;
-
-    if (!prevProps.userReducer.isAuthenticated && userReducer.isAuthenticated) {
-      this.props.getPermissionsAction(userReducer.auth.googleAccessToken);
-    }
+    const {permissionReducer} = this.props;
 
     if (permissionReducer.reload) {
       this.setState({open: false, activePermission: null});
-      this.props.getPermissionsAction(userReducer.auth.googleAccessToken);
+      this.props.getPermissionsAction(localStorage.getItem('token'));
       this.props.resetPermisionRequestState();
     }
   }
