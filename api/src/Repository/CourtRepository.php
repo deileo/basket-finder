@@ -15,4 +15,24 @@ class CourtRepository extends ServiceEntityRepository implements CourtRepository
     {
         parent::__construct($registry, Court::class);
     }
+
+    /**
+     * @return Court[]
+     */
+    public function getActiveCourts(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.enabled = true')
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @return Court[]
+     */
+    public function getDisabledCourts(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.enabled = false')
+            ->getQuery()->getResult();
+    }
 }

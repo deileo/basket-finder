@@ -16,4 +16,14 @@ interface CourtRepositoryInterface
      * @return CourtInterface[]
      */
     public function findAll();
+
+    /**
+     * @return CourtInterface[]
+     */
+    public function getActiveCourts(): array;
+
+    /**
+     * @return CourtInterface[]
+     */
+    public function getDisabledCourts(): array;
 }

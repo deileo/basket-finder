@@ -33,17 +33,6 @@ class CourtService
     }
 
     /**
-     * @return Court[]
-     */
-    public function getAllCourts(): array
-    {
-        return [
-            'court' => $this->courtRepository->findAll(),
-            'gymCourt' => $this->gymCourtRepository->findAll()
-        ];
-    }
-
-    /**
      * @param string $type
      * @return CourtInterface[]
      */
@@ -54,6 +43,32 @@ class CourtService
         }
 
         return $this->getCourtRepository($type)->findAll();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllCourts(): array
+    {
+        $repo = $this->getCourtRepository(BaseCourt::PUBLIC_COURT);
+
+        return [
+            'active' => $repo->getActiveCourts(),
+            'disabled' => $repo->getDisabledCourts(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllGymCourts(): array
+    {
+        $repo = $this->getCourtRepository(BaseCourt::GYM_COURT);
+
+        return [
+            'active' => $repo->getActiveCourts(),
+            'disabled' => $repo->getDisabledCourts(),
+        ];
     }
 
     /**

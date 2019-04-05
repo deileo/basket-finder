@@ -15,4 +15,24 @@ class GymCourtRepository extends ServiceEntityRepository implements CourtReposit
     {
         parent::__construct($registry, GymCourt::class);
     }
+
+    /**
+     * @return GymCourt[]
+     */
+    public function getActiveCourts(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.enabled = true')
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @return GymCourt[]
+     */
+    public function getDisabledCourts(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.enabled = false')
+            ->getQuery()->getResult();
+    }
 }

@@ -20,3 +20,13 @@ export function getCourt(type, courtId) {
 
   return axios.get(url + courtId, config);
 }
+
+export function getAllAdminCourts()
+{
+  return axios.get(API_URL + '/courts/all/court/admin', config);
+}
+
+export function getAllAdminGymCourts()
+{
+  return axios.get(API_URL + '/courts/all/gym-court/admin', config);
+}

@@ -14,6 +14,8 @@ export const FETCH_COURT = 'fetch_court';
 export const CHANGE_COURT_TYPE = 'change_court_type';
 export const TYPE_COURT = 'court';
 export const TYPE_GYM_COURT = 'gym-court';
+export const FETCH_ADMIN_GYM_COURTS = 'fetch-admin-gym-courts';
+export const FETCH_ADMIN_COURTS = 'fetch-admin-courts';
 
 //Event
 export const CREATE_EVENT = 'event_create';

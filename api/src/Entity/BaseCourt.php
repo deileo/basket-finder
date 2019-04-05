@@ -69,6 +69,14 @@ abstract class BaseCourt
     protected $long;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups({"default"})
+     */
+    protected $enabled = false;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -154,5 +162,21 @@ abstract class BaseCourt
     public function setLong(float $long): void
     {
         $this->long = $long;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
 }

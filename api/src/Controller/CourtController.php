@@ -15,36 +15,61 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CourtController extends BaseController
 {
+    /**
+     * @var CourtService
+     */
     private $courtService;
 
     /**
-     * @param CourtService $courtService
+     * @var JsonSerializeService
      */
-    public function __construct(CourtService $courtService)
+    private $serializer;
+
+    /**
+     * @param CourtService $courtService
+     * @param JsonSerializeService $serializer
+     */
+    public function __construct(CourtService $courtService, JsonSerializeService $serializer)
     {
         $this->courtService = $courtService;
+        $this->serializer = $serializer;
     }
 
     /**
      * @Route("/{type}/all", name="api:courts:all")
      * @param string $type
-     * @param JsonSerializeService $serializer
      * @return JsonResponse|Response
      */
-    public function getCourtsAction(string $type, JsonSerializeService $serializer): Response
+    public function getCourtsAction(string $type): Response
     {
-        return new Response($serializer->serialize($this->courtService->getCourtsByType($type), ['default']));
+        return new Response($this->serializer->serialize($this->courtService->getCourtsByType($type), ['default']));
+    }
+
+
+    /**
+     * @Route("/all/court/admin", name="api:courts:admin:all")
+     */
+    public function getAllCourtsAction(): Response
+    {
+        return new Response($this->serializer->serialize($this->courtService->getAllCourts(), ['default']));
+    }
+
+    /**
+     * @Route("/all/gym-court/admin", name="api:gym-courts:admin:all")
+     */
+    public function getAllGymCourtsAction(): Response
+    {
+        return new Response($this->serializer->serialize($this->courtService->getAllGymCourts(), ['default']));
     }
 
     /**
      * @Route("/{type}/{id}", name="api:courts:get")
      * @ParamConverter("CorurtInterface", class="App\Entity\CourtInterface")
      * @param CourtInterface $court
-     * @param JsonSerializeService $serializer
      * @return Response
      */
-    public function getCourt(CourtInterface $court, JsonSerializeService $serializer): Response
+    public function getCourt(CourtInterface $court): Response
     {
-        return new Response($serializer->serialize($court, ['default']));
+        return new Response($this->serializer->serialize($court, ['default']));
     }
 }
