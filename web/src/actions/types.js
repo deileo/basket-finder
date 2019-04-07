@@ -16,6 +16,11 @@ export const TYPE_COURT = 'court';
 export const TYPE_GYM_COURT = 'gym-court';
 export const FETCH_ADMIN_GYM_COURTS = 'fetch-admin-gym-courts';
 export const FETCH_ADMIN_COURTS = 'fetch-admin-courts';
+export const FETCH_ADMIN_NEW_COURTS = 'fetch_admin_new_courts';
+export const RELOAD_COURTS_TYPE = 'reload_courts_type';
+export const RESET_RELOAD_COURTS_TYPE = 'reset_reload_courts_type';
+export const CREATE_COURT_ERROR = 'create_court_error';
+export const CREATE_COURT = 'create_court';
 
 //Event
 export const CREATE_EVENT = 'event_create';

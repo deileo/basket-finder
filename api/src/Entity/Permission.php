@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,9 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity()
  * @ORM\Table()
+ * @Gedmo\SoftDeleteable()
  */
 class Permission
 {
+    use TimestampableEntity, SoftDeleteableEntity;
+
     /**
      * @var int
      *

@@ -32,3 +32,15 @@ services:
     App\EventListener\GymEventListener:
       tags:
         - { name: doctrine.event_listener, event: prePersist }
+
+    Gedmo\Timestampable\TimestampableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    Gedmo\SoftDeleteable\SoftDeleteableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default, priority: -255 }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]

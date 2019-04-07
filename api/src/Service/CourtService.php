@@ -3,11 +3,11 @@
 namespace App\Service;
 
 use App\Entity\BaseCourt;
-use App\Entity\Court;
 use App\Entity\CourtInterface;
 use App\Repository\CourtRepository;
 use App\Repository\CourtRepositoryInterface;
 use App\Repository\GymCourtRepository;
+use function Clue\StreamFilter\fun;
 use Doctrine\ORM\ORMInvalidArgumentException;
 
 class CourtService
@@ -42,7 +42,7 @@ class CourtService
             throw new ORMInvalidArgumentException();
         }
 
-        return $this->getCourtRepository($type)->findAll();
+        return $this->getCourtRepository($type)->getActiveCourts();
     }
 
     /**
@@ -83,6 +83,23 @@ class CourtService
         }
 
         return $this->getCourtRepository($type)->find($id);
+    }
+
+    /**
+     * @return CourtInterface[]
+     */
+    public function getNewCourts(): array
+    {
+        $courts = array_merge(
+            $this->getCourtRepository(BaseCourt::PUBLIC_COURT)->getNewCourts(),
+            $this->getCourtRepository(BaseCourt::GYM_COURT)->getNewCourts()
+        );
+
+        usort($courts, function (CourtInterface $a, CourtInterface $b) {
+           return $a->getCreatedAt() < $b->getCreatedAt();
+        });
+
+        return $courts;
     }
 
     /**

@@ -3,14 +3,20 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table()
+ * @Gedmo\SoftDeleteable()
  */
 class GymEventParticipant
 {
+    use TimestampableEntity, SoftDeleteableEntity;
+
     /**
      * @var int
      *

@@ -5,10 +5,13 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GymCourtRepository")
+ * @Gedmo\SoftDeleteable()
  */
 class GymCourt extends BaseCourt implements CourtInterface
 {
@@ -39,16 +42,24 @@ class GymCourt extends BaseCourt implements CourtInterface
     /**
      * @var Collection|Event[]
      *
-     * @ORM\OneToMany(targetEntity="GymEvent", mappedBy="gymCourt")
+     * @ORM\OneToMany(targetEntity="GymEvent", mappedBy="gymCourt", cascade={"remove"})
      */
     protected $events;
 
     /**
      * @var Permission[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Permission", mappedBy="gymCourt")
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="gymCourt", cascade={"remove"})
      */
     private $permissions;
+
+    /**
+     * @var UserInterface|null
+     *
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="createdGymCourts")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     */
+    protected $createdBy;
 
     public function __construct()
     {
@@ -169,5 +180,21 @@ class GymCourt extends BaseCourt implements CourtInterface
     public function setEvents($events): void
     {
         $this->events = $events;
+    }
+
+    /**
+     * @return UserInterface|null
+     */
+    public function getCreatedBy(): ?UserInterface
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param UserInterface|null $createdBy
+     */
+    public function setCreatedBy(?UserInterface $createdBy): void
+    {
+        $this->createdBy = $createdBy;
     }
 }

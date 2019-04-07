@@ -57,6 +57,6 @@ class ApiUserVoter extends Voter
             return true;
         }
 
-        return $this->security->isGranted('ROLE_USER');
+        return $this->security->isGranted('ROLE_USER') || $this->security->isGranted('ROLE_ADMIN');
     }
 }

@@ -3,10 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class BaseCourt
 {
+    use TimestampableEntity, SoftDeleteableEntity;
+
     public const PUBLIC_COURT = 'court';
     public const GYM_COURT = 'gym-court';
 
@@ -41,6 +46,7 @@ abstract class BaseCourt
      *
      * @ORM\Column(type="string")
      * @Groups({"default"})
+     * @Assert\NotBlank
      */
     protected $location;
 
@@ -57,6 +63,7 @@ abstract class BaseCourt
      *
      * @ORM\Column(type="float")
      * @Groups({"default"})
+     * @Assert\NotBlank
      */
     protected $lat;
 
@@ -65,6 +72,7 @@ abstract class BaseCourt
      *
      * @ORM\Column(name="lng", type="float")
      * @Groups({"default"})
+     * @Assert\NotBlank
      */
     protected $long;
 
@@ -75,6 +83,15 @@ abstract class BaseCourt
      * @Groups({"default"})
      */
     protected $enabled = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": true})
+     * @Groups({"default"})
+     */
+    protected $new = true;
+
 
     /**
      * @return int
@@ -101,17 +118,17 @@ abstract class BaseCourt
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLocation(): string
+    public function getLocation(): ?string
     {
         return $this->location;
     }
 
     /**
-     * @param string $location
+     * @param string|null $location
      */
-    public function setLocation(string $location): void
+    public function setLocation(?string $location): void
     {
         $this->location = $location;
     }
@@ -133,33 +150,33 @@ abstract class BaseCourt
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLat(): float
+    public function getLat(): ?float
     {
         return $this->lat;
     }
 
     /**
-     * @param float $lat
+     * @param float|null $lat
      */
-    public function setLat(float $lat): void
+    public function setLat(?float $lat): void
     {
         $this->lat = $lat;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLong(): float
+    public function getLong(): ?float
     {
         return $this->long;
     }
 
     /**
-     * @param float $long
+     * @param float|null $long
      */
-    public function setLong(float $long): void
+    public function setLong(?float $long): void
     {
         $this->long = $long;
     }
@@ -178,5 +195,21 @@ abstract class BaseCourt
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNew(): bool
+    {
+        return $this->new;
+    }
+
+    /**
+     * @param bool $new
+     */
+    public function setNew(bool $new): void
+    {
+        $this->new = $new;
     }
 }

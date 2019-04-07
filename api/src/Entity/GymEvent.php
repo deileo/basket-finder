@@ -5,12 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
  * @ORM\Table()
+ * @Gedmo\SoftDeleteable()
  */
 class GymEvent extends BaseEvent implements EventInterface
 {
@@ -36,7 +38,7 @@ class GymEvent extends BaseEvent implements EventInterface
     /**
      * @var UserInterface
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="createdGymEvents")
      */
     private $createdBy;
 
@@ -51,7 +53,7 @@ class GymEvent extends BaseEvent implements EventInterface
     /**
      * @var Collection|GymEventParticipant[]
      *
-     * @ORM\OneToMany(targetEntity="GymEventParticipant", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="GymEventParticipant", mappedBy="event", cascade={"remove"})
      */
     private $participants;
 

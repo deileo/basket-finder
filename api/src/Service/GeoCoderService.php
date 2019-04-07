@@ -40,6 +40,22 @@ class GeoCoderService
     }
 
     /**
+     * @param float $lat
+     * @param float $lng
+     * @return string|null
+     */
+    public function getAddressFromCoordinates(float $lat, float $lng): ?string
+    {
+        foreach ($this->geoCoder->getGeoCoder()->reverse($lat, $lng) as $location) {
+            if ($location->getStreetName() && $location->getStreetNumber()) {
+                return $location->getStreetName() . ' ' . $location->getStreetNumber();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param string $address
      * @return Location|null
      */

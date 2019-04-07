@@ -20,14 +20,14 @@ interface CourtInterface
     public function setAddress(string $address): void;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLocation(): string;
+    public function getLocation(): ?string;
 
     /**
-     * @param string $location
+     * @param string|null $location
      */
-    public function setLocation(string $location): void;
+    public function setLocation(?string $location): void;
 
     /**
      * @return null|string
@@ -40,22 +40,47 @@ interface CourtInterface
     public function setDescription(?string $description): void;
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLat(): float;
+    public function getLat(): ?float;
 
     /**
-     * @param float $lat
+     * @param float|null $lat
      */
-    public function setLat(float $lat): void;
+    public function setLat(?float $lat): void;
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getLong(): float;
+    public function getLong(): ?float;
 
     /**
-     * @param float $long
+     * @param float|null $long
      */
-    public function setLong(float $long): void;
+    public function setLong(?float $long): void;
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool;
+
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled): void;
+
+    /**
+     * @return bool
+     */
+    public function isNew(): bool;
+
+    /**
+     * @param bool $new
+     */
+    public function setNew(bool $new): void;
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
 }

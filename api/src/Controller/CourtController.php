@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Court;
 use App\Entity\CourtInterface;
+use App\Form\Court\CourtType;
 use App\Service\CourtService;
+use App\Service\GeoCoderService;
 use App\Service\JsonSerializeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -36,6 +41,33 @@ class CourtController extends BaseController
     }
 
     /**
+     * @Route("/court/new", name="api:courts:court:new")
+     * @Security("is_granted('API_ACCESS')")
+     *
+     * @param Request $request
+     * @param GeoCoderService $geoCoderService
+     * @return JsonResponse
+     */
+    public function createNewCourt(Request $request, GeoCoderService $geoCoderService): JsonResponse
+    {
+        $court = new Court();
+        $form = $this->createForm(CourtType::class, $court);
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            $court->setCreatedBy($this->getUser());
+            $address = $geoCoderService->getAddressFromCoordinates($court->getLat(), $court->getLong());
+            $court->setAddress($address);
+            $this->persist($court);
+            $this->flush();
+
+            return new JsonResponse('success', Response::HTTP_CREATED);
+        }
+
+        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/{type}/all", name="api:courts:all")
      * @param string $type
      * @return JsonResponse|Response
@@ -45,6 +77,14 @@ class CourtController extends BaseController
         return new Response($this->serializer->serialize($this->courtService->getCourtsByType($type), ['default']));
     }
 
+    /**
+     * @Route("/admin/new", name="api:courts:new")
+     * @return Response
+     */
+    public function getNewCourts(): Response
+    {
+        return new Response($this->serializer->serialize($this->courtService->getNewCourts()));
+    }
 
     /**
      * @Route("/all/court/admin", name="api:courts:admin:all")
@@ -71,5 +111,50 @@ class CourtController extends BaseController
     public function getCourt(CourtInterface $court): Response
     {
         return new Response($this->serializer->serialize($court, ['default']));
+    }
+
+    /**
+     * @Route("/{type}/enable/{id}", name="api:courts:enable")
+     * @ParamConverter("CorurtInterface", class="App\Entity\CourtInterface")
+     * @param CourtInterface $court
+     * @return JsonResponse
+     */
+    public function enableCourt(CourtInterface $court): JsonResponse
+    {
+        $court->setEnabled(true);
+        $court->setNew(false);
+
+        $this->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/{type}/disable/{id}", name="api:courts:disable")
+     * @ParamConverter("CorurtInterface", class="App\Entity\CourtInterface")
+     * @param CourtInterface $court
+     * @return JsonResponse
+     */
+    public function disableCourt(CourtInterface $court): JsonResponse
+    {
+        $court->setEnabled(false);
+
+        $this->flush();
+
+        return new JsonResponse();
+    }
+
+    /**
+     * @Route("/{type}/delete/{id}", name="api:courts:delete")
+     * @ParamConverter("CorurtInterface", class="App\Entity\CourtInterface")
+     * @param CourtInterface $court
+     * @return JsonResponse
+     */
+    public function deleteCourt(CourtInterface $court): JsonResponse
+    {
+        $this->remove($court);
+        $this->flush();
+
+        return new JsonResponse();
     }
 }

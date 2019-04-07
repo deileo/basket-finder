@@ -5,17 +5,19 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @Gedmo\SoftDeleteable()
  */
 class Event extends BaseEvent implements EventInterface
 {
     /**
      * @var UserInterface
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="createdEvents")
      */
     private $createdBy;
 

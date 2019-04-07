@@ -5,15 +5,20 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @Gedmo\SoftDeleteable()
  */
 class User implements UserInterface
 {
+    use SoftDeleteableEntity;
+
     /**
      * @var array
      */
@@ -106,6 +111,20 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="Permission", mappedBy="user")
      */
     private $permissions;
+
+    /**
+     * @var GymCourt[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Court", mappedBy="createdBy")
+     */
+    private $createdGymCourts;
+
+    /**
+     * @var Court[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Court", mappedBy="createdBy")
+     */
+    private $createdCourts;
 
     /**
      * @var int
@@ -254,6 +273,64 @@ class User implements UserInterface
     {
         if ($this->getCreatedGymEvents()->contains($gymEvent)) {
             $this->getCreatedGymEvents()->removeElement($gymEvent);
+        }
+    }
+
+    /**
+     * @return Collection|Court[]
+     */
+    public function getCreatedCourts(): Collection
+    {
+        return $this->createdCourts;
+    }
+
+    /**
+     * @param Court $court
+     */
+    public function addCreatedCourt(Court $court): void
+    {
+        if (!$this->getCreatedCourts()->contains($court)) {
+            $this->getCreatedCourts()->add($court);
+            $court->setCreatedBy($this);
+        }
+    }
+
+    /**
+     * @param Court $court
+     */
+    public function removeCreatedCourt(Court $court): void
+    {
+        if ($this->getCreatedCourts()->contains($court)) {
+            $this->getCreatedCourts()->removeElement($court);
+        }
+    }
+
+    /**
+     * @return Collection|GymCourt[]
+     */
+    public function getCreatedGymCourts(): Collection
+    {
+        return $this->createdGymCourts;
+    }
+
+    /**
+     * @param GymCourt $gymCourt
+     */
+    public function addCreatedGymCourt(GymCourt $gymCourt): void
+    {
+        if (!$this->getCreatedGymCourts()->contains($gymCourt)) {
+            $this->getCreatedGymCourts()->add($gymCourt);
+            $gymCourt->setCreatedBy($this);
+        }
+    }
+
+    /**
+     * @param GymCourt $gymCourt
+     */
+    public function removeCreatedGymCourt(GymCourt $gymCourt): void
+    {
+        if ($this->getCreatedGymCourts()->contains($gymCourt)) {
+            $this->getCreatedGymCourts()->removeElement($gymCourt);
         }
     }
 

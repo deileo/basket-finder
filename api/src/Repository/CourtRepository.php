@@ -33,6 +33,18 @@ class CourtRepository extends ServiceEntityRepository implements CourtRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.enabled = false')
+            ->andWhere('c.new = false')
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @return Court[]
+     */
+    public function getNewCourts(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.enabled = false')
+            ->andWhere('c.new = true')
             ->getQuery()->getResult();
     }
 }

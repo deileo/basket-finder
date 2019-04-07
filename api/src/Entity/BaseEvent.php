@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class BaseEvent
 {
+    use TimestampableEntity, SoftDeleteableEntity;
+
     /**
      * @var int
      *

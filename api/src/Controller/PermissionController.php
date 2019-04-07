@@ -78,7 +78,6 @@ class PermissionController extends BaseController
 
     /**
      * @Route("/approve/{id}", name="api:permission:approve")
-     * @Security("is_granted('API_ACCESS')")
      *
      * @param Request $request
      * @param Permission $permission

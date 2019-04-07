@@ -26,4 +26,9 @@ interface CourtRepositoryInterface
      * @return CourtInterface[]
      */
     public function getDisabledCourts(): array;
+
+    /**
+     * @return CourtInterface[]
+     */
+    public function getNewCourts(): array;
 }
