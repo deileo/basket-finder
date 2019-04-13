@@ -17,31 +17,48 @@ class GymCourtRepository extends ServiceEntityRepository implements CourtReposit
     }
 
     /**
+     * @param bool $comments
      * @return GymCourt[]
      */
-    public function getActiveCourts(): array
+    public function getActiveCourts(bool $comments = false): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.enabled = true')
+        $qb = $this->createQueryBuilder('c');
+
+        if ($comments) {
+            $qb->select('c as court, COUNT(cm) as commentsCount')
+                ->leftJoin('c.comments', 'cm')
+                ->groupBy('c.id');
+        }
+
+        return $qb->andWhere($qb->expr()->eq('c.enabled', $qb->expr()->literal(true)))
             ->getQuery()->getResult();
     }
 
     /**
+     * @param bool $comments
      * @return GymCourt[]
      */
-    public function getDisabledCourts(): array
+    public function getDisabledCourts(bool $comments = false): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.enabled = false')
-            ->andWhere('c.new = false')
+        $qb = $this->createQueryBuilder('c');
+
+        if ($comments) {
+            $qb->select('c as court, COUNT(cm) as commentsCount')
+                ->leftJoin('c.comments', 'cm')
+                ->groupBy('c.id');
+        }
+
+        return $qb->andWhere($qb->expr()->eq('c.enabled', $qb->expr()->literal(false)))
             ->getQuery()->getResult();
     }
 
     /**
+     * @param bool $comments
      * @return GymCourt[]
      */
-    public function getNewCourts(): array
+    public function getNewCourts(bool $comments = false): array
     {
+
         return $this->createQueryBuilder('c')
             ->andWhere('c.enabled = false')
             ->andWhere('c.new = true')

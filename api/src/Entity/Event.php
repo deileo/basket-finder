@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -38,12 +39,20 @@ class Event extends BaseEvent implements EventInterface
     private $participants;
 
     /**
+     * @var Collection|EventComment[]
+     *
+     * @ORM\OneToMany(targetEntity="EventComment", mappedBy="event")
+     */
+    private $comments;
+
+    /**
      * @param User $user
      */
     public function __construct(?User $user)
     {
         $this->createdBy = $user;
         $this->participants = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -103,6 +112,38 @@ class Event extends BaseEvent implements EventInterface
     {
         if ($this->getParticipants()->contains($participant)) {
             $this->getParticipants()->removeElement($participant);
+        }
+    }
+
+    /**
+     * @return EventComment[]|Collection
+     */
+    public function getComments(): Collection
+    {
+        $criteria = Criteria::create()
+            ->orderBy(["createdAt" => Criteria::DESC]);
+
+        return $this->comments->matching($criteria);
+    }
+
+    /**
+     * @param EventComment $comment
+     */
+    public function addComment(EventComment $comment): void
+    {
+        if (!$this->getComments()->contains($comment)) {
+            $this->getComments()->add($comment);
+            $comment->setEvent($this);
+        }
+    }
+
+    /**
+     * @param EventComment $comment
+     */
+    public function removeComment(EventComment $comment): void
+    {
+        if ($this->getComments()->contains($comment)) {
+            $this->getComments()->removeElement($comment);
         }
     }
 }

@@ -8,6 +8,7 @@ import modalReducer from './modal.reducer';
 import userReducer from './user.reducer';
 import participantReducer from './participant.reducer';
 import permissionReducer from './permission.reducer';
+import commentReducer from './comment.reducer';
 
 const reducers = combineReducers({
   navReducer,
@@ -19,6 +20,7 @@ const reducers = combineReducers({
   userReducer,
   participantReducer,
   permissionReducer,
+  commentReducer,
 });
 
 export default reducers;

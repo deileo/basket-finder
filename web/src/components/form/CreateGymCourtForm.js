@@ -11,14 +11,15 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 import FormMap from "./FormMap";
 import {MAP_URL} from "../../config";
-import {TYPE_COURT} from "../../actions/types";
+import {TYPE_GYM_COURT} from "../../actions/types";
 import InputLabel from "@material-ui/core/InputLabel";
 
-class CreateCourtForm extends Component {
+class CreateGymCourtForm extends Component {
 
   state = {
-    description: '',
+    name: '',
     location: '',
+    condition: '',
     lat: null,
     long: null,
   };
@@ -41,12 +42,16 @@ class CreateCourtForm extends Component {
     );
   }
 
-  handleDescriptionChange = (event) => {
-    this.setState({description: event.target.value});
+  handleNameChange = (event) => {
+    this.setState({name: event.target.value});
   };
 
   handleLocationChange = (event) => {
     this.setState({location: event.target.value});
+  };
+
+  handleConditionChange = (event) => {
+    this.setState({condition: event.target.value});
   };
 
   handleOnMapClick = (latLng) => {
@@ -62,23 +67,38 @@ class CreateCourtForm extends Component {
   handleSubmit = () => {
     let accessToken = this.props.userReducer.auth.googleAccessToken;
 
-    this.props.createCourtAction(this.state, TYPE_COURT, accessToken);
+    this.props.createCourtAction(this.state, TYPE_GYM_COURT, accessToken);
   };
 
   render() {
     const {classes, handleClose} = this.props;
-    const {description, location} = this.state;
+    const {description, location, name} = this.state;
 
     return (
       <div>
         <Typography gutterBottom variant="h5" component="h4">
-          Nauja lauko aikštelė
+          Nauja vidaus aikštelė
         </Typography>
         <IconButton aria-label="Close" style={{position: 'absolute', top: '1rem', right: '15px'}} onClick={handleClose}>
           <CloseIcon />
         </IconButton>
         <form className={classes.form} noValidate>
           <Grid container spacing={24}>
+
+            <Grid item xs={12}>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  id="name"
+                  label="Pavadinimas"
+                  value={name}
+                  required={true}
+                  error={this.hasError('name')}
+                  onChange={this.handleNameChange}
+                  variant="outlined"
+                />
+                {this.getErrorMessage('location')}
+              </FormControl>
+            </Grid>
 
             <Grid item xs={12}>
               <FormControl margin="normal" required fullWidth>
@@ -98,11 +118,11 @@ class CreateCourtForm extends Component {
             <Grid item xs={12}>
               <FormControl margin="normal" fullWidth>
                 <TextField
-                  id="description"
-                  label="Informacija"
+                  id="condition"
+                  label="Būklė"
                   value={description}
-                  error={this.hasError('description')}
-                  onChange={this.handleDescriptionChange}
+                  error={this.hasError('conditino')}
+                  onChange={this.handleConditionChange}
                   multiline={true}
                   rows="3"
                   variant="outlined"
@@ -147,4 +167,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default withStyles({})(connect(mapStateToProps, actions)(CreateCourtForm));
+export default withStyles({})(connect(mapStateToProps, actions)(CreateGymCourtForm));

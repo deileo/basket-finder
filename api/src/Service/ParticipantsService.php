@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Event;
+use App\Entity\EventInterface;
 use App\Entity\GymEventParticipant;
 use App\Repository\ParticipantRepository;
 use Symfony\Component\Security\Core\Security;
@@ -34,5 +36,25 @@ class ParticipantsService
     public function getUnconfirmedParticipants(): array
     {
         return $this->participantsRepo->getUnconfirmedParticipants($this->security->getUser());
+    }
+
+    /**
+     * @param EventInterface $event
+     * @return array
+     */
+    public function getEventParticipants(EventInterface $event): array
+    {
+        if ($event instanceof Event) {
+            return $event->getParticipants()->toArray();
+        }
+
+        $participants = $this->participantsRepo->getConfirmedEventParticipants($event);
+
+        $users = [];
+        foreach ($participants as $participant) {
+            $users[] = $participant->getUser();
+        }
+
+        return $users;
     }
 }

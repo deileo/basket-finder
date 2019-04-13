@@ -45,14 +45,14 @@ class User implements UserInterface
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default"})
+     * @Groups({"default", "comment"})
      */
     private $firstName;
 
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default"})
+     * @Groups({"default", "comment"})
      */
     private $lastName;
 
@@ -73,7 +73,7 @@ class User implements UserInterface
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"default"})
+     * @Groups({"default", "comment"})
      */
     private $googleImage;
 

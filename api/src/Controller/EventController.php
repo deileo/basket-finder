@@ -61,7 +61,7 @@ class EventController extends BaseController
             return new JsonResponse('success', Response::HTTP_CREATED);
         }
 
-        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
+        return new JsonResponse($this->getFormErrors($form));
     }
 
     /**
@@ -105,7 +105,7 @@ class EventController extends BaseController
             return new JsonResponse('success', Response::HTTP_CREATED);
         }
 
-        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
+        return new JsonResponse($this->getFormErrors($form));
     }
 
     /**

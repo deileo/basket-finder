@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\GymEvent;
 use App\Entity\GymEventParticipant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -27,6 +28,19 @@ class ParticipantRepository extends ServiceEntityRepository
 
         return $qb->andWhere($qb->expr()->eq('e.createdBy', $user->getId()))
             ->andWhere($qb->expr()->eq('p.isConfirmed', $qb->expr()->literal(false)))
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @param GymEvent $event
+     * @return array
+     */
+    public function getConfirmedEventParticipants(GymEvent $event): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->andWhere($qb->expr()->eq('p.event', $event->getId()))
+            ->andWhere($qb->expr()->eq('p.isConfirmed', $qb->expr()->literal(true)))
             ->getQuery()->getResult();
     }
 }

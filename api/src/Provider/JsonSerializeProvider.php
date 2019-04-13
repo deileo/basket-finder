@@ -23,6 +23,12 @@ class JsonSerializeProvider
             return $object->getId();
         });
 
+        $callback = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
+            return $innerObject instanceof \DateTime ? $innerObject->format('Y-m-d H:i') : '';
+        };
+
+        $normalizer->setCallbacks(['createdAt' => $callback]);
+
         return new Serializer([$normalizer], [new JsonEncoder()]);
     }
 }

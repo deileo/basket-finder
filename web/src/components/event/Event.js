@@ -12,11 +12,13 @@ import {eventStyles, modalStyles} from "../styles";
 import {getConfirmedParticipantsCount, getEventTime} from "../../services/eventService";
 import {connect} from "react-redux";
 import * as actions from './../../actions';
+import Comments from "../comment/Comments";
 
 class Event extends Component {
 
   state = {
     infoModalOpen: false,
+    commentModalOpen: false,
   };
 
   handleOpenInfoModalClick = () => {
@@ -26,6 +28,15 @@ class Event extends Component {
   handleCloseInfoModalClick = () => {
     this.setState({infoModalOpen: false});
   };
+
+  handleCommentOpen = () => {
+    this.setState({commentModalOpen: true});
+  };
+
+  handleCommentClose = () => {
+    this.setState({commentModalOpen: false});
+  };
+
 
   handleJoin = () => {
     const {userReducer, event, type} = this.props;
@@ -116,7 +127,11 @@ class Event extends Component {
           <CardActions>
             {this.renderEventJoinActions(this.props.userReducer, event, type)}
             <Button size="small" variant="outlined" color="primary" onClick={this.handleOpenInfoModalClick}>
-              Informacija
+              Žaidėjai
+            </Button>
+
+            <Button size="small" variant="outlined" color="primary" onClick={() => this.handleCommentOpen()}>
+              Komentarai {this.props.commentsCount > 0 ? ' (' + this.props.commentsCount + ')' : null}
             </Button>
 
             <Modal
@@ -130,6 +145,15 @@ class Event extends Component {
                   open={this.state.infoModalOpen}
                   type={type}
                 />
+              </div>
+            </Modal>
+
+            <Modal
+              open={this.state.commentModalOpen}
+              onClose={this.handleCommentClose}
+            >
+              <div style={modalStyles} className={classes.paper}>
+                <Comments event={event} type={type} handleClose={this.handleCommentClose}/>
               </div>
             </Modal>
           </CardActions>

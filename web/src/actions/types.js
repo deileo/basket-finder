@@ -7,6 +7,8 @@ export const LOADING_MAP_STARTED = 'loading_map_started';
 export const LOADING_MAP_ENDED = 'loading_map_ended';
 export const LOADING_EVENTS_STARTED = 'loading_events_strated';
 export const LOADING_EVENTS_ENDED = 'loading_events_ended';
+export const LOADING_COMMENTS_STARTED = 'loading_comments_started';
+export const LOADING_COMMENTS_ENDED = 'loading_comments_ended';
 
 //Court
 export const FETCH_COURTS = 'fetch_courts';
@@ -49,6 +51,7 @@ export const GET_USER = 'get_user';
 
 // participants
 export const GET_PARTICIPANTS_UNCONFIRMED = 'unconfirmed_participants';
+export const GET_EVENT_PARTICIPANTS = 'get_event_participants';
 export const ACCEPT_PARTICIPANT = 'accept_participant';
 export const CANCEL_PARTICIPANT = 'cancle_participant';
 
@@ -60,3 +63,8 @@ export const PERMISSIONS_ALL = 'permissions_all';
 export const RESET_CREATED_REQUEST = 'reset_created_request';
 export const PERMISSION_REQUEST_APPROVED = 'permission_request_approved';
 export const PERMISSION_DELETE = 'permission_delete';
+
+// comment
+export const NEW_COMMENT = 'new_comment';
+export const GET_COMMENTS = 'get_comment';
+export const RESET_COMMENT_RELOAD = 'reset_comment_reload';

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,9 +30,17 @@ class Court extends BaseCourt implements CourtInterface
      */
     protected $createdBy;
 
+    /**
+     * @var Collection|CourtComment[]
+     *
+     * @ORM\OneToMany(targetEntity="CourtComment", mappedBy="court")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -85,5 +94,37 @@ class Court extends BaseCourt implements CourtInterface
     public function setCreatedBy(?UserInterface $createdBy): void
     {
         $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return CourtComment[]|Collection
+     */
+    public function getComments(): Collection
+    {
+        $criteria = Criteria::create()
+            ->orderBy(["createdAt" => Criteria::DESC]);
+
+        return $this->comments->matching($criteria);
+    }
+
+    /**
+     * @param CourtComment $comment
+     */
+    public function addComment(CourtComment $comment): void
+    {
+        if (!$this->getComments()->contains($comment)) {
+            $this->getComments()->add($comment);
+            $comment->setCourt($this);
+        }
+    }
+
+    /**
+     * @param CourtComment $comment
+     */
+    public function removeComment(CourtComment $comment): void
+    {
+        if ($this->getComments()->contains($comment)) {
+            $this->getComments()->removeElement($comment);
+        }
     }
 }

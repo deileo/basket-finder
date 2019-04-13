@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 import * as actions from './../../actions';
 import Modal from "@material-ui/core/Modal";
 import {courtStyles, modalStyles} from "../styles";
-import CreatePermissionRequestForm from "../form/CreatePermissionRequestForm";
 import CreateCourtForm from "../form/CreateCourtForm";
+import CreateGymCourtForm from "../form/CreateGymCourtForm";
 
 class AuthItem extends Component {
   state = {
@@ -144,7 +144,7 @@ class AuthItem extends Component {
           onClose={this.handleAddGymCourtClose}
         >
           <div style={modalStyles} className={classes.paper}>
-            <CreatePermissionRequestForm handleClose={this.handleAddGymCourtClose}/>
+            <CreateGymCourtForm handleClose={this.handleAddGymCourtClose}/>
           </div>
         </Modal>
       </div>

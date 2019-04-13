@@ -42,7 +42,7 @@ class CourtService
             throw new ORMInvalidArgumentException();
         }
 
-        return $this->getCourtRepository($type)->getActiveCourts();
+        return $this->getCourtRepository($type)->getActiveCourts(true);
     }
 
     /**

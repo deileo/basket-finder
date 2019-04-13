@@ -92,7 +92,6 @@ abstract class BaseCourt
      */
     protected $new = true;
 
-
     /**
      * @return int
      */

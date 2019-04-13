@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Court;
 use App\Entity\CourtInterface;
+use App\Entity\GymCourt;
 use App\Form\Court\CourtType;
+use App\Form\Court\GymCourtType;
 use App\Service\CourtService;
 use App\Service\GeoCoderService;
 use App\Service\JsonSerializeService;
@@ -31,13 +33,20 @@ class CourtController extends BaseController
     private $serializer;
 
     /**
+     * @var GeoCoderService
+     */
+    private $geoCoderService;
+
+    /**
      * @param CourtService $courtService
      * @param JsonSerializeService $serializer
+     * @param GeoCoderService $geoCoderService
      */
-    public function __construct(CourtService $courtService, JsonSerializeService $serializer)
+    public function __construct(CourtService $courtService, JsonSerializeService $serializer, GeoCoderService $geoCoderService)
     {
         $this->courtService = $courtService;
         $this->serializer = $serializer;
+        $this->geoCoderService = $geoCoderService;
     }
 
     /**
@@ -45,10 +54,9 @@ class CourtController extends BaseController
      * @Security("is_granted('API_ACCESS')")
      *
      * @param Request $request
-     * @param GeoCoderService $geoCoderService
      * @return JsonResponse
      */
-    public function createNewCourt(Request $request, GeoCoderService $geoCoderService): JsonResponse
+    public function createNewCourt(Request $request): JsonResponse
     {
         $court = new Court();
         $form = $this->createForm(CourtType::class, $court);
@@ -56,15 +64,43 @@ class CourtController extends BaseController
 
         if ($form->isValid()) {
             $court->setCreatedBy($this->getUser());
-            $address = $geoCoderService->getAddressFromCoordinates($court->getLat(), $court->getLong());
+            $address = $this->geoCoderService->getAddressFromCoordinates($court->getLat(), $court->getLong());
             $court->setAddress($address);
+
             $this->persist($court);
             $this->flush();
 
             return new JsonResponse('success', Response::HTTP_CREATED);
         }
 
-        return new JsonResponse($this->getFormErrors($form), Response::HTTP_OK);
+        return new JsonResponse($this->getFormErrors($form));
+    }
+
+    /**
+     * @Route("/gym-court/new", name="api:courts:gym-court:new")
+     * @Security("is_granted('API_ACCESS')")
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function createNewGymCourt(Request $request): JsonResponse
+    {
+        $court = new GymCourt();
+        $form = $this->createForm(GymCourtType::class, $court);
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            $court->setCreatedBy($this->getUser());
+            $address = $this->geoCoderService->getAddressFromCoordinates($court->getLat(), $court->getLong());
+            $court->setAddress($address);
+
+            $this->persist($court);
+            $this->flush();
+
+            return new JsonResponse('success', Response::HTTP_CREATED);
+        }
+
+        return new JsonResponse($this->getFormErrors($form));
     }
 
     /**

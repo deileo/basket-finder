@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+
 interface CourtInterface
 {
     /**
@@ -83,4 +85,9 @@ interface CourtInterface
      * @return \DateTime
      */
     public function getCreatedAt();
+
+    /**
+     * @return GymCourtComment[]|Collection
+     */
+    public function getComments(): Collection;
 }

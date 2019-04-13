@@ -18,14 +18,16 @@ interface CourtRepositoryInterface
     public function findAll();
 
     /**
+     * @param bool $comments
      * @return CourtInterface[]
      */
-    public function getActiveCourts(): array;
+    public function getActiveCourts(bool $comments = false): array;
 
     /**
+     * @param bool $comments
      * @return CourtInterface[]
      */
-    public function getDisabledCourts(): array;
+    public function getDisabledCourts(bool $comments = false): array;
 
     /**
      * @return CourtInterface[]

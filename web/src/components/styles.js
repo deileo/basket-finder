@@ -66,7 +66,7 @@ export const eventStyles = theme => ({
 
 export const courtStyles = theme => ({
   container: {
-    maxWidth: 280,
+    width: 280,
   },
   title: {
     fontSize: 20,

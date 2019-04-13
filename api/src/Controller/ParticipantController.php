@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\EventInterface;
 use App\Entity\GymEventParticipant;
 use App\Service\JsonSerializeService;
 use App\Service\ParticipantsService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +48,18 @@ class ParticipantController extends BaseController
     }
 
     /**
-     * @Route("/{id}/accept", name="api:participant:accept")
+     * @Route("/event/{type}/{id}", name="api:participant:event")
+     * @ParamConverter("EventInterface", class="App\Entity\EventInterface")
+     * @param EventInterface $event
+     * @return Response
+     */
+    public function getEventParticipants(EventInterface $event): Response
+    {
+        return new Response($this->serializer->serialize($this->participantService->getEventParticipants($event)));
+    }
+
+    /**
+     * @Route("/accept/{id}", name="api:participant:accept")
      * @Security("is_granted('API_ACCESS')")
      * @param GymEventParticipant $participant
      * @return JsonResponse
@@ -64,7 +77,7 @@ class ParticipantController extends BaseController
     }
 
     /**
-     * @Route("/{id}/cancel", name="api:participant:cancel")
+     * @Route("/cancel/{id}", name="api:participant:cancel")
      * @Security("is_granted('API_ACCESS')")
      * @param GymEventParticipant $participant
      * @return JsonResponse

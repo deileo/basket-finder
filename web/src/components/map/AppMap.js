@@ -11,8 +11,9 @@ const AppMap = withScriptjs(withGoogleMap((props) =>
   >
     {props.courtsReducer.data.map(court => {
       return <CourtMarker
-        key={court.id}
-        court={court}
+        key={court.court.id}
+        court={court.court}
+        commentsCount={court.commentsCount}
         handleMarkerClick={props.handleMarkerClick}
         activeMarker={props.activeMarker}
       />

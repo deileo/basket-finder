@@ -1,7 +1,17 @@
 import {
-  ACCEPT_PARTICIPANT, CANCEL_PARTICIPANT, FLASH_MESSAGE, GET_PARTICIPANTS_UNCONFIRMED, RELOAD_EVENTS
+  ACCEPT_PARTICIPANT,
+  CANCEL_PARTICIPANT,
+  FLASH_MESSAGE,
+  GET_EVENT_PARTICIPANTS,
+  GET_PARTICIPANTS_UNCONFIRMED,
+  RELOAD_EVENTS
 } from "./types";
-import {acceptParticipant, cancelParticipant, getUnconfirmedParticipants} from '../services/participantService';
+import {
+  acceptParticipant,
+  cancelParticipant,
+  getEventParticipants,
+  getUnconfirmedParticipants
+} from '../services/participantService';
 
 export const getUnconfirmedParticipantsAction = (token) => {
   return function(dispatch) {
@@ -18,6 +28,20 @@ export const getUnconfirmedParticipantsAction = (token) => {
   };
 };
 
+export const getEventParticipantsAction = (event, type) => {
+  return function(dispatch) {
+    return getEventParticipants(event, type)
+      .then(response => {
+        return dispatch({ type: GET_EVENT_PARTICIPANTS, payload: response.data });
+      })
+      .catch(error => {
+        if (error) {
+          console.error(error);
+        }
+        return Promise.reject({});
+      })
+  };
+};
 export const acceptParticipantAction = (participant, token) => {
   return function(dispatch) {
     return acceptParticipant(participant, token)
@@ -52,4 +76,10 @@ export const cancelParticipantAction = (participant, token) => {
         return Promise.reject({});
       })
   };
+};
+
+export const resetEventParticipantsAction = () => {
+  return function(dispatch) {
+    return dispatch({type: GET_EVENT_PARTICIPANTS, payload: []})
+  }
 };

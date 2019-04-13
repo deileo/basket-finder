@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -61,16 +62,24 @@ class GymCourt extends BaseCourt implements CourtInterface
      */
     protected $createdBy;
 
+    /**
+     * @var Collection|GymCourtComment[]
+     *
+     * @ORM\OneToMany(targetEntity="GymCourtComment", mappedBy="gymCourt")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->permissions = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -78,7 +87,7 @@ class GymCourt extends BaseCourt implements CourtInterface
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -102,7 +111,7 @@ class GymCourt extends BaseCourt implements CourtInterface
     /**
      * @return string
      */
-    public function getCondition(): string
+    public function getCondition(): ?string
     {
         return $this->condition;
     }
@@ -110,7 +119,7 @@ class GymCourt extends BaseCourt implements CourtInterface
     /**
      * @param string $condition
      */
-    public function setCondition(string $condition): void
+    public function setCondition(?string $condition): void
     {
         $this->condition = $condition;
     }
@@ -196,5 +205,37 @@ class GymCourt extends BaseCourt implements CourtInterface
     public function setCreatedBy(?UserInterface $createdBy): void
     {
         $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return GymCourtComment[]|Collection
+     */
+    public function getComments(): Collection
+    {
+        $criteria = Criteria::create()
+            ->orderBy(["createdAt" => Criteria::DESC]);
+
+        return $this->comments->matching($criteria);
+    }
+
+    /**
+     * @param GymCourtComment $comment
+     */
+    public function addComment(GymCourtComment $comment): void
+    {
+        if (!$this->getComments()->contains($comment)) {
+            $this->getComments()->add($comment);
+            $comment->setGymCourt($this);
+        }
+    }
+
+    /**
+     * @param GymCourtComment $comment
+     */
+    public function removeComment(GymCourtComment $comment): void
+    {
+        if ($this->getComments()->contains($comment)) {
+            $this->getComments()->removeElement($comment);
+        }
     }
 }

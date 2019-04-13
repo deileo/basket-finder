@@ -86,4 +86,9 @@ interface EventInterface
      * @param UserInterface|null $user
      */
     public function setCreatedBy(?UserInterface $user): void;
+
+    /**
+     * @return EventComment[]|Collection
+     */
+    public function getComments(): Collection;
 }

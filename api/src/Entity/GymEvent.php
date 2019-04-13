@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -57,10 +58,18 @@ class GymEvent extends BaseEvent implements EventInterface
      */
     private $participants;
 
+    /**
+     * @var Collection|GymEventComment[]
+     *
+     * @ORM\OneToMany(targetEntity="GymEventComment", mappedBy="gymEvent")
+     */
+    private $comments;
+
     public function __construct(?UserInterface $user)
     {
         $this->createdBy = $user;
         $this->participants = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -153,6 +162,38 @@ class GymEvent extends BaseEvent implements EventInterface
     {
         if ($this->getParticipants()->contains($participant)) {
             $this->getParticipants()->removeElement($participant);
+        }
+    }
+
+    /**
+     * @return EventComment[]|Collection
+     */
+    public function getComments(): Collection
+    {
+        $criteria = Criteria::create()
+            ->orderBy(["createdAt" => Criteria::DESC]);
+
+        return $this->comments->matching($criteria);
+    }
+
+    /**
+     * @param GymEventComment $comment
+     */
+    public function addComment(GymEventComment $comment): void
+    {
+        if (!$this->getComments()->contains($comment)) {
+            $this->getComments()->add($comment);
+            $comment->setGymEvent($this);
+        }
+    }
+
+    /**
+     * @param GymEventComment $comment
+     */
+    public function removeComment(GymEventComment $comment): void
+    {
+        if ($this->getComments()->contains($comment)) {
+            $this->getComments()->removeElement($comment);
         }
     }
 }

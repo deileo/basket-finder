@@ -15,10 +15,12 @@ import CreateGymEventForm from "../form/CreateGymEventForm";
 import {courtStyles, modalStyles} from "../styles";
 import CreatePermissionRequestForm from "../form/CreatePermissionRequestForm";
 import moment from "moment";
+import Comments from "../comment/Comments";
 
 class CourtMarker extends Component {
   state = {
-    open: false,
+    permissionModalOpen: false,
+    commentModalOpen: false,
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -28,7 +30,7 @@ class CourtMarker extends Component {
     }
 
     if (permissionReducer.created && !prevProps.permissionReducer.created) {
-      this.setState({open: false});
+      this.setState({permissionModalOpen: false});
     }
   }
 
@@ -37,11 +39,19 @@ class CourtMarker extends Component {
   };
 
   handleRequestOpen = () => {
-    this.setState({open: true});
+    this.setState({permissionModalOpen: true});
   };
 
   handleRequestClose = () => {
-    this.setState({open: false});
+    this.setState({permissionModalOpen: false});
+  };
+
+  handleCommentOpen = () => {
+    this.setState({commentModalOpen: true});
+  };
+
+  handleCommentClose = () => {
+    this.setState({commentModalOpen: false});
   };
 
   handleClose = () => {
@@ -99,7 +109,7 @@ class CourtMarker extends Component {
             </Modal>
 
             <Modal
-              open={this.state.open}
+              open={this.state.permissionModalOpen}
               onClose={this.handleRequestClose}
             >
               <div style={modalStyles} className={classes.paper}>
@@ -107,7 +117,14 @@ class CourtMarker extends Component {
               </div>
             </Modal>
 
-
+            <Modal
+              open={this.state.commentModalOpen}
+              onClose={this.handleCommentClose}
+            >
+              <div style={modalStyles} className={classes.paper}>
+                <Comments court={court} type={courtReducer.type} handleClose={this.handleCommentClose}/>
+              </div>
+            </Modal>
           </div>
         </InfoWindow>
       )
@@ -135,6 +152,9 @@ class CourtMarker extends Component {
               Skelbti varzybas
             </Button> : ''
           }
+          <Button size="small" variant="outlined" color="primary" onClick={() => this.handleCommentOpen()}>
+            Komentarai {this.props.commentsCount > 0 ? ' (' + this.props.commentsCount + ')' : null}
+          </Button>
         </CardActions>
       </div>
     )
@@ -156,7 +176,10 @@ class CourtMarker extends Component {
           </Typography>
         </CardContent>
         <CardActions>
-          <div>{this.renderGymCourtActions()}</div>
+            {this.renderGymCourtActions()}
+            <Button size="small" variant="outlined" color="primary" onClick={() => this.handleCommentOpen()}>
+              Komentarai {this.props.commentsCount > 0 ? ' (' + this.props.commentsCount + ')' : null}
+            </Button>
         </CardActions>
       </div>
     )

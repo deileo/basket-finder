@@ -17,23 +17,37 @@ class CourtRepository extends ServiceEntityRepository implements CourtRepository
     }
 
     /**
+     * @param bool $comments
      * @return Court[]
      */
-    public function getActiveCourts(): array
+    public function getActiveCourts(bool $comments = false): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.enabled = true')
-            ->getQuery()->getResult();
+        $qb = $this->createQueryBuilder('c');
+
+        if ($comments) {
+            $qb->select('c as court, COUNT(cm) as commentsCount')
+                ->leftJoin('c.comments', 'cm')
+                ->groupBy('c.id');
+        }
+
+        return $qb->andWhere('c.enabled = true')->getQuery()->getResult();
     }
 
     /**
+     * @param bool $comments
      * @return Court[]
      */
-    public function getDisabledCourts(): array
+    public function getDisabledCourts(bool $comments = false): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.enabled = false')
-            ->andWhere('c.new = false')
+        $qb = $this->createQueryBuilder('c');
+
+        if ($comments) {
+            $qb->select('c as court, COUNT(cm) as commentsCount')
+                ->leftJoin('c.comments', 'cm')
+                ->groupBy('c.id');
+        }
+
+        return $qb->andWhere($qb->expr()->eq('c.enabled', $qb->expr()->literal(false)))
             ->getQuery()->getResult();
     }
 
