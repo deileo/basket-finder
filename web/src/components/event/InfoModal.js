@@ -31,7 +31,7 @@ class InfoModal extends Component {
   }
 
   render() {
-    const {classes, participantReducer, event, type} = this.props;
+    const {classes, participantReducer, event} = this.props;
     return (
       <div>
         <Dialog
@@ -76,7 +76,7 @@ class InfoModal extends Component {
                     />
                   </ListItem>
                 )
-              }) : <Typography className={classes.textCenter} variant="h5">Nėra Prisijungusių žaidėų</Typography>}
+              }) : <Typography className={classes.textCenter} variant="h5">Nėra Prisijungusių žaidėjų</Typography>}
             </List>
           </DialogContent>
         </Dialog>

@@ -29,7 +29,6 @@ class CreateEventForm extends Component {
     const {event} = this.props;
 
     if (event) {
-      console.log(event);
       this.setState({
         name: event.name,
         comment: event.comment ? event.comment : '',
@@ -79,11 +78,10 @@ class CreateEventForm extends Component {
   }
 
   handleSubmit = () => {
-    let accessToken = this.props.userReducer.auth.googleAccessToken;
     if (!this.props.event) {
-      this.props.createEventAction(this.state, TYPE_COURT, accessToken);
+      this.props.createEventAction(this.state, TYPE_COURT);
     } else {
-      this.props.editEventAction(this.state, this.props.event.id, TYPE_COURT, accessToken);
+      this.props.editEventAction(this.state, this.props.event.id, TYPE_COURT);
     }
   };
 
@@ -137,7 +135,7 @@ class CreateEventForm extends Component {
               <FormControl margin="normal" required fullWidth>
                 <TimePicker autoOk
                             ampm={false}
-                            label="Pradzios laikas"
+                            label="Pradžios laikas"
                             value={startTime}
                             required={true}
                             onChange={this.handleStartTimeChange}
@@ -150,8 +148,9 @@ class CreateEventForm extends Component {
 
             <Grid item xs={12}>
               <FormControl margin="normal" required fullWidth>
-                <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų
-                  skaičius: {neededPlayers}</InputLabel>
+                <InputLabel error={this.hasError('neededPlayers')}>
+                  Reikiamas žaidėjų skaičius: {neededPlayers}
+                </InputLabel>
                 <Slider value={neededPlayers}
                         min={1}
                         max={10}
@@ -201,7 +200,6 @@ const mapStateToProps = state => {
   return {
     eventReducer: state.eventReducer,
     courtsReducer: state.courtsReducer,
-    userReducer: state.userReducer,
   };
 };
 

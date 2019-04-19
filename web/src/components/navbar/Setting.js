@@ -22,22 +22,22 @@ class Setting extends Component {
   };
 
   componentDidMount() {
-    this.props.getUserCreatedEventsAction(this.props.userReducer.auth.googleAccessToken);
-    this.props.getUserJoinedEventsAction(this.props.userReducer.auth.googleAccessToken);
-    this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
+    this.props.getUserCreatedEventsAction();
+    this.props.getUserJoinedEventsAction();
+    this.props.getUnconfirmedParticipantsAction();
   }
 
   updateUserEvents() {
     if (this.state.value === 0) {
-      this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
+      this.props.getUnconfirmedParticipantsAction();
     }
 
     if (this.state.value === 1) {
-      this.props.getUserJoinedEventsAction(this.props.userReducer.auth.googleAccessToken);
+      this.props.getUserJoinedEventsAction();
     }
 
     if (this.state.value === 2) {
-      this.props.getUserCreatedEventsAction(this.props.userReducer.auth.googleAccessToken);
+      this.props.getUserCreatedEventsAction();
     }
   }
 
@@ -51,7 +51,7 @@ class Setting extends Component {
     }
 
     if (!prevProps.participantReducer.reload && this.props.participantReducer.reload) {
-      this.props.getUnconfirmedParticipantsAction(this.props.userReducer.auth.googleAccessToken);
+      this.props.getUnconfirmedParticipantsAction();
     }
   }
 
@@ -86,9 +86,9 @@ class Setting extends Component {
                   textColor="primary"
                   variant="fullWidth"
                 >
-                  <Tab label="Prasymai"/>
+                  <Tab label="Prašymai"/>
                   <Tab label="Dalyvavimai"/>
-                  <Tab label="Sukurtos varzybos"/>
+                  <Tab label="Sukurtos varžybos"/>
                 </Tabs>
                 {this.state.value === 0 && <MyParticipantRequests />}
                 {this.state.value === 1 && <MyJoinedEvents />}

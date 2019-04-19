@@ -22,15 +22,14 @@ class Comments extends Component {
   };
 
   handleSubmit = () => {
-    let accessToken = this.props.userReducer.auth.googleAccessToken;
     const {event, court, type} = this.props;
 
     if (court) {
-      this.props.createCourtCommentAction(this.state, court, type, accessToken);
+      this.props.createCourtCommentAction(this.state, court, type);
     }
 
     if (event) {
-      this.props.createEventCommentAction(this.state, event, type, accessToken);
+      this.props.createEventCommentAction(this.state, event, type);
     }
 
     this.setState({comment: ''});

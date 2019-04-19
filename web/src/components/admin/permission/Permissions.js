@@ -16,7 +16,7 @@ class Permissions extends Component {
   };
 
   componentDidMount() {
-    this.props.getPermissionsAction(localStorage.getItem('token'));
+    this.props.getPermissionsAction();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -24,7 +24,7 @@ class Permissions extends Component {
 
     if (permissionReducer.reload) {
       this.setState({open: false, activePermission: null});
-      this.props.getPermissionsAction(localStorage.getItem('token'));
+      this.props.getPermissionsAction();
       this.props.resetPermisionRequestState();
     }
   }

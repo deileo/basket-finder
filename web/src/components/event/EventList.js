@@ -63,7 +63,7 @@ class EventList extends Component {
           </Typography>
         </Paper>
         {events.length ? this.renderEvents(events) :
-          <Typography className={classes.textCenter} variant="h5">Nera paskelbtu varzybu</Typography>
+          <Typography className={classes.textCenter} variant="h5">Nėra paskelbtų varžybų</Typography>
         }
       </div>
     )
@@ -81,7 +81,7 @@ class EventList extends Component {
           </Typography>
         </Paper>
         {events.length ? this.renderEvents(events) :
-          <Typography className={classes.textCenter} variant="h5">Nera paskelbtu varzybu</Typography>
+          <Typography className={classes.textCenter} variant="h5">Nėra paskelbtų varžybų</Typography>
         }
       </div>
     )

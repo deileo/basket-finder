@@ -20,22 +20,18 @@ import icon  from "../../event-icon.png";
 class MyJoinedEvents extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {userReducer, eventReducer} = this.props;
-
-    if (eventReducer.reload && !prevProps.eventReducer.reload) {
-      this.props.getUserJoinedEventsAction(userReducer.auth.googleAccessToken);
+    if (this.props.eventReducer.reload && !prevProps.eventReducer.reload) {
+      this.props.getUserJoinedEventsAction();
     }
   }
 
   handleLeave = (event) => {
-    const {userReducer} = this.props;
-
-    this.props.leaveEventAction(userReducer.auth.googleAccessToken, event.id, event.court ? TYPE_COURT : TYPE_GYM_COURT);
-    this.props.getUserJoinedEventsAction(userReducer.auth.googleAccessToken);
+    this.props.leaveEventAction(event.id, event.court ? TYPE_COURT : TYPE_GYM_COURT);
+    this.props.getUserJoinedEventsAction();
   };
 
   getEventListItemInfo = (event) => {
-    let info = 'Zaidejai: ' + (event.court ? event.participants.length : getConfirmedParticipantsCount(event)) + "/" + event.neededPlayers;
+    let info = 'Žaidėjai: ' + (event.court ? event.participants.length : getConfirmedParticipantsCount(event)) + "/" + event.neededPlayers;
     if (event.price) {
       info += ' Kaina: ' + event.price + '€';
     }
@@ -82,7 +78,7 @@ class MyJoinedEvents extends Component {
               </ListItemSecondaryAction>
             </ListItem>
           )
-        }) : <Typography className={classes.textCenter} variant="h5">Nera Dalyvavimu</Typography>}
+        }) : <Typography className={classes.textCenter} variant="h5">Nėra Dalyvavimų</Typography>}
       </List>
     );
   }

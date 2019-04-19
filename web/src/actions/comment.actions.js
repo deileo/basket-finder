@@ -10,9 +10,9 @@ import {
   getCourtComments, getEventComments
 } from '../services/commentService';
 
-export const createCourtCommentAction = (commentData, court, type, token) => {
+export const createCourtCommentAction = (commentData, court, type) => {
   return function (dispatch) {
-    return createCourtComment(commentData, court, type, token)
+    return createCourtComment(commentData, court, type)
       .then(response => {
         return dispatch({type: NEW_COMMENT})
       })
@@ -22,9 +22,9 @@ export const createCourtCommentAction = (commentData, court, type, token) => {
   }
 };
 
-export const createEventCommentAction = (commentData, event, type, token) => {
+export const createEventCommentAction = (commentData, event, type) => {
   return function (dispatch) {
-    return createEventComment(commentData, event, type, token)
+    return createEventComment(commentData, event, type)
       .then(response => {
         return dispatch({type: NEW_COMMENT})
       })

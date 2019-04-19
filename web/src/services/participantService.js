@@ -8,8 +8,8 @@ const config = {
   }
 };
 
-export function getUnconfirmedParticipants(token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function getUnconfirmedParticipants() {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/participants/unconfirmed';
 
@@ -22,16 +22,16 @@ export function getEventParticipants(event, type) {
   return axios.get(url, config);
 }
 
-export function acceptParticipant(participant, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function acceptParticipant(participant) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/participants/accept/' + participant.id;
 
   return axios.post(url, {}, config);
 }
 
-export function cancelParticipant(participant, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function cancelParticipant(participant) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/participants/cancel/' + participant.id;
 

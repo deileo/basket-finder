@@ -47,8 +47,8 @@ export function getNewCourts() {
   return axios.get(API_URL + '/courts/admin/new', config);
 }
 
-export function createCourt(courtData, type = TYPE_COURT, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function createCourt(courtData, type = TYPE_COURT) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/courts/' + type +'/new';
 

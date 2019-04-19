@@ -11,9 +11,9 @@ import {
   PERMISSION_REQUEST_APPROVED, PERMISSION_DELETE, LOADING_EVENTS_STARTED, LOADING_EVENTS_ENDED,
 } from "./types";
 
-export const sendPermissionRequestAction = (requestData, token) => {
+export const sendPermissionRequestAction = (requestData) => {
   return function(dispatch) {
-    return sendPermissionRequest(requestData, token)
+    return sendPermissionRequest(requestData)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Permission request sent!', variant: 'success'}});
@@ -30,9 +30,9 @@ export const sendPermissionRequestAction = (requestData, token) => {
   };
 };
 
-export const approvePermissionRequestAction = (permissionId, requestData, token) => {
+export const approvePermissionRequestAction = (permissionId, requestData) => {
   return function(dispatch) {
-    return sendPermissionRequestApproval(permissionId, requestData, token)
+    return sendPermissionRequestApproval(permissionId, requestData)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Permission request approved!', variant: 'success'}});
@@ -49,9 +49,9 @@ export const approvePermissionRequestAction = (permissionId, requestData, token)
   };
 };
 
-export const deletePermissionAction = (permissionId, token) => {
+export const deletePermissionAction = (permissionId) => {
   return function(dispatch) {
-    return deletePermission(permissionId, token)
+    return deletePermission(permissionId)
       .then(response => {
         if (response.status === 200) {
           dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Permission deleted!', variant: 'success'}});
@@ -65,9 +65,9 @@ export const deletePermissionAction = (permissionId, token) => {
   };
 };
 
-export const getGymCourtPermissionAction = (gymCourtId, token) => {
+export const getGymCourtPermissionAction = (gymCourtId) => {
   return function(dispatch) {
-    return getGymCourtPermission(gymCourtId, token)
+    return getGymCourtPermission(gymCourtId)
       .then(response => {
         if (response.status === 200) {
           return dispatch({type: PERMISSION_GYM_COURT, payload: response.data});
@@ -79,11 +79,11 @@ export const getGymCourtPermissionAction = (gymCourtId, token) => {
   };
 };
 
-export const getPermissionsAction = (token) => {
+export const getPermissionsAction = () => {
   return function(dispatch) {
     dispatch({ type: LOADING_EVENTS_STARTED });
 
-    return getPermissions(token)
+    return getPermissions()
       .then(response => {
         if (response.status === 200) {
           return dispatch({type: PERMISSIONS_ALL, payload: response.data});

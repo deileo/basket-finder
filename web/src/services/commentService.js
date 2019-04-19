@@ -8,8 +8,8 @@ const config = {
   }
 };
 
-export function createCourtComment(commentData, court, type, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function createCourtComment(commentData, court, type) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/comment/court/' + type + '/' + court.id + '/new';
 
@@ -22,8 +22,8 @@ export function getCourtComments(court, type) {
   return axios.get(url, config);
 }
 
-export function createEventComment(commentData, event, type, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function createEventComment(commentData, event, type) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/comment/event/' + type + '/' + event.id + '/new';
 

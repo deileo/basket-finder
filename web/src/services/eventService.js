@@ -11,24 +11,24 @@ const config = {
 };
 
 
-export function createEvent(eventData, type = TYPE_COURT, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function createEvent(eventData, type = TYPE_COURT) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/events/' + type +'/new';
 
   return axios.post(url, eventData, config);
 }
 
-export function editEvent(eventData, eventId, type = TYPE_COURT, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function editEvent(eventData, eventId, type = TYPE_COURT) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/events/' + type + '/' + eventId + '/edit';
 
   return axios.post(url, eventData, config);
 }
 
-export function joinEvent(token, eventId, type) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function joinEvent(eventId, type) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   return axios.post(
     API_URL + '/events/' + type + '/' + eventId + '/join', {},
@@ -36,8 +36,8 @@ export function joinEvent(token, eventId, type) {
   );
 }
 
-export function leaveEvent(token, eventId, type) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function leaveEvent(eventId, type) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/events/' + type + '/' + eventId + '/leave';
 
@@ -56,24 +56,24 @@ export function getEvents(type, courtId = null) {
   return axios.get(url, config);
 }
 
-export function getUserCreatedEvents(token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function getUserCreatedEvents() {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/events/user';
 
   return axios.get(url, config);
 }
 
-export function getUserJoinedEvents(token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function getUserJoinedEvents() {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/events/user/joined/events';
 
   return axios.get(url, config);
 }
 
-export function deleteEvent(eventId, type, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function deleteEvent(eventId, type) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/events/' + type + '/' + eventId + '/delete';
 

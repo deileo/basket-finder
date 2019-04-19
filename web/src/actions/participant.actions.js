@@ -13,9 +13,9 @@ import {
   getUnconfirmedParticipants
 } from '../services/participantService';
 
-export const getUnconfirmedParticipantsAction = (token) => {
+export const getUnconfirmedParticipantsAction = () => {
   return function(dispatch) {
-    return getUnconfirmedParticipants(token)
+    return getUnconfirmedParticipants()
       .then(response => {
         return dispatch({ type: GET_PARTICIPANTS_UNCONFIRMED, payload: response.data });
       })
@@ -42,9 +42,9 @@ export const getEventParticipantsAction = (event, type) => {
       })
   };
 };
-export const acceptParticipantAction = (participant, token) => {
+export const acceptParticipantAction = (participant) => {
   return function(dispatch) {
-    return acceptParticipant(participant, token)
+    return acceptParticipant(participant)
       .then(response => {
         dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Request accepted!', variant: 'success'}});
         dispatch({type: RELOAD_EVENTS});
@@ -60,9 +60,9 @@ export const acceptParticipantAction = (participant, token) => {
   };
 };
 
-export const cancelParticipantAction = (participant, token) => {
+export const cancelParticipantAction = (participant) => {
   return function(dispatch) {
-    return cancelParticipant(participant, token)
+    return cancelParticipant(participant)
       .then(response => {
         dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Request cancelled!', variant: 'success'}});
         dispatch({type: RELOAD_EVENTS});

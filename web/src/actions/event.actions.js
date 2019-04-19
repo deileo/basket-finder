@@ -23,9 +23,9 @@ import {
   editEvent
 } from '../services/eventService';
 
-export const createEventAction = (createEventData, type, token) => {
+export const createEventAction = (createEventData, type) => {
   return function(dispatch) {
-    return createEvent(createEventData, type, token)
+    return createEvent(createEventData, type)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: CREATE_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
@@ -43,9 +43,9 @@ export const createEventAction = (createEventData, type, token) => {
   };
 };
 
-export const editEventAction = (eventData, eventId, type, token) => {
+export const editEventAction = (eventData, eventId, type) => {
   return function(dispatch) {
-    return editEvent(eventData, eventId, type, token)
+    return editEvent(eventData, eventId, type)
         .then(response => {
           if (response.status === 202) {
             dispatch({type: CREATE_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
@@ -62,9 +62,9 @@ export const editEventAction = (eventData, eventId, type, token) => {
   };
 };
 
-export const joinEventAction = (token, eventId, type) => {
+export const joinEventAction = (eventId, type) => {
   return function(dispatch) {
-    return joinEvent(token, eventId, type)
+    return joinEvent(eventId, type)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event joined!', variant: 'success'}});
@@ -79,9 +79,9 @@ export const joinEventAction = (token, eventId, type) => {
   };
 };
 
-export const leaveEventAction = (token, eventId, type) => {
+export const leaveEventAction = (eventId, type) => {
   return function(dispatch) {
-    return leaveEvent(token, eventId, type)
+    return leaveEvent(eventId, type)
       .then(response => {
         dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Successfully Left!', variant: 'success'}});
 
@@ -110,9 +110,9 @@ export const getEventsAction = (type, courtId = null) => {
   };
 };
 
-export const getUserCreatedEventsAction = (token) => {
+export const getUserCreatedEventsAction = () => {
   return function (dispatch) {
-    return getUserCreatedEvents(token)
+    return getUserCreatedEvents()
         .then(response => {
           return dispatch({ type: GET_USER_CREATED_EVENTS, payload: response.data });
         })
@@ -122,9 +122,9 @@ export const getUserCreatedEventsAction = (token) => {
   }
 };
 
-export const getUserJoinedEventsAction = (token) => {
+export const getUserJoinedEventsAction = () => {
   return function (dispatch) {
-    return getUserJoinedEvents(token)
+    return getUserJoinedEvents()
         .then(response => {
           return dispatch({ type: GET_USER_JOINED_EVENTS, payload: response.data });
         })
@@ -134,9 +134,9 @@ export const getUserJoinedEventsAction = (token) => {
   }
 };
 
-export const deleteEventAction = (event, type, token) => {
+export const deleteEventAction = (event, type) => {
   return function(dispatch) {
-    return deleteEvent(event, type, token)
+    return deleteEvent(event, type)
       .then(response => {
         if (response.status === 200) {
           dispatch({type: DELETE_EVENT});

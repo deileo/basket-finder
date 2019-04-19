@@ -75,7 +75,7 @@ class CourtMarker extends Component {
 
       return (
         <Button size="small" variant="contained" disabled={!isPermissionValid} color="primary" onClick={this.handleOpen}>
-          {isPermissionValid ? 'Skelbti varzybas' : 'Laukiama patvirtinimo'}
+          {isPermissionValid ? 'Skelbti varžybas' : 'Laukiama patvirtinimo'}
         </Button>
       )
     }
@@ -149,7 +149,7 @@ class CourtMarker extends Component {
         <CardActions>
           {userReducer.isAuthenticated ?
             <Button size="small" variant="contained" color="primary" onClick={this.handleOpen}>
-              Skelbti varzybas
+              Skelbti varžybas
             </Button> : ''
           }
           <Button size="small" variant="outlined" color="primary" onClick={() => this.handleCommentOpen()}>

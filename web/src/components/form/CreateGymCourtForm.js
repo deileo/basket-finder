@@ -65,9 +65,7 @@ class CreateGymCourtForm extends Component {
   };
 
   handleSubmit = () => {
-    let accessToken = this.props.userReducer.auth.googleAccessToken;
-
-    this.props.createCourtAction(this.state, TYPE_GYM_COURT, accessToken);
+    this.props.createCourtAction(this.state, TYPE_GYM_COURT);
   };
 
   render() {
@@ -121,13 +119,13 @@ class CreateGymCourtForm extends Component {
                   id="condition"
                   label="Būklė"
                   value={description}
-                  error={this.hasError('conditino')}
+                  error={this.hasError('condition')}
                   onChange={this.handleConditionChange}
                   multiline={true}
                   rows="3"
                   variant="outlined"
                 />
-                {this.getErrorMessage('description')}
+                {this.getErrorMessage('condition')}
               </FormControl>
             </Grid>
 
@@ -163,7 +161,6 @@ class CreateGymCourtForm extends Component {
 const mapStateToProps = state => {
   return {
     courtsReducer: state.courtsReducer,
-    userReducer: state.userReducer,
   };
 };
 

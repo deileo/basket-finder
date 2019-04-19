@@ -29,7 +29,7 @@ class MyCreatedEvents extends Component {
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {userReducer, eventReducer} = this.props;
+    const {eventReducer} = this.props;
 
     if (eventReducer.reload && !prevProps.eventReducer.reload) {
       this.setState({
@@ -37,15 +37,13 @@ class MyCreatedEvents extends Component {
         activeEvent: null,
       });
 
-      this.props.getUserCreatedEventsAction(userReducer.auth.googleAccessToken);
+      this.props.getUserCreatedEventsAction();
     }
   }
 
   handleDelete = (event) => {
-    const {userReducer} = this.props;
-
-    this.props.deleteEventAction(event.id, event.court ? TYPE_COURT : TYPE_GYM_COURT, userReducer.auth.googleAccessToken);
-    this.props.getUserCreatedEventsAction(userReducer.auth.googleAccessToken);
+    this.props.deleteEventAction(event.id, event.court ? TYPE_COURT : TYPE_GYM_COURT);
+    this.props.getUserCreatedEventsAction();
   };
 
   handleClose = () => {
@@ -65,7 +63,7 @@ class MyCreatedEvents extends Component {
   };
 
   getEventListItemInfo = (event) => {
-    let info = 'Zaidejai: ' + (event.court ? event.participants.length : getConfirmedParticipantsCount(event)) + "/" + event.neededPlayers;
+    let info = 'Žaidėjai: ' + (event.court ? event.participants.length : getConfirmedParticipantsCount(event)) + "/" + event.neededPlayers;
     if (event.price) {
       info += ' Kaina: ' + event.price + '€';
     }
@@ -135,7 +133,7 @@ class MyCreatedEvents extends Component {
 
             </ListItem>
           )
-        }) : <Typography className={classes.textCenter} variant="h5">Nera sukurtu varzybu</Typography>}
+        }) : <Typography className={classes.textCenter} variant="h5">Nėra sukurtų varžybų</Typography>}
       </List>
         <Modal
           open={this.state.open}

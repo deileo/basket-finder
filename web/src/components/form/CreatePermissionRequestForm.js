@@ -46,7 +46,7 @@ class CreatePermissionRequestForm extends Component {
   }
 
   handleSubmit = () => {
-    this.props.sendPermissionRequestAction(this.state, this.props.userReducer.auth.googleAccessToken);
+    this.props.sendPermissionRequestAction(this.state);
   };
 
   handleChange = (files) => {
@@ -72,7 +72,7 @@ class CreatePermissionRequestForm extends Component {
               <FormControl margin="normal" fullWidth>
                 <TextField
                   id="message"
-                  label="Prasymas"
+                  label="Prašymas"
                   error={this.hasError('message')}
                   onChange={this.handleCommentChange}
                   multiline={true}
@@ -88,7 +88,7 @@ class CreatePermissionRequestForm extends Component {
                 onChange={this.handleChange}
                 showPreviews={false}
                 showAlerts={false}
-                dropzoneText={"Sutarties failo ikelimo vieta"}
+                dropzoneText={"Sutarties failo ikėlimo vieta"}
                 maxFileSize={5000000}
                 filesLimit={1}
               />
@@ -112,7 +112,6 @@ class CreatePermissionRequestForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    userReducer: state.userReducer,
     permissionReducer: state.permissionReducer,
   };
 };

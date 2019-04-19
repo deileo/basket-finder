@@ -8,8 +8,8 @@ const config = {
   }
 };
 
-export function sendPermissionRequest(requestData, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function sendPermissionRequest(requestData) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
   config.headers['Content-Type'] = 'multipart/form-data';
 
   const formData = new FormData();
@@ -22,32 +22,32 @@ export function sendPermissionRequest(requestData, token) {
   return axios.post(url, formData, config);
 }
 
-export function sendPermissionRequestApproval(permissionId, approveData, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function sendPermissionRequestApproval(permissionId, approveData) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/permission/approve/' + permissionId;
 
   return axios.post(url, approveData, config);
 }
 
-export function deletePermission(permissionId, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function deletePermission(permissionId) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/permission/delete/' + permissionId;
 
   return axios.post(url, {}, config);
 }
 
-export function getGymCourtPermission(gymCourtId, token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function getGymCourtPermission(gymCourtId) {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/permission/gym-court/' + gymCourtId;
 
   return axios.post(url, {}, config);
 }
 
-export function getPermissions(token) {
-  config.headers['X-AUTH-TOKEN'] = token;
+export function getPermissions() {
+  config.headers['X-AUTH-TOKEN'] = localStorage.getItem('token');
 
   let url = API_URL + '/permission/all';
 

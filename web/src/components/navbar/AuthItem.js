@@ -58,7 +58,6 @@ class AuthItem extends Component {
   };
 
   onAddCourt = () => {
-    console.log('memes');
     this.setState({addCourtOpen: true});
   };
 
@@ -77,7 +76,7 @@ class AuthItem extends Component {
   render() {
     const {userReducer, classes} = this.props;
 
-    if (!userReducer || !userReducer.isAuthenticated) {
+    if (!localStorage.getItem('token') || !userReducer || !userReducer.isAuthenticated) {
       return (
         <div>
           <GoogleLogin

@@ -40,12 +40,12 @@ class Event extends Component {
 
   handleJoin = () => {
     const {userReducer, event, type} = this.props;
-    this.props.joinEventAction(userReducer.auth.googleAccessToken, event.id, type);
+    this.props.joinEventAction(event.id, type);
   };
 
   handleLeave = () => {
     const {userReducer, event, type} = this.props;
-    this.props.leaveEventAction(userReducer.auth.googleAccessToken, event.id, type);
+    this.props.leaveEventAction(event.id, type);
   };
 
   renderEventJoinActions = (userReducer, event, type) => {
@@ -75,7 +75,7 @@ class Event extends Component {
         } else {
           return (
             <Button size="small" variant="contained" color="inherit" disabled={true}>
-              Prasymas issiustas
+              Prašymas išsiųstas
             </Button>
           )
         }
@@ -90,7 +90,7 @@ class Event extends Component {
 
     return (
       <Button size="small" variant="contained" color="primary" onClick={this.handleJoin}>
-        {this.props.type === TYPE_GYM_COURT ? 'Siusti prasyma' : 'Prisijungti'}
+        {this.props.type === TYPE_GYM_COURT ? 'Siųsti prašymą' : 'Prisijungti'}
       </Button>
     );
   };

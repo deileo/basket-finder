@@ -19,7 +19,7 @@ import EventLoader from "../EventLoader";
 class MyParticipantRequests extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {userReducer, eventReducer, participantReducer} = this.props;
+    const {eventReducer, participantReducer} = this.props;
 
     if ((eventReducer.reload && !prevProps.eventReducer.reload) ||
         (participantReducer.reload && !prevProps.participantReducer.reload)
@@ -29,22 +29,18 @@ class MyParticipantRequests extends Component {
         activeEvent: null,
       });
 
-      this.props.getUnconfirmedParticipantsAction(userReducer.auth.googleAccessToken);
+      this.props.getUnconfirmedParticipantsAction();
     }
   }
 
   handleConfirm = (participant) => {
-    const {googleAccessToken} = this.props.userReducer.auth;
-
-    this.props.acceptParticipantAction(participant, googleAccessToken);
-    this.props.getUnconfirmedParticipantsAction(googleAccessToken);
+    this.props.acceptParticipantAction(participant);
+    this.props.getUnconfirmedParticipantsAction();
   };
 
   handleCancel = (participant) => {
-    const {googleAccessToken} = this.props.userReducer.auth;
-
-    this.props.cancelParticipantAction(participant, googleAccessToken);
-    this.props.getUnconfirmedParticipantsAction(googleAccessToken);
+    this.props.cancelParticipantAction(participant);
+    this.props.getUnconfirmedParticipantsAction();
   };
 
   render() {
@@ -73,12 +69,12 @@ class MyParticipantRequests extends Component {
               <div style={{marginLeft: 10}}>
                 <ListItemText
                   style={{padding: 0}}
-                  primary={'Prasymas prisijungti i ' + event.name}
+                  primary={'Prašymas prisijungti į ' + event.name}
                   secondary={'Vardas: ' + user.firstName + ' ' + user.lastName}
                 />
                 <ListItemText
                   style={{padding: 0}}
-                  secondary={'El. pastas: ' + user.email}
+                  secondary={'El. paštas: ' + user.email}
                 />
               </div>
               <ListItemSecondaryAction>
@@ -91,7 +87,7 @@ class MyParticipantRequests extends Component {
               </ListItemSecondaryAction>
             </ListItem>
           )
-        }) : <Typography className={classes.textCenter} variant="h5">Nera Prasymu</Typography>}
+        }) : <Typography className={classes.textCenter} variant="h5">Nėra Prašymų</Typography>}
       </List>
     );
   }
@@ -99,7 +95,6 @@ class MyParticipantRequests extends Component {
 
 const mapStateToProps = state => {
   return {
-    userReducer: state.userReducer,
     loaderReducer: state.loaderReducer,
     participantReducer: state.participantReducer,
     eventReducer: state.eventReducer,

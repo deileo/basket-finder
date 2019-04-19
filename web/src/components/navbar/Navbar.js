@@ -45,10 +45,10 @@ class Navbar extends Component {
               Basket Finder
             </Typography>
             <Tabs value={this.state.type} onChange={this.handleChange}>
-              <Tab label="Lauko aiksteles" />
-              <Tab label="Vidaus aisteles" />
+              <Tab label="Lauko aikštelės" />
+              <Tab label="Vidaus aikštelės" />
             </Tabs>
-            {userReducer.isAuthenticated ? <Setting userReducer={userReducer}/> : ''}
+            {userReducer.isAuthenticated ? <Setting /> : ''}
             <AuthItem />
           </Toolbar>
         </AppBar>

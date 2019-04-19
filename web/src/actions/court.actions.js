@@ -22,9 +22,9 @@ import {
   getCourt, getNewCourts,
 } from '../services/courtService';
 
-export const createCourtAction = (courtData, type, token) => {
+export const createCourtAction = (courtData, type) => {
   return function(dispatch) {
-    return createCourt(courtData, type, token)
+    return createCourt(courtData, type)
       .then(response => {
         if (response.status === 201) {
           dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Court created!', variant: 'success'}});

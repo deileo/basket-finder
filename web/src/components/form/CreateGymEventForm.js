@@ -89,7 +89,7 @@ class CreateGymEventForm extends Component {
   }
 
   handleSubmit = () => {
-    this.props.createEventAction(this.state, this.props.courtsReducer.type, this.props.userReducer.auth.googleAccessToken);
+    this.props.createEventAction(this.state, this.props.courtsReducer.type);
   };
 
   render() {
@@ -187,7 +187,9 @@ class CreateGymEventForm extends Component {
 
             <Grid item xs={12}>
               <FormControl margin="normal" required fullWidth>
-                <InputLabel error={this.hasError('neededPlayers')}>Reikiamas žaidėjų skaičius: {neededPlayers}</InputLabel>
+                <InputLabel error={this.hasError('neededPlayers')}>
+                  Reikiamas žaidėjų skaičius: {neededPlayers}
+                </InputLabel>
                 <Slider value={neededPlayers}
                         min={1}
                         max={10}
@@ -236,7 +238,6 @@ const mapStateToProps = state => {
   return {
     eventReducer: state.eventReducer,
     courtsReducer: state.courtsReducer,
-    userReducer: state.userReducer,
   };
 };
 

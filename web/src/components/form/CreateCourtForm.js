@@ -60,9 +60,7 @@ class CreateCourtForm extends Component {
   };
 
   handleSubmit = () => {
-    let accessToken = this.props.userReducer.auth.googleAccessToken;
-
-    this.props.createCourtAction(this.state, TYPE_COURT, accessToken);
+    this.props.createCourtAction(this.state, TYPE_COURT);
   };
 
   render() {
@@ -143,7 +141,6 @@ class CreateCourtForm extends Component {
 const mapStateToProps = state => {
   return {
     courtsReducer: state.courtsReducer,
-    userReducer: state.userReducer,
   };
 };
 

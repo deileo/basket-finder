@@ -38,7 +38,7 @@ class Map extends Component {
       this.props.fetchCourtById(type, courtId);
       this.props.getEventsAction(type, courtId);
       if (type === TYPE_GYM_COURT) {
-        this.props.getGymCourtPermissionAction(courtId, this.props.userReducer.auth.googleAccessToken)
+        this.props.getGymCourtPermissionAction(courtId)
       }
     } else {
       this.props.setCourtToNull();
@@ -71,7 +71,6 @@ const mapStateToProps = state => {
   return {
     courtsReducer: state.courtsReducer,
     loaderReducer: state.loaderReducer,
-    userReducer: state.userReducer,
   };
 };
 
