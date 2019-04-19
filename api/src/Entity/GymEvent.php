@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -21,6 +22,7 @@ class GymEvent extends BaseEvent implements EventInterface
      * @var float|null
      *
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"event"})
      */
     private $price;
 
@@ -33,6 +35,7 @@ class GymEvent extends BaseEvent implements EventInterface
      *     "this.getEndTime() > this.getStartTime()",
      *     message="Pabaigos laikas turi buti velesnis negu pradzios laikas"
      * )
+     * @Groups({"event"})
      */
     protected $endTime;
 
@@ -48,6 +51,7 @@ class GymEvent extends BaseEvent implements EventInterface
      *
      * @ORM\ManyToOne(targetEntity="GymCourt", inversedBy="events")
      * @ORM\JoinColumn(name="gym_court_id", referencedColumnName="id")
+     * @Groups({"event"})
      */
     private $gymCourt;
 
@@ -55,6 +59,7 @@ class GymEvent extends BaseEvent implements EventInterface
      * @var Collection|GymEventParticipant[]
      *
      * @ORM\OneToMany(targetEntity="GymEventParticipant", mappedBy="event", cascade={"remove"})
+     * @Groups({"event"})
      */
     private $participants;
 

@@ -20,7 +20,7 @@ class GymCourt extends BaseCourt implements CourtInterface
      * @var string
      *
      * @ORM\Column(type="string", name="gym_name")
-     * @Groups({"default"})
+     * @Groups({"default", "event"})
      */
     private $name;
 

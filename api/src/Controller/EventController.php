@@ -115,7 +115,7 @@ class EventController extends BaseController
      */
     public function getEvents(string $type): Response
     {
-        return new Response($this->serializer->serialize($this->eventService->getTodayEvents($type)));
+        return new Response($this->serializer->serialize($this->eventService->getTodayEvents($type), ['event']));
     }
 
     /**
@@ -126,7 +126,7 @@ class EventController extends BaseController
      */
     public function getCourtEvents(CourtInterface $court): Response
     {
-        return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court)));
+        return new Response($this->serializer->serialize($this->eventService->getActiveCourtEvents($court), ['event']));
     }
 
     /**

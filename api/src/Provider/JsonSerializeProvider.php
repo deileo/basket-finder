@@ -23,11 +23,24 @@ class JsonSerializeProvider
             return $object->getId();
         });
 
-        $callback = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
+        $dateTimeCallback = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
             return $innerObject instanceof \DateTime ? $innerObject->format('Y-m-d H:i') : '';
         };
 
-        $normalizer->setCallbacks(['createdAt' => $callback]);
+        $dateCallback = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
+            return $innerObject instanceof \DateTime ? $innerObject->format('Y-m-d') : '';
+        };
+
+        $timeCallback = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
+            return $innerObject instanceof \DateTime ? $innerObject->format('H:i') : '';
+        };
+
+        $normalizer->setCallbacks([
+            'createdAt' => $dateTimeCallback,
+            'startTime' => $timeCallback,
+            'endTime' => $timeCallback,
+            'date' => $dateCallback,
+        ]);
 
         return new Serializer([$normalizer], [new JsonEncoder()]);
     }

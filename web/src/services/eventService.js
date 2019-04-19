@@ -81,11 +81,10 @@ export function deleteEvent(eventId, type) {
 }
 
 export const getEventTime = (event, type) => {
-  let startTime = moment.unix(event.startTime.timestamp);
-  let eventTime = moment.unix(event.date.timestamp).format('YYYY-MM-DD') + ' ' + startTime.format('H:mm');
+  let eventTime = event.date + ' ' + event.startTime;
 
   if (type === TYPE_GYM_COURT && event.endTime) {
-    eventTime += ' - ' + moment.unix(event.endTime.timestamp).format('H:mm');
+    eventTime += ' - ' + event.endTime;
   }
 
   return eventTime;
@@ -93,7 +92,7 @@ export const getEventTime = (event, type) => {
 
 export const getConfirmedParticipantsCount = (event) => {
   let confirmedParticipants = event.participants.filter(function(participant) {
-    return participant.confirmed === true;
+    return participant.isConfirmed === true;
   });
 
   return confirmedParticipants.length;

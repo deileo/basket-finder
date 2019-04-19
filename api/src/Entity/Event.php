@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -19,6 +20,7 @@ class Event extends BaseEvent implements EventInterface
      * @var UserInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="createdEvents")
+     *  @Groups({"event"})
      */
     private $createdBy;
 
@@ -27,6 +29,7 @@ class Event extends BaseEvent implements EventInterface
      *
      * @ORM\ManyToOne(targetEntity="Court", inversedBy="events")
      * @ORM\JoinColumn(name="court_id", referencedColumnName="id")
+     * @Groups({"event"})
      */
     private $court;
 
@@ -35,6 +38,7 @@ class Event extends BaseEvent implements EventInterface
      *
      * @ORM\ManyToMany(targetEntity="User", inversedBy="joinedEvents")
      * @ORM\JoinTable(name="event_participants")
+     * @Groups({"event"})
      */
     private $participants;
 

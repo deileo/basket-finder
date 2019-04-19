@@ -39,12 +39,12 @@ class Event extends Component {
 
 
   handleJoin = () => {
-    const {userReducer, event, type} = this.props;
+    const {event, type} = this.props;
     this.props.joinEventAction(event.id, type);
   };
 
   handleLeave = () => {
-    const {userReducer, event, type} = this.props;
+    const {event, type} = this.props;
     this.props.leaveEventAction(event.id, type);
   };
 
@@ -63,7 +63,7 @@ class Event extends Component {
     if (joinedUserList.length > 0) {
       if (type === TYPE_GYM_COURT) {
         let confirmedUsers = joinedUserList.filter(function (participant) {
-          return participant.confirmed === true;
+          return participant.isConfirmed === true;
         });
 
         if (confirmedUsers.length > 0) {

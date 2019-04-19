@@ -31,28 +31,28 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"default"})
+     * @Groups({"default", "event"})
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default"})
+     * @Groups({"default", "event"})
      */
     private $email;
 
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default", "comment"})
+     * @Groups({"default", "comment", "event"})
      */
     private $firstName;
 
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default", "comment"})
+     * @Groups({"default", "comment", "event"})
      */
     private $lastName;
 
@@ -73,7 +73,7 @@ class User implements UserInterface
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"default", "comment"})
+     * @Groups({"default", "comment", "event"})
      */
     private $googleImage;
 

@@ -7,6 +7,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
@@ -31,6 +32,7 @@ class GymEventParticipant
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="joinedGymEvents")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *  @Groups({"event"})
      */
     private $user;
 
@@ -46,6 +48,7 @@ class GymEventParticipant
      * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
+     * @Groups({"event"})
      */
     private $isConfirmed = false;
 

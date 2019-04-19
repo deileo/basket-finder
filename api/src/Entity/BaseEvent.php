@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class BaseEvent
 {
@@ -17,6 +18,7 @@ abstract class BaseEvent
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"event"})
      */
     protected $id;
 
@@ -25,6 +27,7 @@ abstract class BaseEvent
      *
      * @ORM\Column()
      * @Assert\NotBlank
+     * @Groups({"event"})
      */
     protected $name;
 
@@ -33,6 +36,7 @@ abstract class BaseEvent
      *
      * @ORM\Column(type="date")
      * @Assert\NotBlank
+     * @Groups({"event"})
      */
     protected $date;
 
@@ -42,6 +46,7 @@ abstract class BaseEvent
      * @ORM\Column(type="time")
      * @Assert\NotBlank
      * @Assert\GreaterThanOrEqual("-1 minute")
+     * @Groups({"event"})
      */
     protected $startTime;
 
@@ -51,6 +56,7 @@ abstract class BaseEvent
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
      * @Assert\Range(min="1", max="10")
+     * @Groups({"event"})
      */
     protected $neededPlayers;
 
@@ -58,6 +64,7 @@ abstract class BaseEvent
      * @var string|null
      *
      * @ORM\Column(nullable=true)
+     * @Groups({"event"})
      */
     protected $comment;
 

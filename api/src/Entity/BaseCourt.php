@@ -37,7 +37,7 @@ abstract class BaseCourt
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Groups({"default"})
+     * @Groups({"default", "event"})
      */
     protected $address;
 
@@ -45,7 +45,7 @@ abstract class BaseCourt
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Groups({"default"})
+     * @Groups({"default", "event"})
      * @Assert\NotBlank
      */
     protected $location;
