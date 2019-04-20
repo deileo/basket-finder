@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CourtRepository")
@@ -27,6 +28,7 @@ class Court extends BaseCourt implements CourtInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="createdCourts")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     * @Groups({"adminCourt"})
      */
     protected $createdBy;
 

@@ -1,7 +1,6 @@
 import axios from "axios";
 import {TYPE_COURT, TYPE_GYM_COURT} from "../actions/types";
 import {API_URL} from "../config";
-import * as moment from "moment";
 
 const config = {
   headers: {
@@ -54,6 +53,10 @@ export function getEvents(type, courtId = null) {
     API_URL + '/events/' + type + '/all';
 
   return axios.get(url, config);
+}
+
+export function getAllEvents() {
+  return axios.get(API_URL + '/events/admin/all/events', config);
 }
 
 export function getUserCreatedEvents() {

@@ -14,3 +14,9 @@ export function checkUser(userToken) {
     config
   );
 }
+
+export function getAllUsers() {
+  return axios.get(API_URL + '/user/all',
+    config
+  );
+}

@@ -24,6 +24,7 @@ class GymEventParticipant
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"participant"})
      */
     private $id;
 
@@ -32,7 +33,7 @@ class GymEventParticipant
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="joinedGymEvents")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     *  @Groups({"event"})
+     * @Groups({"event", "participant"})
      */
     private $user;
 
@@ -41,6 +42,7 @@ class GymEventParticipant
      *
      * @ORM\ManyToOne(targetEntity="GymEvent", inversedBy="participants")
      * @ORM\JoinColumn(name="gym_event_id", referencedColumnName="id")
+     * @Groups({"participant"})
      */
     private $event;
 

@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\JsonSerializeService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/user", name="connect:google:check")
  */
-class UserController extends AbstractController
+class UserController extends BaseController
 {
     /**
      * @Route(name="api:user:get")
@@ -27,6 +28,17 @@ class UserController extends AbstractController
             ]);
         }
 
-        return new Response($serializer->serialize($this->getUser()));
+        return new Response($serializer->serialize($this->getUser(), ['user']));
+    }
+
+    /**
+     * @Route("/all", name="api:user:all")
+     * @param JsonSerializeService $serializer
+     * @param UserRepository $repository
+     * @return Response
+     */
+    public function getUsers(JsonSerializeService $serializer, UserRepository $repository): Response
+    {
+        return new Response($serializer->serialize($repository->findAll(), ['user']));
     }
 }

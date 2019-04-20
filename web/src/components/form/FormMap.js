@@ -16,8 +16,7 @@ const FormMap = compose(
   }),
   withScriptjs,
   withGoogleMap
-)
-(props =>
+) (props =>
   <GoogleMap
     defaultZoom={MAP_ZOOM}
     defaultCenter={MAP_CENTER}

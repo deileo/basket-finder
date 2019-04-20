@@ -18,7 +18,8 @@ interface EventRepositoryInterface
     public function findAll();
 
     /**
+     * @param bool $comments
      * @return EventInterface[]
      */
-    public function getTodayEvents(): array;
+    public function getTodayEvents(bool $comments = true): array;
 }

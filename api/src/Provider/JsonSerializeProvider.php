@@ -40,6 +40,7 @@ class JsonSerializeProvider
             'startTime' => $timeCallback,
             'endTime' => $timeCallback,
             'date' => $dateCallback,
+            'validUntil' => $dateCallback,
         ]);
 
         return new Serializer([$normalizer], [new JsonEncoder()]);

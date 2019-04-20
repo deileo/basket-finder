@@ -119,6 +119,15 @@ class EventController extends BaseController
     }
 
     /**
+     * @Route("/admin/all/events", name="api:event:admin:all")
+     * @return Response
+     */
+    public function getAdminEvents(): Response
+    {
+        return new Response($this->serializer->serialize($this->eventService->getAllEvents(), ['event']));
+    }
+
+    /**
      * @Route("/{type}/{id}", name="api:event:court")
      * @ParamConverter("CourtInterface", class="App\Entity\CourtInterface")
      * @param CourtInterface $court
@@ -180,7 +189,7 @@ class EventController extends BaseController
      */
     public function getUserEvents(): Response
     {
-        return new Response($this->serializer->serialize($this->eventService->getUserEvents()));
+        return new Response($this->serializer->serialize($this->eventService->getUserEvents(), ['event']));
     }
 
     /**
@@ -189,7 +198,7 @@ class EventController extends BaseController
      */
     public function getUserJoinedEvents(): Response
     {
-        return new Response($this->serializer->serialize($this->eventService->getUserJoinedEvents()));
+        return new Response($this->serializer->serialize($this->eventService->getUserJoinedEvents(), ['event']));
     }
 
     /**

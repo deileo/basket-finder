@@ -57,10 +57,11 @@ class MyParticipantRequests extends Component {
     }
 
     return (
-      <List className={classes.root} style={{height: '30vh'}}>
+      <List className={classes.root} style={{height: '30vh', overflowY: 'scroll'}}>
         {isArrayNotEmpty(participantReducer.unconfirmedParticipants) ? participantReducer.unconfirmedParticipants.map(participant => {
           let user = participant.user;
           let event = participant.event;
+
           return (
             <ListItem alignItems="flex-start" key={participant.id}>
               <ListItemAvatar>

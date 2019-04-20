@@ -43,6 +43,7 @@ class GymEvent extends BaseEvent implements EventInterface
      * @var UserInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="createdGymEvents")
+     * @Groups({"event"})
      */
     private $createdBy;
 

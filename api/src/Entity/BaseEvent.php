@@ -27,7 +27,7 @@ abstract class BaseEvent
      *
      * @ORM\Column()
      * @Assert\NotBlank
-     * @Groups({"event"})
+     * @Groups({"event", "participant"})
      */
     protected $name;
 
@@ -45,7 +45,6 @@ abstract class BaseEvent
      *
      * @ORM\Column(type="time")
      * @Assert\NotBlank
-     * @Assert\GreaterThanOrEqual("-1 minute")
      * @Groups({"event"})
      */
     protected $startTime;

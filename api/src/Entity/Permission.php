@@ -8,6 +8,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,6 +26,7 @@ class Permission
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"permission", "adminPermission"})
      */
     private $id;
 
@@ -32,6 +34,7 @@ class Permission
      * @var UserInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="permissions")
+     * @Groups("adminPermission")
      */
     private $user;
 
@@ -39,6 +42,7 @@ class Permission
      * @var GymCourt
      *
      * @ORM\ManyToOne(targetEntity="GymCourt", inversedBy="permissions")
+     * @Groups("adminPermission")
      */
     private $gymCourt;
 
@@ -47,6 +51,7 @@ class Permission
      *
      * @ORM\Column(type="date", nullable=true)
      * @Assert\GreaterThanOrEqual("today")
+     * @Groups({"permission", "adminPermission"})
      */
     private $validUntil;
 
@@ -54,6 +59,7 @@ class Permission
      * @var string|null
      *
      * @ORM\Column(name="file", type="string", nullable=true)
+     * @Groups("adminPermission")
      */
     private $filePath;
 
@@ -63,6 +69,7 @@ class Permission
      * @ORM\Column()
      * @Assert\Length(max=255)
      * @Assert\NotBlank()
+     * @Groups("adminPermission")
      */
     private $message;
 

@@ -29,7 +29,7 @@ abstract class BaseCourt
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"default"})
+     * @Groups({"default", "adminPermission", "adminCourt", "event"})
      */
     protected $id;
 
@@ -37,7 +37,7 @@ abstract class BaseCourt
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Groups({"default", "event"})
+     * @Groups({"default", "event", "adminPermission", "adminCourt", "event"})
      */
     protected $address;
 
@@ -45,7 +45,7 @@ abstract class BaseCourt
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Groups({"default", "event"})
+     * @Groups({"default", "event", "adminCourt"})
      * @Assert\NotBlank
      */
     protected $location;
@@ -54,7 +54,7 @@ abstract class BaseCourt
      * @var string|null
      *
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"default"})
+     * @Groups({"default", "adminCourt", "event"})
      */
     protected $description;
 
@@ -80,7 +80,7 @@ abstract class BaseCourt
      * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
-     * @Groups({"default"})
+     * @Groups({"default", "adminCourt"})
      */
     protected $enabled = false;
 
@@ -88,7 +88,7 @@ abstract class BaseCourt
      * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": true})
-     * @Groups({"default"})
+     * @Groups({"default", "adminCourt"})
      */
     protected $new = true;
 

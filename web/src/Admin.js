@@ -47,6 +47,9 @@ class Admin extends Component {
       case 3: {
         return (<Users />)
       }
+      default: {
+        return null;
+      }
     }
   };
 

@@ -45,9 +45,7 @@ class PermissionsTable extends Component {
   };
 
   handleDelete = (permission) => {
-    const {userReducer} = this.props;
-
-    this.props.deletePermissionAction(permission.id, userReducer.auth.googleAccessToken);
+    this.props.deletePermissionAction(permission.id);
   };
 
   renderPermissionAproveForm = (activePermission) => {

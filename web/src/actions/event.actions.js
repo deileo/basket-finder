@@ -20,7 +20,7 @@ import {
   getUserCreatedEvents,
   getUserJoinedEvents,
   deleteEvent,
-  editEvent
+  editEvent, getAllEvents
 } from '../services/eventService';
 
 export const createEventAction = (createEventData, type) => {
@@ -98,6 +98,23 @@ export const getEventsAction = (type, courtId = null) => {
     dispatch({ type: LOADING_EVENTS_STARTED });
 
     return getEvents(type, courtId)
+      .then(response => {
+        return dispatch({ type: GET_EVENTS, payload: response.data });
+      })
+      .catch(error => {
+        return showConsoleError(error);
+      })
+      .finally(() => {
+        dispatch({ type: LOADING_EVENTS_ENDED });
+      })
+  };
+};
+
+export const getAllEventsAction = () => {
+  return function(dispatch) {
+    dispatch({ type: LOADING_EVENTS_STARTED });
+
+    return getAllEvents()
       .then(response => {
         return dispatch({ type: GET_EVENTS, payload: response.data });
       })

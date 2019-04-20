@@ -35,9 +35,9 @@ class CreateGymEventForm extends Component {
         price: event.price,
         comment: event.comment ? event.comment : '',
         neededPlayers: event.neededPlayers,
-        date: new Date(event.date.timestamp * 1000),
-        startTime: new Date((event.date.timestamp + event.startTime.timestamp) * 1000),
-        endTime: new Date((event.date.timestamp + event.endTime ? event.endTime.timestamp : 0) * 1000),
+        date: new Date(event.date),
+        startTime: new Date(event.date + ' ' + event.startTime),
+        endTime: new Date(event.date + ' ' + event.endTime),
       });
     }
   }

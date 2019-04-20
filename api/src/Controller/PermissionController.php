@@ -124,7 +124,7 @@ class PermissionController extends BaseController
     {
         $permission = $this->permissionService->getUserPermissionForGymCourt($court);
 
-        return new Response($this->serializer->serialize($permission));
+        return new Response($this->serializer->serialize($permission, ['permission']));
 
     }
 
@@ -136,7 +136,7 @@ class PermissionController extends BaseController
      */
     public function getPermissions(): Response
     {
-        return new Response($this->serializer->serialize($this->permissionService->getPermissions()));
+        return new Response($this->serializer->serialize($this->permissionService->getPermissions(), ['adminPermission']));
     }
 
     /**

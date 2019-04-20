@@ -20,7 +20,7 @@ class Event extends BaseEvent implements EventInterface
      * @var UserInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="createdEvents")
-     *  @Groups({"event"})
+     * @Groups({"event"})
      */
     private $createdBy;
 

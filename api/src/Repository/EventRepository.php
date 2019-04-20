@@ -21,10 +21,36 @@ class EventRepository extends ServiceEntityRepository implements EventRepository
     /**
      * @return Event[]
      */
-    public function getTodayEvents(): array
+    public function getAllEvents(): array
     {
         $date = new \DateTime();
         $qb = $this->createQueryBuilder('e');
+
+        return $qb->andWhere($qb->expr()->gte('e.date', ':date'))
+            ->andWhere($qb->expr()->gt('e.startTime', ':time'))
+            ->addOrderBy('e.startTime')
+            ->setParameters([
+                'date' => $date->format('Y-m-d'),
+                'time' => $date->format('H:i:s'),
+            ])
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @param bool $comments
+     * @return Event[]
+     */
+    public function getTodayEvents(bool $comments = true): array
+    {
+        $date = new \DateTime();
+        $qb = $this->createQueryBuilder('e');
+
+
+        if ($comments) {
+            $qb->select('e as event, COUNT(cm) as commentsCount')
+                ->leftJoin('e.comments', 'cm')
+                ->groupBy('e.id');
+        }
 
         return $qb->andWhere($qb->expr()->eq('e.date', ':date'))
             ->andWhere($qb->expr()->gt('e.startTime', ':time'))
@@ -38,12 +64,20 @@ class EventRepository extends ServiceEntityRepository implements EventRepository
 
     /**
      * @param Court $court
+     * @param bool $comments
      * @return Event[]
      */
-    public function getActiveCourtEvents(Court $court): array
+    public function getActiveCourtEvents(Court $court, bool $comments = true): array
     {
+
         $date = new \DateTime();
         $qb = $this->createQueryBuilder('e');
+
+        if ($comments) {
+            $qb->select('e as event, COUNT(cm) as commentsCount')
+                ->leftJoin('e.comments', 'cm')
+                ->groupBy('e.id');
+        }
 
         return
             $qb->andWhere(

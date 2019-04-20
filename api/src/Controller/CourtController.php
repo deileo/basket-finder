@@ -119,7 +119,7 @@ class CourtController extends BaseController
      */
     public function getNewCourts(): Response
     {
-        return new Response($this->serializer->serialize($this->courtService->getNewCourts()));
+        return new Response($this->serializer->serialize($this->courtService->getNewCourts(), ['adminCourt']));
     }
 
     /**
@@ -127,7 +127,7 @@ class CourtController extends BaseController
      */
     public function getAllCourtsAction(): Response
     {
-        return new Response($this->serializer->serialize($this->courtService->getAllCourts(), ['default']));
+        return new Response($this->serializer->serialize($this->courtService->getAllCourts(), ['adminCourt']));
     }
 
     /**
@@ -135,7 +135,7 @@ class CourtController extends BaseController
      */
     public function getAllGymCourtsAction(): Response
     {
-        return new Response($this->serializer->serialize($this->courtService->getAllGymCourts(), ['default']));
+        return new Response($this->serializer->serialize($this->courtService->getAllGymCourts(), ['adminCourt']));
     }
 
     /**

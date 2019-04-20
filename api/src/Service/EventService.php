@@ -53,6 +53,17 @@ class EventService
     }
 
     /**
+     * @return array
+     */
+    public function getAllEvents(): array
+    {
+        return [
+            'court' => $this->eventRepo->getAllEvents(),
+            'gymCourt' => $this->gymEventRepo->getAllEvents(),
+        ];
+    }
+
+    /**
      * @param string $type
      * @return Event[]|array
      * @internal param bool $isGym

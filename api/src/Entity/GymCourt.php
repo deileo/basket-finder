@@ -20,7 +20,7 @@ class GymCourt extends BaseCourt implements CourtInterface
      * @var string
      *
      * @ORM\Column(type="string", name="gym_name")
-     * @Groups({"default", "event"})
+     * @Groups({"default", "event", "adminPermission", "adminCourt"})
      */
     private $name;
 
@@ -59,6 +59,7 @@ class GymCourt extends BaseCourt implements CourtInterface
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="createdGymCourts")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     * @Groups({"adminCourt"})
      */
     protected $createdBy;
 

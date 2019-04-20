@@ -44,7 +44,9 @@ class ParticipantController extends BaseController
      */
     public function getUnconfirmedParticipants(): Response
     {
-        return new Response($this->serializer->serialize($this->participantService->getUnconfirmedParticipants()));
+        return new Response(
+            $this->serializer->serialize($this->participantService->getUnconfirmedParticipants(), ['participant'])
+        );
     }
 
     /**
@@ -55,7 +57,9 @@ class ParticipantController extends BaseController
      */
     public function getEventParticipants(EventInterface $event): Response
     {
-        return new Response($this->serializer->serialize($this->participantService->getEventParticipants($event)));
+        return new Response(
+            $this->serializer->serialize($this->participantService->getEventParticipants($event), ['event'])
+        );
     }
 
     /**

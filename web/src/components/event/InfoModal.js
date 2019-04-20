@@ -32,6 +32,7 @@ class InfoModal extends Component {
 
   render() {
     const {classes, participantReducer, event} = this.props;
+
     return (
       <div>
         <Dialog

@@ -104,7 +104,7 @@ class MyCreatedEvents extends Component {
 
     return (
       <div>
-      <List className={classes.root} style={{height: '30vh'}}>
+      <List className={classes.root} style={{height: '30vh', overflowY: 'scroll'}}>
         {isArrayNotEmpty(eventReducer.userCreatedEvents) ? eventReducer.userCreatedEvents.map(event => {
           return (
             <ListItem alignItems="flex-start" key={event.id}>

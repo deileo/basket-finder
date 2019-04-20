@@ -33,8 +33,8 @@ class CreateEventForm extends Component {
         name: event.name,
         comment: event.comment ? event.comment : '',
         neededPlayers: event.neededPlayers,
-        date: new Date(event.date.timestamp * 1000),
-        startTime: new Date((event.date.timestamp + event.startTime.timestamp) * 1000),
+        date: new Date(event.date),
+        startTime: new Date(event.date + ' ' +event.startTime),
       });
     }
   }

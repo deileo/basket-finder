@@ -31,28 +31,28 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"default", "event"})
+     * @Groups({"default", "event", "participant", "adminPermission", "user"})
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default", "event"})
+     * @Groups({"default", "event", "participant", "adminPermission", "adminCourt", "user"})
      */
     private $email;
 
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default", "comment", "event"})
+     * @Groups({"default", "comment", "event", "participant", "adminPermission", "adminCourt", "user"})
      */
     private $firstName;
 
     /**
      * @var string
      * @ORM\Column(type="string")
-     * @Groups({"default", "comment", "event"})
+     * @Groups({"default", "comment", "event", "participant", "adminPermission", "adminCourt", "user"})
      */
     private $lastName;
 
@@ -66,14 +66,14 @@ class User implements UserInterface
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"default"})
+     * @Groups({"default", "user"})
      */
     private $googleAccessToken;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"default", "comment", "event"})
+     * @Groups({"default", "comment", "event", "participant", "adminCourt", "user"})
      */
     private $googleImage;
 
@@ -130,7 +130,7 @@ class User implements UserInterface
      * @var int
      *
      * @ORM\Column(type="integer", nullable=false, options={"default: 0"})
-     * @Groups({"default"})
+     * @Groups({"default", "user"})
      */
     private $roles = 0;
 

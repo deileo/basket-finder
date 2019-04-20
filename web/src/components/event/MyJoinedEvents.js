@@ -53,7 +53,7 @@ class MyJoinedEvents extends Component {
     }
 
     return (
-      <List className={classes.root} style={{height: '30vh'}}>
+      <List className={classes.root} style={{height: '30vh', overflowY: 'scroll'}}>
         {isArrayNotEmpty(eventReducer.userJoinedEvents) ? eventReducer.userJoinedEvents.map(event => {
           return (
             <ListItem alignItems="flex-start" key={event.id}>

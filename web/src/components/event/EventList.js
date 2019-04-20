@@ -37,8 +37,9 @@ class EventList extends Component {
         {events.map(event => {
           return (
             <Event
-              key={event.id}
-              event={event}
+              key={event.event.id}
+              event={event.event}
+              commentsCount={event.commentsCount}
               type={this.props.courtsReducer.type}
             />
           )

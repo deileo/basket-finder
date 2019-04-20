@@ -69,8 +69,7 @@ class CourtMarker extends Component {
     if (permissionReducer.permission) {
       let isPermissionValid = permissionReducer.permission.validUntil;
       if (isPermissionValid !== null) {
-        let validUntil = moment.unix(permissionReducer.permission.validUntil.timestamp).format('YYYY-MM-DD');
-        isPermissionValid = validUntil >= moment().format('YYYY-MM-DD');
+        isPermissionValid = isPermissionValid >= moment().format('YYYY-MM-DD');
       }
 
       return (
