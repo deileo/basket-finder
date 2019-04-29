@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\JsonSerializeService;
 use Symfony\Component\HttpFoundation\JsonResponse;

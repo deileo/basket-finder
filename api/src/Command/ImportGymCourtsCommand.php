@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\Court;
 use App\Entity\GymCourt;
 use App\Service\GeoCoderService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;

@@ -6,6 +6,7 @@ use App\Entity\GymCourt;
 use App\Entity\Permission;
 use App\Form\Permission\PermissionApproveType;
 use App\Form\Permission\PermissionRequestType;
+use App\Service\FileUploadService;
 use App\Service\JsonSerializeService;
 use App\Service\PermissionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -32,13 +33,20 @@ class PermissionController extends BaseController
     private $serializer;
 
     /**
+     * @var FileUploadService
+     */
+    private $fileUploadService;
+
+    /**
      * @param PermissionService $permissionService
      * @param JsonSerializeService $serializer
+     * @param FileUploadService $fileUploadService
      */
-    public function __construct(PermissionService $permissionService, JsonSerializeService $serializer)
+    public function __construct(PermissionService $permissionService, JsonSerializeService $serializer, FileUploadService $fileUploadService)
     {
         $this->permissionService = $permissionService;
         $this->serializer = $serializer;
+        $this->fileUploadService = $fileUploadService;
     }
 
     /**
@@ -58,10 +66,8 @@ class PermissionController extends BaseController
             $file = $permission->getFile();
 
             if ($file) {
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
                 try {
-                    $file->move($this->getParameter('contract_directory'), $fileName);
-                    $permission->setFilePath($fileName);
+                    $permission->setFilePath($this->fileUploadService->uploadFile($file));
                 } catch (FileException $e) {
                     return new JsonResponse($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
                 }
@@ -147,6 +153,6 @@ class PermissionController extends BaseController
      */
     public function downloadPermissionFile(string $fileName): BinaryFileResponse
     {
-        return $this->file($this->getParameter('contract_directory') . '/' . $fileName);
+        return $this->file($this->fileUploadService->getFile($fileName));
     }
 }

@@ -22,6 +22,7 @@ class GeoCoderService
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $address
      * @return array|null
      */

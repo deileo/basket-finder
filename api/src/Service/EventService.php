@@ -113,7 +113,7 @@ class EventService
      * @param int $id
      * @return EventInterface|null
      */
-    public function getEvent(string $type, int $id): EventInterface
+    public function getEvent(string $type, int $id): ?EventInterface
     {
         if (!in_array($type, BaseCourt::$supportedTypes)) {
             throw new ORMInvalidArgumentException();

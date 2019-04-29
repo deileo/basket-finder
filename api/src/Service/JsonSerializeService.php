@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use App\Provider\JsonSerializeProvider;
+use Symfony\Component\Serializer\Serializer;
 
 class JsonSerializeService
 {
     /**
-     * @var JsonSerializeProvider
+     * @var Serializer
      */
     private $serializer;
 

@@ -1,6 +1,5 @@
 parameters:
     locale: 'en'
-    contract_directory: '%kernel.project_dir%/public/uploads/contracts'
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -24,6 +23,10 @@ services:
 
     App\Service\GeoCoderService:
         public: true
+
+    App\Service\FileUploadService:
+        arguments:
+            $directory: '%kernel.project_dir%/public/uploads/contracts'
 
     App\EventListener\RequestListener:
         tags:

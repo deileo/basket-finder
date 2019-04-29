@@ -171,7 +171,7 @@ class EventController extends BaseController
         if ($event instanceof GymEvent) {
             $participant = $this->eventService->removeGymEventParticipant($event);
 
-            if($participant) {
+            if ($participant) {
                 $this->remove($participant);
             }
 
