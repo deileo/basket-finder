@@ -100,7 +100,7 @@ class Courts extends Component {
               <Table className={classes.table}>
                 <TableHead className={classes.head}>
                   <TableRow>
-                    <TableCell className={classes.cell}>Aikšteles tipas</TableCell>
+                    <TableCell className={classes.cell}>Aikštelės tipas</TableCell>
                     <TableCell className={classes.cell}>Vieta</TableCell>
                     <TableCell className={classes.cell}>Adresas</TableCell>
                     <TableCell className={classes.cell}>Rajonas</TableCell>

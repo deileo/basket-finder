@@ -1,4 +1,4 @@
-import {GET_USERS, GET_USER, RESET_RELOAD_USER_TYPE} from '../actions/types';
+import {GET_USERS, GET_USER, RESET_RELOAD_USER_TYPE, DISABLE_USER, ENABLE_USER} from '../actions/types';
 
 const userState = {
   auth: null,
@@ -13,7 +13,13 @@ export default function(state = userState, action) {
       return { ...state, auth: action.payload, isAuthenticated: !!action.payload };
     }
     case GET_USERS: {
-      return { ...state, users: action.payload, reload: true };
+      return { ...state, users: action.payload, reload: false };
+    }
+    case DISABLE_USER: {
+      return { ...state, reload: true };
+    }
+    case ENABLE_USER: {
+      return { ...state, reload: true };
     }
     case RESET_RELOAD_USER_TYPE: {
       return { ...state, reload: false };

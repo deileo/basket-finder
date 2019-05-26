@@ -50,6 +50,8 @@ export const CREATE_GYM_EVENT_MODAL_OPENED = 'create_gym_event_modal_opened';
 export const GET_USER = 'get_user';
 export const GET_USERS = 'get_users';
 export const RESET_RELOAD_USER_TYPE = 'reset_reload_user_type';
+export const DISABLE_USER = 'disable_user';
+export const ENABLE_USER = 'enable_user';
 
 // participants
 export const GET_PARTICIPANTS_UNCONFIRMED = 'unconfirmed_participants';

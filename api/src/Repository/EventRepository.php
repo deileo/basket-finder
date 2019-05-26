@@ -27,11 +27,9 @@ class EventRepository extends ServiceEntityRepository implements EventRepository
         $qb = $this->createQueryBuilder('e');
 
         return $qb->andWhere($qb->expr()->gte('e.date', ':date'))
-            ->andWhere($qb->expr()->gt('e.startTime', ':time'))
             ->addOrderBy('e.startTime')
             ->setParameters([
                 'date' => $date->format('Y-m-d'),
-                'time' => $date->format('H:i:s'),
             ])
             ->getQuery()->getResult();
     }

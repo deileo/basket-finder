@@ -46,7 +46,7 @@ export const acceptParticipantAction = (participant) => {
   return function(dispatch) {
     return acceptParticipant(participant)
       .then(response => {
-        dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Request accepted!', variant: 'success'}});
+        dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Dalyvavimas patvirtintas!', variant: 'success'}});
         dispatch({type: RELOAD_EVENTS});
 
         return dispatch({ type: ACCEPT_PARTICIPANT, payload: response.data });
@@ -64,7 +64,7 @@ export const cancelParticipantAction = (participant) => {
   return function(dispatch) {
     return cancelParticipant(participant)
       .then(response => {
-        dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Request cancelled!', variant: 'success'}});
+        dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Dalyvavimas atmestas!', variant: 'success'}});
         dispatch({type: RELOAD_EVENTS});
 
         return dispatch({ type: CANCEL_PARTICIPANT, payload: response.data });

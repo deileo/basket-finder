@@ -1,9 +1,10 @@
-import {checkUser, getAllUsers} from "../services/userService";
+import {checkUser, disableUser, enableUser, getAllUsers} from "../services/userService";
 import {
   GET_USER, GET_USERS,
   LOADING_EVENTS_ENDED,
-  LOADING_EVENTS_STARTED,
-  RESET_RELOAD_USER_TYPE
+  DISABLE_USER,
+  ENABLE_USER,
+  RESET_RELOAD_USER_TYPE, FLASH_MESSAGE, LOADING_EVENTS_STARTED
 } from "./types";
 
 export const checkUserAction = userToken => {
@@ -22,9 +23,39 @@ export const checkUserAction = userToken => {
   };
 };
 
+export const disableUserAction = (user) => {
+  return function(dispatch) {
+    return disableUser(user)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Vartotojas užblokuotas!', variant: 'success'}});
+          return dispatch({ type: DISABLE_USER, payload: response.data });
+        }
+      })
+      .catch(error => {
+        return showConsoleError(error);
+      });
+  };
+};
+
+export const enableUserAction = (user) => {
+  return function(dispatch) {
+    return enableUser(user)
+      .then(response => {
+        if (response.status === 200) {
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Vartotojas aktyvuotas!', variant: 'success'}});
+          return dispatch({ type: ENABLE_USER, payload: response.data });
+        }
+      })
+      .catch(error => {
+        return showConsoleError(error);
+      });
+  };
+};
+
 export const getUsersAction = () => {
   return function(dispatch) {
-    // dispatch({ type: LOADING_EVENTS_STARTED });
+    dispatch({ type: LOADING_EVENTS_STARTED });
 
     return getAllUsers()
       .then(response => {
@@ -39,7 +70,7 @@ export const getUsersAction = () => {
   };
 };
 
-export const setReloadToFalse = () => {
+export const setReloadUsersToFalse = () => {
   return function(dispatch) {
     dispatch({type: RESET_RELOAD_USER_TYPE});
   };

@@ -106,7 +106,7 @@ class AuthItem extends Component {
                   <MenuList>
                     {user.roles.includes('ROLE_ADMIN') ?
                       <MenuItem onClick={() => {window.location.href = '/admin'}}>
-                        Admin
+                        Administracinis valdymas
                       </MenuItem> : ''
                     }
                     <MenuItem onClick={this.onAddCourt}>

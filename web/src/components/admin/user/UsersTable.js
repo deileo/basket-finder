@@ -23,6 +23,10 @@ class UsersTable extends Component {
     this.props.disableUserAction(user);
   };
 
+  handleEnable = (user) => {
+    this.props.enableUserAction(user);
+  };
+
   render() {
     const {classes, users} = this.props;
 
@@ -33,8 +37,6 @@ class UsersTable extends Component {
             <TableRow>
               <TableCell className={classes.cell}>Vardas</TableCell>
               <TableCell className={classes.cell}>El. paštas</TableCell>
-              <TableCell className={classes.cell}>Rolė</TableCell>
-              <TableCell className={classes.cell}>Aktyvus</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
@@ -43,17 +45,16 @@ class UsersTable extends Component {
               <TableRow className={classes.row} key={user.id}>
                 <TableCell component="th" scope="row" className={classes.dataCell}>{user.firstName + ' ' + user.lastName}</TableCell>
                 <TableCell className={classes.dataCell}>{user.email}</TableCell>
-                <TableCell className={classes.dataCell}>{user.role === 'ROLE_ADMIN' ? 'Administratorius' : 'Vartotojas'}</TableCell>
-                <TableCell className={classes.dataCell}>
-                  {user.disabled ?
-                    <DeleteIcon style={{height: '1.2rem', width: '1.2rem'}} /> :
-                    <CheckIcon style={{height: '1.2rem', width: '1.2rem'}}/>
-                  }
-                </TableCell>
                 <TableCell>
-                  <IconButton aria-label="Delete" color={"secondary"} onClick={() => this.handleDelete(user)}>
-                    <DeleteIcon style={{height: '1.2rem', width: '1.2rem'}} />
-                  </IconButton>
+                  {!user.disabled ?
+                    <IconButton aria-label="Delete" color={"secondary"} onClick={() => this.handleDelete(user)}>
+                      <DeleteIcon style={{height: '1.2rem', width: '1.2rem'}}/>
+                    </IconButton> :
+
+                    < IconButton aria-label = "Enable" color={"primary"} onClick={() => this.handleEnable(user)}>
+                      <CheckIcon style={{height: '1.2rem', width: '1.2rem'}} />
+                    </IconButton>
+                  }
                 </TableCell>
               </TableRow>
             )) : <TableRow>

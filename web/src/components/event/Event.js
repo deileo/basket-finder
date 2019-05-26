@@ -112,7 +112,7 @@ class Event extends Component {
             Adresas: {event.court ? event.court.address : event.gymCourt.address}
           </Typography>
           <Typography variant="body1" gutterBottom className={classes.eventContent}>
-            Zaidejai: {type === TYPE_GYM_COURT ? getConfirmedParticipantsCount(event) : event.participants.length}/{event.neededPlayers}
+            Žaidėjai: {type === TYPE_GYM_COURT ? getConfirmedParticipantsCount(event) : event.participants.length}/{event.neededPlayers}
           </Typography>
           {type === TYPE_GYM_COURT && event.price > 0 ?
             <Typography variant="body1" gutterBottom className={classes.eventContent}>
@@ -121,7 +121,7 @@ class Event extends Component {
           }
           {event.comment ?
             <Typography variant="body1" gutterBottom style={{color: 'rgba(0, 0, 0, 0.54)'}}>
-              Aprasymas: {event.comment.substring(0, 100)}{event.comment.length > 100 ? '...' : ''}
+              Aprašymas: {event.comment.substring(0, 100)}{event.comment.length > 100 ? '...' : ''}
             </Typography> : ''
           }
           <CardActions>

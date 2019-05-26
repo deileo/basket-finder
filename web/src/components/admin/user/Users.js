@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import EventLoader from "../../EventLoader";
 import {tableStyles} from "../../styles";
 import UsersTable from "./UsersTable";
+import Grid from "@material-ui/core/Grid";
 
 class Users extends Component {
 
@@ -19,7 +20,7 @@ class Users extends Component {
 
     if (userReducer.reload) {
       this.props.getUsersAction();
-      this.props.setReloadToFalse();
+      this.props.setReloadUsersToFalse();
     }
   }
 
@@ -28,15 +29,19 @@ class Users extends Component {
 
     return (
       <div>
-        <Typography variant="h5">Vartotojai</Typography>
-        <Paper className={classes.root} style={{marginBottom: 50}}>
-          {loaderReducer.isEventsLoading ?
-            <EventLoader/> :
-            <UsersTable
-              users={userReducer.users}
-            />
-          }
-        </Paper>
+        <Grid container spacing={24}>
+          <Grid item lg={12} xs={12}>
+            <Typography variant="h5">Vartotojai</Typography>
+            <Paper className={classes.root} style={{marginBottom: 50, minHeight: '25vh'}}>
+              {loaderReducer.isEventsLoading ?
+                <EventLoader/> :
+                <UsersTable
+                  users={userReducer.users}
+                />
+              }
+            </Paper>
+          </Grid>
+        </Grid>
       </div>
     );
   }

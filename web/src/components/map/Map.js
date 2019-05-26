@@ -20,6 +20,15 @@ class Map extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     let prevCourtType = prevProps.courtsReducer.type;
     let courtType = this.props.courtsReducer.type;
+    let permissionReducer = this.props.permissionReducer;
+    let prevPermissionReducer = prevProps.permissionReducer;
+
+    if (permissionReducer && prevPermissionReducer) {
+      if(!prevPermissionReducer.created && permissionReducer.created) {
+        this.handleMarkerClick(this.state.activeMarker);
+        this.props.resetPermisionRequestState();
+      }
+    }
 
     if (prevCourtType !== courtType) {
       this.setState({activeMarker: null});
@@ -71,6 +80,7 @@ const mapStateToProps = state => {
   return {
     courtsReducer: state.courtsReducer,
     loaderReducer: state.loaderReducer,
+    permissionReducer: state.permissionReducer
   };
 };
 

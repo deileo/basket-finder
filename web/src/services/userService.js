@@ -20,3 +20,15 @@ export function getAllUsers() {
     config
   );
 }
+
+export function disableUser(user) {
+  return axios.get(API_URL + '/user/' + user.id + '/disable',
+    config
+  );
+}
+
+export function enableUser(user) {
+  return axios.get(API_URL + '/user/' + user.id + '/enable',
+    config
+  );
+}

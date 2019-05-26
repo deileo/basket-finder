@@ -16,7 +16,7 @@ const styles = () => ({
   progress: {
     position: 'absolute',
     top: '45%',
-    left: '40%',
+    left: '45%',
   },
 });
 

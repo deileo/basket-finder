@@ -81,7 +81,7 @@ class CourtMarker extends Component {
 
     return (
       <Button size="small" variant="contained" color="secondary" onClick={this.handleRequestOpen}>
-        Siusti prasyma
+        Siųsti prašymą
       </Button>
     )
   };

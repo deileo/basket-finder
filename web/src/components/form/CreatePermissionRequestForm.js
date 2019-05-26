@@ -19,6 +19,14 @@ class CreatePermissionRequestForm extends Component {
     gymCourt: this.props.gymCourt.id,
   };
 
+  allowedFiles = [
+    'image/*',
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.oasis.opendocument.text'
+  ];
+
   componentDidMount() {
     this.props.resetPermisionRequestState();
   }
@@ -88,9 +96,10 @@ class CreatePermissionRequestForm extends Component {
                 onChange={this.handleChange}
                 showPreviews={false}
                 showAlerts={false}
-                dropzoneText={"Sutarties failo ikėlimo vieta"}
+                dropzoneText={"Sutarties failo įkėlimo vieta"}
                 maxFileSize={5000000}
                 filesLimit={1}
+                acceptedFiles={this.allowedFiles}
               />
             </Grid>
           </Grid>
@@ -102,7 +111,7 @@ class CreatePermissionRequestForm extends Component {
             className={classes.submit}
             onClick={this.handleSubmit}
           >
-            Siusti
+            Siųsti
           </Button>
         </form>
       </div>

@@ -16,7 +16,7 @@ export const sendPermissionRequestAction = (requestData) => {
     return sendPermissionRequest(requestData)
       .then(response => {
         if (response.status === 201) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Permission request sent!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Išsiųsta leidmo užklausa!', variant: 'success'}});
 
           return dispatch({type: PERMISSION_REQUEST_CREATED});
         }
@@ -35,7 +35,7 @@ export const approvePermissionRequestAction = (permissionId, requestData) => {
     return sendPermissionRequestApproval(permissionId, requestData)
       .then(response => {
         if (response.status === 201) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Permission request approved!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Patvirtinta leidimo užklausa!', variant: 'success'}});
 
           return dispatch({type: PERMISSION_REQUEST_APPROVED});
         }
@@ -54,7 +54,7 @@ export const deletePermissionAction = (permissionId) => {
     return deletePermission(permissionId)
       .then(response => {
         if (response.status === 200) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Permission deleted!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Leidimas pašalintas!', variant: 'success'}});
 
           return dispatch({type: PERMISSION_DELETE});
         }

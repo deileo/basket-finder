@@ -78,6 +78,13 @@ class User implements UserInterface
     private $googleImage;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean", options={"defaults": 0})
+     * @Groups({"default", "user"})
+     */
+    private $disabled = false;
+
+    /**
      * @var GymEvent[]|ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="GymEvent", mappedBy="createdBy")
@@ -451,5 +458,21 @@ class User implements UserInterface
     public function setRole(int $role): void
     {
         $this->roles = $role;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDisabled(): bool
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * @param bool $disabled
+     */
+    public function setDisabled(bool $disabled): void
+    {
+        $this->disabled = $disabled;
     }
 }

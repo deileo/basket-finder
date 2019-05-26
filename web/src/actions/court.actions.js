@@ -27,7 +27,7 @@ export const createCourtAction = (courtData, type) => {
     return createCourt(courtData, type)
       .then(response => {
         if (response.status === 201) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Court created!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Aikštelė sukurta!', variant: 'success'}});
 
           return dispatch({type: CREATE_COURT, payload: response.data});
         }
@@ -132,7 +132,7 @@ export const enableCourtAction = (type, court) => {
     return enableCourt(type, court.id)
       .then(response => {
         if (response.status === 200) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Court has been enabled!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Aikštelė aktyvuota!', variant: 'success'}});
 
           return dispatch({type: RELOAD_COURTS_TYPE, payload: type});
         }
@@ -148,7 +148,7 @@ export const disableCourtAction = (type, court) => {
     return disableCourt(type, court.id)
       .then(response => {
         if (response.status === 200) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Court has been disabled!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Aikštelė užblokuota!', variant: 'success'}});
 
           return dispatch({type: RELOAD_COURTS_TYPE, payload: type});
         }
@@ -164,7 +164,7 @@ export const handleDeleteAction = (type, court) => {
     return deleteCourt(type, court.id)
       .then(response => {
         if (response.status === 200) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Court has been deleted!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Aikštelė pašalinta!', variant: 'success'}});
 
           return dispatch({type: RELOAD_COURTS_TYPE, payload: type});
         }

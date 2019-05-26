@@ -29,7 +29,7 @@ export const createEventAction = (createEventData, type) => {
       .then(response => {
         if (response.status === 201) {
           dispatch({type: CREATE_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event created!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Rungtynės sėkmingai sukurtos!', variant: 'success'}});
 
           return dispatch({type: CREATE_EVENT, payload: response.data});
         }
@@ -49,7 +49,7 @@ export const editEventAction = (eventData, eventId, type) => {
         .then(response => {
           if (response.status === 202) {
             dispatch({type: CREATE_EVENT_MODAL_CLOSED, payload: {isOpen: false}});
-            dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event updated!', variant: 'success'}});
+            dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Rungtynių informacija pakeista!', variant: 'success'}});
 
             return dispatch({type: EDIT_EVENT, payload: response.data});
           }
@@ -67,7 +67,7 @@ export const joinEventAction = (eventId, type) => {
     return joinEvent(eventId, type)
       .then(response => {
         if (response.status === 201) {
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event joined!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Prisijungta į rungtynes!', variant: 'success'}});
           dispatch({type: ACCEPT_PARTICIPANT});
 
           return dispatch({type: JOIN_EVENT, payload: response.data});
@@ -83,7 +83,7 @@ export const leaveEventAction = (eventId, type) => {
   return function(dispatch) {
     return leaveEvent(eventId, type)
       .then(response => {
-        dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Successfully Left!', variant: 'success'}});
+        dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Nutrauktas dalyvavimas!', variant: 'success'}});
 
         return dispatch({type: LEAVE_EVENT, payload: response.data});
       })
@@ -157,7 +157,7 @@ export const deleteEventAction = (event, type) => {
       .then(response => {
         if (response.status === 200) {
           dispatch({type: DELETE_EVENT});
-          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Event deleted!', variant: 'success'}});
+          dispatch({type: FLASH_MESSAGE, payload: {isOpen: true, message: 'Rungtynės pašalintos!', variant: 'success'}});
         }
       })
       .catch(error => {
